@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Open_Sans, Poppins } from "next/font/google";
 import "./globals.css";
+import { Suspense } from "react";
+import WhatsAppBtnWrapper from "@/components/layout/whatsapp-btn-wrapper";
+import Analytics from "@/components/google/analytics";
+import NavbarDesktop from "@/components/layout/navbar-desktop";
+import NavbarTouchDynamic from "@/components/layout/navbar-touch/dynamic";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -24,10 +30,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${poppins.variable} ${openSans.variable} antialiased`}>
+        <Suspense>
+          <Analytics />
+        </Suspense>
+        <WhatsAppBtnWrapper />
+        <div className="hidden xl:block">
+          <NavbarDesktop />
+        </div>
+        <div className="xl:hidden">
+          <NavbarTouchDynamic />
+        </div>
+        <main>{children}</main>
       </body>
     </html>
   );
