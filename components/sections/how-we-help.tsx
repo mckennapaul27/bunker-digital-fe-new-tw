@@ -25,7 +25,7 @@ const services = [
 
 export default function HowWeHelp() {
   return (
-    <section className="bg-[var(--color-charcoal)] py-20 xl:py-28">
+    <section className="bg-[var(--color-charcoal)] py-20 xl:py-28 relative z-50">
       <div className="container mx-auto px-6 xl:px-12">
         {/* Heading Section */}
         <div className="mb-12 lg:mb-20">

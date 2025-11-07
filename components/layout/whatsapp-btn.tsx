@@ -14,7 +14,7 @@ export default function WhatsAppBtn() {
           alt="WhatsApp"
           width={50}
           height={50}
-          className="h-16 w-16"
+          className="h-12 w-12"
         />
       </a>
     </div>

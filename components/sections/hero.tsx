@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <section className="relative flex items-center md:min-h-screen">
       {/* Background Image */}
-      <div className="absolute inset-0 z-0">
+      <div className="fixed inset-0 z-0">
         <Image
           src="/home_hero.png"
           alt="Hero background"
@@ -17,11 +17,11 @@ export default function Hero() {
 
       {/* Gradient Overlay */}
       <div
-        className="absolute inset-0 z-10 hidden lg:block"
+        className="fixed inset-0 z-10 hidden lg:block"
         style={{ background: "var(--gradient-charcoal)" }}
       />
       <div
-        className="absolute inset-0 z-10 block lg:hidden"
+        className="fixed inset-0 z-10 block lg:hidden"
         style={{ background: "var(--gradient-charcoal-simple)" }}
       />
 
@@ -35,7 +35,7 @@ export default function Hero() {
             </p>
 
             {/* Main Heading */}
-            <h1 className="text-[33px] md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 leading-snug max-w-3xl xl:max-w-5xl">
+            <h1 className="text-[33px] md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 leading-tight  max-w-3xl xl:max-w-5xl">
               We build high quality custom websites that turn clicks into
               customers<span className="text-[var(--color-primary)]">.</span>
             </h1>

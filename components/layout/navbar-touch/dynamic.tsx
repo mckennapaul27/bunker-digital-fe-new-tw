@@ -22,7 +22,7 @@ export default function NavbarTouch() {
   };
 
   return (
-    <>
+    <div className="relative z-50 top-0 left-0 w-full z-50">
       <nav className="bg-black">
         <div className="container mx-auto px-6 xl:px-12">
           <div className="flex items-center justify-between py-4">
@@ -33,7 +33,7 @@ export default function NavbarTouch() {
                 alt="Bunker Digital"
                 width={247}
                 height={38}
-                className="h-8 w-auto"
+                className="h-7 sm:h-8 w-auto"
                 priority
               />
             </Link>
@@ -107,6 +107,6 @@ export default function NavbarTouch() {
           </nav>
         </div>
       </div>
-    </>
+    </div>
   );
 }
