@@ -135,3 +135,45 @@ h6 {
     display: none;
   }
 }
+
+/* Image Comparison Slider Styles */
+img-comparison-slider {
+  --divider-width: 3px;
+  --divider-color: #fa7d54;
+  --default-handle-opacity: 1;
+  --default-handle-color: #fa7d54;
+  cursor: grab;
+}
+
+img-comparison-slider:active {
+  cursor: grabbing;
+}
+
+img-comparison-slider:focus {
+  outline: none;
+}
+
+/* Custom animated handle */
+.custom-animated-handle {
+  transition: transform 0.2s ease;
+  cursor: grab;
+}
+
+.slider-with-animated-handle:hover .custom-animated-handle {
+  transform: scale(1.2);
+}
+
+.slider-with-animated-handle:active .custom-animated-handle {
+  cursor: grabbing;
+}
+
+/* Style the divider line */
+img-comparison-slider::part(divider) {
+  width: 3px;
+  background-color: #fa7d54;
+  cursor: grab;
+}
+
+img-comparison-slider:active::part(divider) {
+  cursor: grabbing;
+}

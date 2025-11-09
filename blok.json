@@ -1,0 +1,40 @@
+{
+  "type": "blok",
+  "attrs": {
+    "id": "2408503b-358a-4a6c-9097-690e3d1c90c4",
+    "body": [
+      {
+        "_uid": "i-77188dbc-bc7e-443f-be35-9d55d32a765b",
+        "images": [
+          {
+            "id": 109659787207570,
+            "alt": "",
+            "name": "",
+            "focus": "",
+            "title": "",
+            "source": "",
+            "filename": "https://a.storyblok.com/f/288302830974942/1089x2358/40b15f5b23/javaleting-detailing-old.png",
+            "copyright": "",
+            "fieldtype": "asset",
+            "meta_data": {}
+          },
+          {
+            "id": 109659787162513,
+            "alt": "",
+            "name": "",
+            "focus": "",
+            "title": "",
+            "source": "",
+            "filename": "https://a.storyblok.com/f/288302830974942/1089x2358/11696288a9/javaleting-detailing-new.png",
+            "copyright": "",
+            "fieldtype": "asset",
+            "meta_data": {}
+          }
+        ],
+        "caption": "Use the slider below to view how we improved the home page on JA Valeting & Detailing. Note the trust signals, multiple contact methods and rolling services ticker.",
+        "component": "before_after",
+        "_editable": "<!--#storyblok#{\"name\": \"before_after\", \"space\": \"288302830974942\", \"uid\": \"i-77188dbc-bc7e-443f-be35-9d55d32a765b\", \"id\": \"109935374592348\"}-->"
+      }
+    ]
+  }
+}

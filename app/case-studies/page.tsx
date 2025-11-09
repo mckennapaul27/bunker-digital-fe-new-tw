@@ -29,7 +29,7 @@ function getServices(study: CaseStudy): string[] {
 
 export default async function CaseStudiesPage() {
   const caseStudies = await getCaseStudies();
-  console.log("caseStudies", JSON.stringify(caseStudies, null, 2));
+  //   console.log("caseStudies", JSON.stringify(caseStudies, null, 2));
 
   return (
     <div className="bg-beige min-h-screen py-16 xl:py-28 relative">

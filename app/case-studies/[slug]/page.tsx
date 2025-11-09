@@ -1,11 +1,14 @@
 import { getCaseStudyBySlug } from "@/lib/storyblok";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import type { Metadata } from "next";
+import { renderStoryblokRichText } from "@/lib/storyblok-richtext";
 import type {
   CaseStudy,
   CompanyDetailsComponent,
   ProjectDetailsComponent,
   ProjectBrandingComponent,
+  MetaDataComponent,
 } from "@/lib/storyblok-types";
 
 interface CaseStudyPageProps {
@@ -39,6 +42,58 @@ function getProjectBranding(study: CaseStudy): ProjectBrandingComponent | null {
   return projectBranding || null;
 }
 
+// Helper function to extract meta data from case study
+function getMetaData(study: CaseStudy): MetaDataComponent | null {
+  const metaData = study.content?.body?.find(
+    (item): item is MetaDataComponent => item.component === "meta_data"
+  );
+  return metaData || null;
+}
+
+// Generate metadata for the page
+export async function generateMetadata({
+  params,
+}: CaseStudyPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const caseStudy = await getCaseStudyBySlug(slug);
+
+  if (!caseStudy) {
+    return {
+      title: "Case Study Not Found",
+    };
+  }
+
+  const metaData = getMetaData(caseStudy);
+  const title = metaData?.title || caseStudy.content?.title || caseStudy.name;
+  const description = metaData?.description || "";
+  const ogImage = metaData?.og_image?.filename;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: ogImage
+        ? [
+            {
+              url: ogImage,
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          ]
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ogImage ? [ogImage] : [],
+    },
+  };
+}
+
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
   const caseStudy = await getCaseStudyBySlug(slug);
@@ -53,6 +108,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const title = caseStudy.content?.title || caseStudy.name;
   const testimonial = projectDetails?.testimonial;
   const testimonialName = projectDetails?.testimonial_name;
+  const brandingDescription = projectBranding?.branding_description;
   const logo = companyDetails?.logo;
   const coverImageSm = caseStudy.content?.cover_image_sm?.filename;
   const coverImageLg = caseStudy.content?.cover_image_lg?.filename;
@@ -157,8 +213,8 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               Design & Branding
             </p>
             <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-white leading-tight max-w-4xl xl:max-w-5xl">
-              The visual identity and design elements that bring this project to
-              life.
+              {brandingDescription ||
+                "The visual identity and design elements that bring this project to life."}
             </h2>
           </div>
 
@@ -344,6 +400,36 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           </div>
         </div>
       </section>
+
+      {/* Takeaways Section */}
+      {caseStudy.content?.takeaways ? (
+        <section className="bg-beige py-20 xl:py-28 relative z-50">
+          <div className="container mx-auto px-6 xl:px-12">
+            <div className="max-w-4xl">
+              {renderStoryblokRichText({
+                content: caseStudy.content.takeaways,
+                className:
+                  "prose-headings:text-[var(--color-charcoal)] prose-p:text-gray-700 prose-strong:text-[var(--color-charcoal)] prose-ul:text-gray-700",
+              })}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Takeaways Section */}
+      {caseStudy.content?.content ? (
+        <section className="bg-white py-20 xl:py-28 relative z-50">
+          <div className="container mx-auto px-6 xl:px-12">
+            <div className="max-w-4xl">
+              {renderStoryblokRichText({
+                content: caseStudy.content.content,
+                className:
+                  "prose-headings:text-[var(--color-charcoal)] prose-p:text-gray-700 prose-strong:text-[var(--color-charcoal)] prose-ul:text-gray-700",
+              })}
+            </div>
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

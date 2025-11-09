@@ -40,6 +40,7 @@ export interface ProjectDetailsComponent extends StoryblokComponent {
 
 export interface ProjectBrandingComponent extends StoryblokComponent {
   component: "project_branding";
+  branding_description?: string;
   primary_font?: string;
   primary_color?: string;
   secondary_font?: string;
@@ -60,6 +61,8 @@ export interface CaseStudyContent {
   _uid: string;
   component: string;
   title: string;
+  takeaways?: StoryblokComponent[];
+  content?: StoryblokComponent[];
   cover_image_sm?: StoryblokAsset;
   cover_image_lg?: StoryblokAsset;
   body?: StoryblokComponent[];
