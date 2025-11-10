@@ -57,6 +57,14 @@ export interface MetaDataComponent extends StoryblokComponent {
   og_image?: StoryblokAsset;
 }
 
+export interface CTAComponent extends StoryblokComponent {
+  component: "cta";
+  title?: string;
+  description?: string;
+  link_text?: string;
+  href?: string;
+}
+
 export interface CaseStudyContent {
   _uid: string;
   component: string;

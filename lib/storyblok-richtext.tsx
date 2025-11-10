@@ -152,14 +152,13 @@ function renderNode(
         node.content.map((child: any, idx: number) => renderNode(child, idx))
       : null;
 
-    const headingProps = { key };
-    if (level === 1) return <h1 {...headingProps}>{children}</h1>;
-    if (level === 2) return <h2 {...headingProps}>{children}</h2>;
-    if (level === 3) return <h3 {...headingProps}>{children}</h3>;
-    if (level === 4) return <h4 {...headingProps}>{children}</h4>;
-    if (level === 5) return <h5 {...headingProps}>{children}</h5>;
-    if (level === 6) return <h6 {...headingProps}>{children}</h6>;
-    return <h2 {...headingProps}>{children}</h2>;
+    if (level === 1) return <h1 key={key}>{children}</h1>;
+    if (level === 2) return <h2 key={key}>{children}</h2>;
+    if (level === 3) return <h3 key={key}>{children}</h3>;
+    if (level === 4) return <h4 key={key}>{children}</h4>;
+    if (level === 5) return <h5 key={key}>{children}</h5>;
+    if (level === 6) return <h6 key={key}>{children}</h6>;
+    return <h2 key={key}>{children}</h2>;
   }
 
   // Handle text nodes

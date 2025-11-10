@@ -9,7 +9,9 @@ import type {
   ProjectDetailsComponent,
   ProjectBrandingComponent,
   MetaDataComponent,
+  CTAComponent,
 } from "@/lib/storyblok-types";
+import CTA from "@/components/sections/cta";
 
 interface CaseStudyPageProps {
   params: Promise<{ slug: string }>;
@@ -48,6 +50,14 @@ function getMetaData(study: CaseStudy): MetaDataComponent | null {
     (item): item is MetaDataComponent => item.component === "meta_data"
   );
   return metaData || null;
+}
+
+// Helper function to extract CTA from case study
+function getCTA(study: CaseStudy): CTAComponent | null {
+  const cta = study.content?.body?.find(
+    (item): item is CTAComponent => item.component === "cta"
+  );
+  return cta || null;
 }
 
 // Generate metadata for the page
@@ -105,6 +115,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const companyDetails = getCompanyDetails(caseStudy);
   const projectDetails = getProjectDetails(caseStudy);
   const projectBranding = getProjectBranding(caseStudy);
+  const cta = getCTA(caseStudy);
   const title = caseStudy.content?.title || caseStudy.name;
   const testimonial = projectDetails?.testimonial;
   const testimonialName = projectDetails?.testimonial_name;
@@ -416,7 +427,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         </section>
       ) : null}
 
-      {/* Takeaways Section */}
+      {/*Content Section */}
       {caseStudy.content?.content ? (
         <section className="bg-white py-20 xl:py-28 relative z-50">
           <div className="container mx-auto px-6 xl:px-12">
@@ -429,6 +440,16 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             </div>
           </div>
         </section>
+      ) : null}
+
+      {/* CTA Section */}
+      {cta && cta.title && cta.link_text && cta.href ? (
+        <CTA
+          title={cta.title}
+          description={cta.description}
+          linkText={cta.link_text}
+          href={cta.href}
+        />
       ) : null}
     </div>
   );
