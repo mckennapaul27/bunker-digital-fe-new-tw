@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import BeforeAfterWrapper from "@/components/before-after/wrapper";
+import Link from "next/link";
 
 // Storyblok Rich Text Types
 interface RichTextMark {
@@ -103,6 +104,11 @@ function renderNode(
     const width = urlMatch ? parseInt(urlMatch[1]) : 800;
     const height = urlMatch ? parseInt(urlMatch[2]) : 600;
 
+    console.log("src", src);
+    console.log("width", width);
+    console.log("height", height);
+    console.log("\n");
+
     return (
       <figure key={key} className="my-6">
         <Image
@@ -124,15 +130,53 @@ function renderNode(
 
   // Handle paragraph nodes
   if (node.type === "paragraph") {
+    if (!node.content || node.content.length === 0) {
+      return null;
+    }
+
+    // Check if paragraph contains any images
+    const hasImages = node.content.some((child: any) => child.type === "image");
+
+    // If paragraph only contains an image, render image directly without paragraph wrapper
+    if (node.content.length === 1 && node.content[0]?.type === "image") {
+      return renderNode(node.content[0], key);
+    }
+
+    // If paragraph contains images mixed with other content, split them
+    if (hasImages) {
+      const textContent: any[] = [];
+      const imageContent: any[] = [];
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      node.content.forEach((child: any, idx: number) => {
+        if (child.type === "image") {
+          imageContent.push(renderNode(child, idx));
+        } else {
+          textContent.push(renderNode(child, idx));
+        }
+      });
+
+      return (
+        <React.Fragment key={key}>
+          {textContent.length > 0 && (
+            <p
+              className={
+                node.attrs?.textAlign ? `text-${node.attrs.textAlign}` : ""
+              }
+            >
+              {textContent}
+            </p>
+          )}
+          {imageContent}
+        </React.Fragment>
+      );
+    }
+
+    // Regular paragraph with no images
     const children = node.content
       ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
         node.content.map((child: any, idx: number) => renderNode(child, idx))
       : null;
-
-    // If paragraph only contains an image, render image directly without paragraph wrapper
-    if (node.content?.length === 1 && node.content[0]?.type === "image") {
-      return renderNode(node.content[0], key);
-    }
 
     return (
       <p
@@ -177,16 +221,18 @@ function renderNode(
           text = <code key={key}>{text}</code>;
         } else if (mark.type === "link") {
           const href = mark.attrs?.href || "#";
-          const target = mark.attrs?.target || "_self";
+          //   const target = mark.attrs?.target || "_self";
           text = (
-            <a
+            <Link
               key={key}
               href={href}
-              target={target}
-              rel={target === "_blank" ? "noopener noreferrer" : undefined}
+              target={href.startsWith("http") ? "_blank" : "_self"}
+              rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+              className="hover:text-[var(--color-primary)] transition-colors"
+              aria-label={`Link to ${href}`}
             >
               {text}
-            </a>
+            </Link>
           );
         }
       });

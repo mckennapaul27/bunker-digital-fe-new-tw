@@ -64,6 +64,12 @@ export default async function CaseStudiesPage() {
               const services = getServices(study);
               const coverImage = study.content?.cover_image_sm?.filename;
               const title = study.content?.title || study.name;
+              const logo = companyDetails?.logo;
+              // Extract dimensions from Storyblok URL
+              // Storyblok URLs format: /f/{space_id}/{width}x{height}/{hash}/{filename}
+              const urlMatch = logo?.filename.match(/\/(\d+)x(\d+)\//);
+              const width = urlMatch ? parseInt(urlMatch[1]) : undefined;
+              const height = urlMatch ? parseInt(urlMatch[2]) : undefined;
 
               return (
                 <Link
@@ -98,16 +104,15 @@ export default async function CaseStudiesPage() {
 
                       {/* Logo and Company Name */}
                       {companyDetails && (
-                        <div className="flex flex-col gap-4 mb-2">
+                        <div className="">
                           {companyDetails.logo?.filename && (
-                            <div className="relative w-20 h-20 flex-shrink-0">
-                              <Image
-                                src={companyDetails.logo.filename}
-                                alt={companyDetails.name || ""}
-                                fill
-                                className="object-contain"
-                              />
-                            </div>
+                            <Image
+                              src={companyDetails.logo.filename}
+                              alt={companyDetails.name || ""}
+                              width={width}
+                              height={height}
+                              className="max-h-16 w-auto mb-6"
+                            />
                           )}
                           <div className="text-lg font-bold text-white font-heading">
                             {companyDetails.name}

@@ -22,7 +22,7 @@ export default function CTA({
     >
       <div className="container mx-auto px-6 xl:px-12">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight text-charcoal mb-4 lg:mb-6">
+          <h2 className="text-3xl lg:text-4xl font-bold leading-tight text-charcoal mb-4 lg:mb-6">
             {title}
           </h2>
           {description && (

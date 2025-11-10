@@ -121,13 +121,18 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const testimonialName = projectDetails?.testimonial_name;
   const brandingDescription = projectBranding?.branding_description;
   const logo = companyDetails?.logo;
+  // Extract dimensions from Storyblok URL
+  // Storyblok URLs format: /f/{space_id}/{width}x{height}/{hash}/{filename}
+  const urlMatch = logo?.filename.match(/\/(\d+)x(\d+)\//);
+  const width = urlMatch ? parseInt(urlMatch[1]) : undefined;
+  const height = urlMatch ? parseInt(urlMatch[2]) : undefined;
   const coverImageSm = caseStudy.content?.cover_image_sm?.filename;
   const coverImageLg = caseStudy.content?.cover_image_lg?.filename;
 
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative flex items-center">
+      <section className="relative flex items-center min-h-[80vh]">
         {/* Background Image - Small (default) */}
         {coverImageSm && (
           <div className="fixed inset-0 z-0 lg:hidden">
@@ -170,16 +175,15 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             <div>
               {/* Company Logo */}
               {logo?.filename && (
-                <div className="mb-6">
-                  <div className="relative w-24 h-24 lg:w-32 lg:h-32">
-                    <Image
-                      src={logo.filename}
-                      alt={companyDetails?.name || ""}
-                      fill
-                      className="object-contain"
-                      priority
-                    />
-                  </div>
+                <div className="mb-8">
+                  <Image
+                    src={logo.filename}
+                    width={width}
+                    height={height}
+                    alt={companyDetails?.name || ""}
+                    className="max-h-16 w-auto"
+                    priority
+                  />
                 </div>
               )}
 
@@ -443,14 +447,15 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
       ) : null}
 
       {/* CTA Section */}
-      {cta && cta.title && cta.link_text && cta.href ? (
-        <CTA
-          title={cta.title}
-          description={cta.description}
-          linkText={cta.link_text}
-          href={cta.href}
-        />
-      ) : null}
+      <CTA
+        title={cta?.title || "Let's discuss your project"}
+        description={
+          cta?.description ||
+          "We'd love to hear about your project and see how we can help you."
+        }
+        linkText={cta?.link_text || "Discuss your project"}
+        href={cta?.href || "/discuss-project"}
+      />
     </div>
   );
 }

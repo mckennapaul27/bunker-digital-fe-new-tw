@@ -28,6 +28,8 @@ export interface CompanyDetailsComponent extends StoryblokComponent {
   name: string;
   website_url?: string;
   company_type?: string;
+  logo_height?: number;
+  logo_width?: number;
 }
 
 export interface ProjectDetailsComponent extends StoryblokComponent {
