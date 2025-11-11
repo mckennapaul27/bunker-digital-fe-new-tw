@@ -1,13 +1,17 @@
 import StoryblokClient from "storyblok-js-client";
 import { storyblokToken } from "@/storyblok.config";
-import type { CaseStudy, ProjectsPage } from "./storyblok-types";
+import type {
+  CaseStudy,
+  ProjectsPage,
+  BeforeAfterGrid,
+} from "./storyblok-types";
 
 // Initialize Storyblok client
 export const storyblokClient = new StoryblokClient({
   accessToken: storyblokToken,
   cache: {
     clear: "auto",
-    type: "memory",
+    type: process.env.NODE_ENV === "development" ? "none" : "memory",
   },
 });
 
@@ -33,7 +37,7 @@ export async function getCaseStudies(): Promise<CaseStudy[]> {
   try {
     const { data } = await storyblokClient.get("cdn/stories", {
       starts_with: "case-studies/",
-      version: "published",
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
     });
 
     return (data.stories || []) as CaseStudy[];
@@ -50,7 +54,7 @@ export async function getFeaturedCaseStudies(): Promise<CaseStudy[]> {
     // (Storyblok filter_query can be unreliable with nested content fields)
     const { data } = await storyblokClient.get("cdn/stories", {
       starts_with: "case-studies/",
-      version: "published",
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
     });
 
     const allCaseStudies = (data.stories || []) as CaseStudy[];
@@ -75,7 +79,7 @@ export async function getCaseStudyBySlug(
     const { data } = await storyblokClient.get(
       `cdn/stories/case-studies/${slug}`,
       {
-        version: "published",
+        version: process.env.NODE_ENV === "development" ? "draft" : "published",
       }
     );
 
@@ -90,13 +94,30 @@ export async function getCaseStudyBySlug(
 export async function getProjectsPage(): Promise<ProjectsPage | null> {
   try {
     const { data } = await storyblokClient.get("cdn/stories/work", {
-      version: "published",
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
       resolve_relations: "project_card.case_study",
     });
 
     return (data.story || null) as ProjectsPage | null;
   } catch (error) {
     console.error("Error fetching projects page:", error);
+    return null;
+  }
+}
+
+// Fetch before after grid
+export async function getBeforeAfterGrid(): Promise<BeforeAfterGrid | null> {
+  try {
+    const { data } = await storyblokClient.get(
+      "cdn/stories/before-after-transformations",
+      {
+        version: process.env.NODE_ENV === "development" ? "draft" : "published",
+      }
+    );
+
+    return (data.story || null) as BeforeAfterGrid | null;
+  } catch (error) {
+    console.error("Error fetching before after grid:", error);
     return null;
   }
 }

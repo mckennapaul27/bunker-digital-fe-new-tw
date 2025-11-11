@@ -77,7 +77,7 @@ export default async function WorkPage() {
               const cardContent = (
                 <>
                   {/* Card Container */}
-                  <div className="relative rounded-lg h-full overflow-hidden bg-[#2a2a2a] flex flex-col">
+                  <div className="relative rounded-lg h-full overflow-hidden bg-[#2a2a2a] flex flex-col shadow-lg">
                     {/* Mockup Image */}
                     {mockupImage && (
                       <div className="relative w-full aspect-[5/3] bg-gray-800 flex-shrink-0">

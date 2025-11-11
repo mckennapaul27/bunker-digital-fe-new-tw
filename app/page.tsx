@@ -1,13 +1,19 @@
 import Hero from "@/components/sections/hero";
 import HowWeHelp from "@/components/sections/how-we-help";
-import FeaturedCaseStudies from "@/components/sections/featured-case-studies";
+import { getFeaturedCaseStudies } from "@/lib/storyblok";
+import CaseStudiesWrapper from "@/components/featured-case-studies/wrapper";
+import WebsiteTransformations from "@/components/website-transformations";
 
-export default function Home() {
+export default async function Home() {
+  const caseStudies = await getFeaturedCaseStudies();
+
   return (
     <div>
       <Hero />
       <HowWeHelp />
-      <FeaturedCaseStudies />
+
+      <CaseStudiesWrapper caseStudies={caseStudies} />
+      <WebsiteTransformations />
     </div>
   );
 }

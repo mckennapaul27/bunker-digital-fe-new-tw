@@ -62,6 +62,10 @@ function getCTA(study: CaseStudy): CTAComponent | null {
 
 // Generate static params for all case studies at build time
 export async function generateStaticParams() {
+  // Skip static generation in development
+  if (process.env.NODE_ENV === "development") {
+    return [];
+  }
   const caseStudies = await getCaseStudies();
   return caseStudies.map((study) => ({
     slug: study.slug,

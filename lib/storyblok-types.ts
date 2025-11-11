@@ -117,3 +117,26 @@ export interface ProjectsPage {
   content: ProjectsPageContent;
   [key: string]: unknown;
 }
+
+export interface BeforeAfterPairComponent extends StoryblokComponent {
+  component: "before_after_pair";
+  title?: string;
+  subtitle?: string;
+  highlights?: string;
+  images?: StoryblokAsset[];
+}
+
+export interface BeforeAfterGridContent {
+  _uid: string;
+  component: string;
+  blocks?: BeforeAfterPairComponent[];
+  [key: string]: unknown;
+}
+
+export interface BeforeAfterGrid {
+  name: string;
+  slug: string;
+  uuid: string;
+  content: BeforeAfterGridContent;
+  [key: string]: unknown;
+}
