@@ -86,3 +86,34 @@ export interface CaseStudy {
   content: CaseStudyContent;
   [key: string]: unknown;
 }
+
+export interface ProjectCardComponent extends StoryblokComponent {
+  component: "project_card";
+  name: string;
+  url?: string;
+  primary_font?: string;
+  secondary_font?: string;
+  accent_font?: string;
+  primary_color?: string;
+  secondary_color?: string;
+  accent_color?: string;
+  mockup?: StoryblokAsset;
+  case_study?: (string | CaseStudy)[]; // References to case studies (UUIDs or resolved CaseStudy objects)
+  skills?: string[];
+  type?: string[];
+}
+
+export interface ProjectsPageContent {
+  _uid: string;
+  component: string;
+  body?: StoryblokComponent[];
+  [key: string]: unknown;
+}
+
+export interface ProjectsPage {
+  name: string;
+  slug: string;
+  uuid: string;
+  content: ProjectsPageContent;
+  [key: string]: unknown;
+}

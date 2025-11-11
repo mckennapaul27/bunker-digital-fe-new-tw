@@ -1,6 +1,6 @@
 import StoryblokClient from "storyblok-js-client";
 import { storyblokToken } from "@/storyblok.config";
-import type { CaseStudy } from "./storyblok-types";
+import type { CaseStudy, ProjectsPage } from "./storyblok-types";
 
 // Initialize Storyblok client
 export const storyblokClient = new StoryblokClient({
@@ -33,12 +33,36 @@ export async function getCaseStudies(): Promise<CaseStudy[]> {
   try {
     const { data } = await storyblokClient.get("cdn/stories", {
       starts_with: "case-studies/",
-      version: "draft",
+      version: "published",
     });
 
     return (data.stories || []) as CaseStudy[];
   } catch (error) {
     console.error("Error fetching case studies:", error);
+    return [];
+  }
+}
+
+// Fetch featured case studies
+export async function getFeaturedCaseStudies(): Promise<CaseStudy[]> {
+  try {
+    // Fetch all case studies and filter client-side
+    // (Storyblok filter_query can be unreliable with nested content fields)
+    const { data } = await storyblokClient.get("cdn/stories", {
+      starts_with: "case-studies/",
+      version: "published",
+    });
+
+    const allCaseStudies = (data.stories || []) as CaseStudy[];
+
+    // Filter for featured case studies
+    const featured = allCaseStudies.filter(
+      (study) => study.content?.is_featured === true
+    );
+
+    return featured;
+  } catch (error) {
+    console.error("Error fetching featured case studies:", error);
     return [];
   }
 }
@@ -51,13 +75,28 @@ export async function getCaseStudyBySlug(
     const { data } = await storyblokClient.get(
       `cdn/stories/case-studies/${slug}`,
       {
-        version: "draft",
+        version: "published",
       }
     );
 
     return (data.story || null) as CaseStudy | null;
   } catch (error) {
     console.error(`Error fetching case study with slug ${slug}:`, error);
+    return null;
+  }
+}
+
+// Fetch projects page
+export async function getProjectsPage(): Promise<ProjectsPage | null> {
+  try {
+    const { data } = await storyblokClient.get("cdn/stories/work", {
+      version: "published",
+      resolve_relations: "project_card.case_study",
+    });
+
+    return (data.story || null) as ProjectsPage | null;
+  } catch (error) {
+    console.error("Error fetching projects page:", error);
     return null;
   }
 }

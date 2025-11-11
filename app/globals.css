@@ -8,6 +8,9 @@
   --color-charcoal: #1a1a1a;
   --color-beige: #fff7f3;
 
+  --font-heading: var(--font-poppins);
+  --font-body: var(--font-open-sans);
+
   /*Gradients*/
   --gradient-charcoal: linear-gradient(
     270deg,

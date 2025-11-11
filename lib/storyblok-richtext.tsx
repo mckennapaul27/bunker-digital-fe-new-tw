@@ -104,11 +104,6 @@ function renderNode(
     const width = urlMatch ? parseInt(urlMatch[1]) : 800;
     const height = urlMatch ? parseInt(urlMatch[2]) : 600;
 
-    console.log("src", src);
-    console.log("width", width);
-    console.log("height", height);
-    console.log("\n");
-
     return (
       <figure key={key} className={`${width} my-6`}>
         <Image

@@ -1,4 +1,4 @@
-import { getCaseStudyBySlug } from "@/lib/storyblok";
+import { getCaseStudyBySlug, getCaseStudies } from "@/lib/storyblok";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -58,6 +58,14 @@ function getCTA(study: CaseStudy): CTAComponent | null {
     (item): item is CTAComponent => item.component === "cta"
   );
   return cta || null;
+}
+
+// Generate static params for all case studies at build time
+export async function generateStaticParams() {
+  const caseStudies = await getCaseStudies();
+  return caseStudies.map((study) => ({
+    slug: study.slug,
+  }));
 }
 
 // Generate metadata for the page
@@ -251,10 +259,10 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                           Primary:
                         </span>
                         <span
-                          className="text-white font-semibold"
-                          style={{
-                            fontFamily: projectBranding.primary_font,
-                          }}
+                          className="text-white font-semibold font-body"
+                          // style={{
+                          //   fontFamily: projectBranding.primary_font,
+                          // }}
                         >
                           {projectBranding.primary_font}
                         </span>
@@ -266,10 +274,10 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                           Secondary:
                         </span>
                         <span
-                          className="text-white font-semibold"
-                          style={{
-                            fontFamily: projectBranding.secondary_font,
-                          }}
+                          className="text-white font-semibold font-body"
+                          // style={{
+                          //   fontFamily: projectBranding.secondary_font,
+                          // }}
                         >
                           {projectBranding.secondary_font}
                         </span>
@@ -281,10 +289,10 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                           Accent:
                         </span>
                         <span
-                          className="text-white font-semibold"
-                          style={{
-                            fontFamily: projectBranding.accent_font,
-                          }}
+                          className="text-white font-semibold font-body"
+                          // style={{
+                          //   fontFamily: projectBranding.accent_font,
+                          // }}
                         >
                           {projectBranding.accent_font}
                         </span>

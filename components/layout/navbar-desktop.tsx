@@ -36,7 +36,7 @@ export default function NavbarDesktop() {
               Case studies
             </Link>
             <Link
-              href="/recent-work"
+              href="/work"
               className="text-white text-lg y hover:text-gray-300 transition-colors"
             >
               Recent work
