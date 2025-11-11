@@ -110,17 +110,17 @@ function renderNode(
     console.log("\n");
 
     return (
-      <figure key={key} className="my-6">
+      <figure key={key} className={`${width} my-6`}>
         <Image
           src={src}
           alt={alt}
           width={width}
           height={height}
-          className="w-full h-auto rounded-lg"
+          className="shadow-lg rounded-lg"
           unoptimized={src.includes("a.storyblok.com")}
         />
         {caption && (
-          <figcaption className="text-sm text-gray-600 mt-3 text-center">
+          <figcaption className="text-sm text-gray-600 mt-3">
             {caption}
           </figcaption>
         )}
