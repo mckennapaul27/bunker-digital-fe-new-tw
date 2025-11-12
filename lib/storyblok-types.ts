@@ -140,3 +140,27 @@ export interface BeforeAfterGrid {
   content: BeforeAfterGridContent;
   [key: string]: unknown;
 }
+
+export interface TestimonialComponent extends StoryblokComponent {
+  component: "testimonial";
+  name?: string;
+  company?: string;
+  snippet?: string;
+  testimonial?: string;
+  platform?: string[]; // Array containing "Bark" or "Google"
+}
+
+export interface TestimonialsContent {
+  _uid: string;
+  component: string;
+  blocks?: TestimonialComponent[];
+  [key: string]: unknown;
+}
+
+export interface Testimonials {
+  name: string;
+  slug: string;
+  uuid: string;
+  content: TestimonialsContent;
+  [key: string]: unknown;
+}

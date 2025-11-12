@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
+// import Autoplay from "embla-carousel-autoplay";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -46,8 +46,8 @@ export default function CaseStudiesCarousel({
         "(min-width: 768px)": { slidesToScroll: 2 },
         "(min-width: 1280px)": { slidesToScroll: 3 },
       },
-    },
-    [Autoplay({ delay: 8000, stopOnInteraction: false })]
+    }
+    // [Autoplay({ delay: 8000, stopOnInteraction: false })]
   );
 
   const scrollPrev = useCallback(() => {

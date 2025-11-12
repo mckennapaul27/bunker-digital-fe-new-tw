@@ -4,6 +4,7 @@ import type {
   CaseStudy,
   ProjectsPage,
   BeforeAfterGrid,
+  Testimonials,
 } from "./storyblok-types";
 
 // Initialize Storyblok client
@@ -118,6 +119,20 @@ export async function getBeforeAfterGrid(): Promise<BeforeAfterGrid | null> {
     return (data.story || null) as BeforeAfterGrid | null;
   } catch (error) {
     console.error("Error fetching before after grid:", error);
+    return null;
+  }
+}
+
+// Fetch testimonials
+export async function getTestimonials(): Promise<Testimonials | null> {
+  try {
+    const { data } = await storyblokClient.get("cdn/stories/testimonials", {
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
+    });
+
+    return (data.story || null) as Testimonials | null;
+  } catch (error) {
+    console.error("Error fetching testimonials:", error);
     return null;
   }
 }

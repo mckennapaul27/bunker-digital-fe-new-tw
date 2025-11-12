@@ -2,7 +2,6 @@
 
 import { useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { StoryblokAsset } from "@/lib/storyblok-types";
@@ -12,10 +11,13 @@ interface ImageCarouselProps {
   alt: string;
 }
 
-export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
+export default function ImageCarouselDynamic({
+  images,
+  alt,
+}: ImageCarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
-    loop: true,
+    loop: false,
   });
 
   const scrollPrev = useCallback(() => {
@@ -37,7 +39,7 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
           {images.map((image, index) => (
             <div
               key={image.id || index}
-              className="flex-[0_0_100%] min-w-0 relative aspect-[20/11] rounded-lg overflow-hidden cursor-pointer "
+              className="flex-[0_0_100%] min-w-0 relative aspect-[280/179] rounded-lg overflow-hidden cursor-pointer "
             >
               <Image
                 src={image.filename}
@@ -50,20 +52,22 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
           ))}
         </div>
       </div>
-
+      <p className="text-sm text-white italic font-body text-center mt-4">
+        Use the arrows to see the transformation
+      </p>
       {/* Navigation Buttons */}
       {images.length > 1 && (
         <div className="flex justify-center gap-2 mt-4">
           <button
             onClick={scrollPrev}
-            className="p-2 rounded-full bg-charcoal hover:bg-charcoal/90 border border-charcoal/20 transition-colors cursor-pointer"
+            className="p-2 rounded-full bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/80 border border-charcoal/20 transition-colors cursor-pointer"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-5 h-5 text-white" />
           </button>
           <button
             onClick={scrollNext}
-            className="p-2 rounded-full bg-charcoal hover:bg-charcoal/90 border border-charcoal/20 transition-colors cursor-pointer"
+            className="p-2 rounded-full bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/80 border border-charcoal/20 transition-colors cursor-pointer"
             aria-label="Next slide"
           >
             <ChevronRight className="w-5 h-5 text-white" />

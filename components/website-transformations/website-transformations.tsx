@@ -1,10 +1,9 @@
 import { getBeforeAfterGrid } from "@/lib/storyblok";
 import type { BeforeAfterPairComponent } from "@/lib/storyblok-types";
-import ImageCarousel from "./website-transformations/image-carousel";
+import ImageCarouselWrapper from "./wrapper";
 
 export default async function WebsiteTransformations() {
   const beforeAfterGrid = await getBeforeAfterGrid();
-  console.log("beforeAfterGrid", JSON.stringify(beforeAfterGrid, null, 2));
 
   if (!beforeAfterGrid || !beforeAfterGrid.content?.blocks) {
     return null;
@@ -38,32 +37,42 @@ export default async function WebsiteTransformations() {
             const images = pair.images || [];
 
             return (
-              <div key={pair._uid} className="flex flex-col space-y-4">
+              <div
+                key={pair._uid}
+                className="flex flex-col space-y-4 bg-charcoal p-6 rounded-lg"
+              >
                 {/* Title */}
                 {pair.title && (
-                  <h3 className="text-xl lg:text-2xl font-bold text-charcoal font-heading">
+                  <h3 className="text-xl lg:text-2xl font-bold text-white font-heading">
                     {pair.title}
                   </h3>
                 )}
 
                 {/* Subtitle */}
                 {pair.subtitle && (
-                  <p className="text-base lg:text-lg text-charcoal/80 font-body">
+                  <p className="text-base lg:text-lg text-white/80 font-body">
                     {pair.subtitle}
                   </p>
                 )}
 
                 {/* Highlights */}
                 {pair.highlights && (
-                  <div className="text-sm lg:text-base text-charcoal/70 font-body whitespace-pre-line">
-                    {pair.highlights}
+                  <div className="text-sm lg:text-base text-charcoal/70 font-body whitespace-pre-line flex flex-wrap gap-2 mt-2">
+                    {pair.highlights.split(", ").map((highlight, index) => (
+                      <span
+                        className="px-2 py-1 sm:px-4 sm:py-2 bg-white/10 text-white text-xs sm:text-sm font-body rounded border border-white/20"
+                        key={`${highlight}-${index}`}
+                      >
+                        {highlight}
+                      </span>
+                    ))}
                   </div>
                 )}
 
                 {/* Images Carousel */}
                 {images.length > 0 && (
                   <div className="mt-auto">
-                    <ImageCarousel
+                    <ImageCarouselWrapper
                       images={images}
                       alt={pair.title || "Website transformation"}
                     />
