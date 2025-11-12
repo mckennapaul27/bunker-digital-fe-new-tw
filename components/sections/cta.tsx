@@ -1,19 +1,24 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 interface CTAProps {
   title: string;
   description?: string;
-  linkText: string;
-  href: string;
+  primaryLinkText: string;
+  primaryHref: string;
+  secondaryLinkText?: string;
+  secondaryHref?: string;
   className?: string;
 }
 
 export default function CTA({
   title,
   description,
-  linkText,
-  href,
+  primaryLinkText,
+  primaryHref,
+  secondaryLinkText,
+  secondaryHref,
   className = "",
 }: CTAProps) {
   return (
@@ -30,13 +35,20 @@ export default function CTA({
               {description}
             </p>
           )}
-          <Button
-            asChild
-            size="lg"
-            className="border-charcoal border-2 hover:bg-charcoal hover:text-white"
-          >
-            <Link href={href}>{linkText}</Link>
-          </Button>
+          <div className="flex flex-col items-center gap-4">
+            <Button asChild size="lg" variant="charcoal-outline" className="">
+              <Link href={primaryHref}>{primaryLinkText}</Link>
+            </Button>
+            {secondaryLinkText && secondaryHref && (
+              <Link
+                href={secondaryHref}
+                className="text-charcoal font-body font-semibold hover:underline inline-flex items-center gap-2"
+              >
+                {secondaryLinkText}
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </section>

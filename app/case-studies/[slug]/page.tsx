@@ -465,8 +465,8 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           cta?.description ||
           "We'd love to hear about your project and see how we can help you."
         }
-        linkText={cta?.link_text || "Discuss your project"}
-        href={cta?.href || "/discuss-project"}
+        primaryLinkText={cta?.link_text || "Discuss your project"}
+        primaryHref={cta?.href || "/discuss-project"}
       />
     </div>
   );

@@ -1,17 +1,23 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import type { TestimonialComponent } from "@/lib/storyblok-types";
 import TestimonialsWrapper from "./wrapper";
 import Image from "next/image";
+import { getTestimonials } from "@/lib/storyblok";
+import type {
+  TestimonialComponent,
+  StoryblokComponent,
+} from "@/lib/storyblok-types";
 
-interface TestimonialsCarouselProps {
-  testimonials: TestimonialComponent[];
-}
+export default async function Testimonials() {
+  const testimonialsData = await getTestimonials();
 
-export default function TestimonialsDynamic({
-  testimonials,
-}: TestimonialsCarouselProps) {
+  const testimonials = testimonialsData?.content?.blocks
+    ?.filter(
+      (item: StoryblokComponent): item is TestimonialComponent =>
+        item.component === "testimonial"
+    )
+    .slice(0, 5);
   return (
     <section className="bg-white py-20 xl:py-28 relative z-50">
       <div className="container mx-auto px-6 xl:px-12">
@@ -88,13 +94,13 @@ export default function TestimonialsDynamic({
           </div>
         </div>
 
-        <TestimonialsWrapper testimonials={testimonials} />
+        {testimonials && <TestimonialsWrapper testimonials={testimonials} />}
 
         {/* View All Button */}
         <div className="text-center">
           <Button asChild size="default" variant="charcoal-outline">
             <Link href="/testimonials">
-              Read All Testimonials
+              Read more Testimonials
               <ArrowRight className="" />
             </Link>
           </Button>

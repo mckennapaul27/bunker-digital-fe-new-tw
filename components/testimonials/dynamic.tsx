@@ -50,7 +50,7 @@ export default function TestimonialsDynamic({
                 className="flex-[0_0_100%] md:flex-[0_0_calc(50%-1rem)] xl:flex-[0_0_calc(33.333%-1.33rem)] min-w-0 px-2"
               >
                 {/* Card Container */}
-                <div className="relative h-full rounded-lg bg-white p-6 lg:p-8 shadow-sm border border-charcoal/10 flex flex-col">
+                <div className="relative h-full rounded-lg bg-white p-6 lg:p-8 shadow-sm border border-charcoal/10 flex flex-col cursor-pointer">
                   {/* Platform Logo */}
                   {platform && (
                     <div className="mb-4">
