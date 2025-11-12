@@ -9,7 +9,6 @@ import type {
   TestimonialComponent,
   StoryblokComponent,
 } from "@/lib/storyblok-types";
-import Image from "next/image";
 import Testimonials from "@/components/testimonials/testimonials";
 
 export default async function Home() {
