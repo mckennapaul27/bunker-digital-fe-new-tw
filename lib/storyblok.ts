@@ -5,6 +5,7 @@ import type {
   ProjectsPage,
   BeforeAfterGrid,
   Testimonials,
+  Service,
 } from "./storyblok-types";
 
 // Initialize Storyblok client
@@ -133,6 +134,36 @@ export async function getTestimonials(): Promise<Testimonials | null> {
     return (data.story || null) as Testimonials | null;
   } catch (error) {
     console.error("Error fetching testimonials:", error);
+    return null;
+  }
+}
+
+// Fetch all services
+export async function getServices(): Promise<Service[]> {
+  try {
+    const { data } = await storyblokClient.get("cdn/stories", {
+      starts_with: "services/",
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
+    });
+
+    return (data.stories || []) as Service[];
+  } catch (error) {
+    console.error("Error fetching services:", error);
+    return [];
+  }
+}
+
+// Fetch a single service by slug
+export async function getServiceBySlug(slug: string): Promise<Service | null> {
+  try {
+    const { data } = await storyblokClient.get(`cdn/stories/services/${slug}`, {
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
+      resolve_relations: "case_study_container.case_studies",
+    });
+
+    return (data.story || null) as Service | null;
+  } catch (error) {
+    console.error(`Error fetching service with slug ${slug}:`, error);
     return null;
   }
 }

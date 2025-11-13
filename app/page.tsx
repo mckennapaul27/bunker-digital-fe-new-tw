@@ -60,7 +60,11 @@ export default async function Home() {
         secondaryLinkText="View Recent Projects"
         secondaryHref="/work"
       />
-      <FAQ faqs={faqs} />
+      <FAQ
+        faqs={faqs}
+        heading="Common questions about our services"
+        subheading="If you have any questions, please don't hesitate to contact us."
+      />
     </div>
   );
 }

@@ -10,10 +10,17 @@ interface FAQItem {
 
 interface FAQProps {
   faqs: FAQItem[];
+  heading?: string;
+  subheading?: string;
   className?: string;
 }
 
-export default function FAQ({ faqs, className = "" }: FAQProps) {
+export default function FAQ({
+  faqs,
+  heading,
+  subheading,
+  className = "",
+}: FAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleFAQ = (index: number) => {
@@ -24,13 +31,20 @@ export default function FAQ({ faqs, className = "" }: FAQProps) {
     <section className={`bg-white py-20 xl:py-28 relative z-50 ${className}`}>
       <div className="container mx-auto px-6 xl:px-12">
         {/* Heading Section */}
-        <div className="mb-12 lg:mb-20 mx-auto text-center  ">
+        <div className="mb-12 lg:mb-20 mx-auto text-center">
           <p className="text-charcoal/90 text-sm mb-4 font-heading font-semibold uppercase tracking-widest">
-            Frequently Asked Questions
+            frequently asked questions
           </p>
-          <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-charcoal leading-tight max-w-4xl xl:max-w-5xl mx-auto">
-            Common questions about our services
-          </h2>
+          {heading && (
+            <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-charcoal leading-tight max-w-4xl xl:max-w-5xl mx-auto">
+              {heading}
+            </h2>
+          )}
+          {subheading && (
+            <p className="text-lg lg:text-xl text-charcoal/80 mt-4 max-w-4xl xl:max-w-5xl mx-auto">
+              {subheading}
+            </p>
+          )}
         </div>
 
         {/* FAQ Items */}

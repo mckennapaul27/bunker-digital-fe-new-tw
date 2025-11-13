@@ -164,3 +164,114 @@ export interface Testimonials {
   content: TestimonialsContent;
   [key: string]: unknown;
 }
+
+// Service page types
+export interface ServiceMetaDataComponent extends StoryblokComponent {
+  component: "meta_data";
+  title?: string;
+  description?: string;
+  og_image?: StoryblokAsset;
+}
+
+export interface HeroServiceComponent extends StoryblokComponent {
+  component: "hero_service";
+  headline?: string;
+  subheadline?: string;
+  cta_text?: string;
+  cta_link?: string;
+  secondary_cta_text?: string;
+  secondary_cta_link?: string;
+  background_image?: StoryblokAsset;
+  trust_bar_below?: boolean;
+}
+
+export interface FeatureItemComponent extends StoryblokComponent {
+  component: "feature_item";
+  icon_code?: string;
+  title?: string;
+  description?: string;
+}
+
+export interface FeatureGridComponent extends StoryblokComponent {
+  component: "feature_grid";
+  overline?: string;
+  heading?: string;
+  subheading?: string;
+  columns?: FeatureItemComponent[];
+}
+
+export interface ProcessItemComponent extends StoryblokComponent {
+  component: "process_item";
+  icon_code?: string;
+  title?: string;
+  description?: string;
+}
+
+export interface ProcessGridComponent extends StoryblokComponent {
+  component: "process_grid";
+  overline?: string;
+  headline?: string;
+  subheadline?: string;
+  columns?: ProcessItemComponent[];
+}
+
+export interface CaseStudyContainerComponent extends StoryblokComponent {
+  component: "case_study_container";
+  overline?: string;
+  headline?: string;
+  subheadline?: string;
+  case_studies?: (string | CaseStudy)[]; // References to case studies
+}
+
+export interface ServiceCTAComponent extends StoryblokComponent {
+  component: "cta";
+  title?: string;
+  description?: string;
+  link_text?: string;
+  href?: string;
+  secondary_link_text?: string;
+  secondary_href?: string;
+}
+
+export interface FAQItemComponent extends StoryblokComponent {
+  component: "faq_item";
+  question?: string;
+  answer?: string;
+}
+
+export interface FAQContainerComponent extends StoryblokComponent {
+  component: "faq_container";
+  heading?: string;
+  subheading?: string;
+  questions?: FAQItemComponent[];
+}
+
+export interface IconGridItemComponent extends StoryblokComponent {
+  component: "icon_grid_item";
+  icon_code?: string;
+  text?: string;
+  description?: string;
+}
+
+export interface OverviewIntroComponent extends StoryblokComponent {
+  component: "overview_intro";
+  overline?: string;
+  heading?: string;
+  content?: any; // Rich text field (Storyblok rich text object)
+  icon_grid?: IconGridItemComponent[];
+}
+
+export interface ServiceContent {
+  _uid: string;
+  component: string;
+  blocks?: StoryblokComponent[];
+  [key: string]: unknown;
+}
+
+export interface Service {
+  name: string;
+  slug: string;
+  uuid: string;
+  content: ServiceContent;
+  [key: string]: unknown;
+}
