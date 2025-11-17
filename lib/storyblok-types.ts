@@ -261,6 +261,44 @@ export interface OverviewIntroComponent extends StoryblokComponent {
   icon_grid?: IconGridItemComponent[];
 }
 
+export interface UseCaseItemComponent extends StoryblokComponent {
+  component: "use_case_item";
+  icon_code?: string;
+  title?: string;
+  description?: string;
+  outcome?: string;
+}
+
+export interface UseCaseGridComponent extends StoryblokComponent {
+  component: "use_case_grid";
+  overline?: string;
+  heading?: string;
+  items?: UseCaseItemComponent[];
+}
+
+export interface ServiceListItemComponent extends StoryblokComponent {
+  component: "service_list_item";
+  icon_code?: string;
+  title?: string;
+  description?: string;
+}
+
+export interface ServicesListComponent extends StoryblokComponent {
+  component: "services_list";
+  overline?: string;
+  heading?: string;
+  subheading?: string;
+  items?: ServiceListItemComponent[];
+}
+
+export interface TextImageSectionComponent extends StoryblokComponent {
+  component: "text_image_section";
+  title?: string;
+  text?: any; // Rich text field (Storyblok rich text object)
+  image?: StoryblokAsset;
+  image_position?: string; // "left" or "right"
+}
+
 export interface ServiceContent {
   _uid: string;
   component: string;

@@ -1,13 +1,13 @@
-import type { FeatureGridComponent } from "@/lib/storyblok-types";
+import type { UseCaseGridComponent } from "@/lib/storyblok-types";
 import { getIcon } from "@/lib/icon-mapping";
 
-interface FeatureGridProps {
-  data: FeatureGridComponent;
+interface UseCaseGridProps {
+  data: UseCaseGridComponent;
 }
 
-export default function FeatureGrid({ data }: FeatureGridProps) {
+export default function UseCaseGrid({ data }: UseCaseGridProps) {
   return (
-    <section className="bg-beige py-20 xl:py-28 relative z-50">
+    <section className="bg-white py-20 xl:py-28 relative z-50">
       <div className="container mx-auto px-6 xl:px-12">
         {/* Heading Section */}
         <div className="mb-12 lg:mb-20">
@@ -21,33 +21,37 @@ export default function FeatureGrid({ data }: FeatureGridProps) {
               {data.heading}
             </h2>
           )}
-          {data.subheading && (
-            <p className="text-lg lg:text-xl text-charcoal/80 mt-4 max-w-4xl xl:max-w-5xl">
-              {data.subheading}
-            </p>
-          )}
         </div>
-        {data.columns && data.columns.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
-            {data.columns.map((item) => {
+
+        {/* Use Case Items Grid */}
+        {data.items && data.items.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {data.items.map((item) => {
               const Icon = item.icon_code ? getIcon(item.icon_code) : null;
               return (
                 <div
                   key={item._uid}
-                  className="p-6 border border-charcoal/40 rounded shadow-sm"
+                  className="p-6 border border-charcoal/10 rounded"
                 >
                   {Icon && (
                     <div className="mb-4">
-                      <Icon className="w-6 lg:w-8 h-6 lg:h-8 text-charcoal" />
+                      <Icon className="w-8 h-8 text-charcoal" />
                     </div>
                   )}
                   {item.title && (
-                    <h3 className="text-base lg:text-lg font-bold text-charcoal mb-2">
+                    <h3 className="text-base lg:text-lg font-bold text-charcoal mb-3 font-heading">
                       {item.title}
                     </h3>
                   )}
                   {item.description && (
-                    <p className="text-charcoal/80">{item.description}</p>
+                    <p className="text-charcoal/80 mb-4 font-body">
+                      {item.description}
+                    </p>
+                  )}
+                  {item.outcome && (
+                    <p className="text-charcoal font-semibold font-body">
+                      {item.outcome}
+                    </p>
                   )}
                 </div>
               );

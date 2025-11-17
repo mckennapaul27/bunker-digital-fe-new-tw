@@ -1,13 +1,13 @@
-import type { FeatureGridComponent } from "@/lib/storyblok-types";
+import type { ServicesListComponent } from "@/lib/storyblok-types";
 import { getIcon } from "@/lib/icon-mapping";
 
-interface FeatureGridProps {
-  data: FeatureGridComponent;
+interface ServicesListProps {
+  data: ServicesListComponent;
 }
 
-export default function FeatureGrid({ data }: FeatureGridProps) {
+export default function ServicesList({ data }: ServicesListProps) {
   return (
-    <section className="bg-beige py-20 xl:py-28 relative z-50">
+    <section className="bg-white py-20 xl:py-28 relative z-50">
       <div className="container mx-auto px-6 xl:px-12">
         {/* Heading Section */}
         <div className="mb-12 lg:mb-20">
@@ -27,27 +27,31 @@ export default function FeatureGrid({ data }: FeatureGridProps) {
             </p>
           )}
         </div>
-        {data.columns && data.columns.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
-            {data.columns.map((item) => {
+
+        {/* Services List Items */}
+        {data.items && data.items.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {data.items.map((item) => {
               const Icon = item.icon_code ? getIcon(item.icon_code) : null;
               return (
                 <div
                   key={item._uid}
-                  className="p-6 border border-charcoal/40 rounded shadow-sm"
+                  className="p-6 border border-charcoal/10 rounded"
                 >
                   {Icon && (
                     <div className="mb-4">
-                      <Icon className="w-6 lg:w-8 h-6 lg:h-8 text-charcoal" />
+                      <Icon className="w-8 h-8 text-charcoal" />
                     </div>
                   )}
                   {item.title && (
-                    <h3 className="text-base lg:text-lg font-bold text-charcoal mb-2">
+                    <h3 className="text-base lg:text-lg font-bold text-charcoal mb-2 font-heading">
                       {item.title}
                     </h3>
                   )}
                   {item.description && (
-                    <p className="text-charcoal/80">{item.description}</p>
+                    <p className="text-charcoal/80 font-body">
+                      {item.description}
+                    </p>
                   )}
                 </div>
               );

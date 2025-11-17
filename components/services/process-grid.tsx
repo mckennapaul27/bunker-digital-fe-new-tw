@@ -29,7 +29,7 @@ export default function ProcessGrid({ data }: ProcessGridProps) {
           )}
         </div>
         {data.columns && data.columns.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8 relative">
             {data.columns.map((item, index) => {
               const Icon = item.icon_code ? getIcon(item.icon_code) : null;
               const columnsLength = data.columns?.length || 0;
@@ -38,14 +38,14 @@ export default function ProcessGrid({ data }: ProcessGridProps) {
 
               return (
                 <div key={item._uid} className="relative">
-                  <div className="p-6 border border-white/10 rounded shadow-sm">
+                  <div className="p-6 border border-white/20 rounded shadow-sm">
                     {Icon && (
                       <div className="mb-4">
-                        <Icon className="w-8 h-8 text-white" />
+                        <Icon className="w-6 lg:w-8 h-6 lg:h-8  text-white" />
                       </div>
                     )}
                     {item.title && (
-                      <h3 className="text-xl font-bold text-white mb-2">
+                      <h3 className="text-base lg:text-lg font-bold text-white mb-2">
                         {item.title}
                       </h3>
                     )}

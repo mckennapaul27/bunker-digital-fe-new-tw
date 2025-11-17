@@ -18,6 +18,10 @@ function getMetaData(service: Service): ServiceMetaDataComponent | null {
 
 // Generate static params for all services at build time
 export async function generateStaticParams() {
+  // Skip static generation in development
+  if (process.env.NODE_ENV === "development") {
+    return [];
+  }
   const services = await getServices();
   return services.map((service) => ({
     slug: service.slug,
@@ -38,6 +42,7 @@ export async function generateMetadata({
   }
 
   const metaData = getMetaData(service);
+  console.log(JSON.stringify(metaData, null, 2));
   const title = metaData?.title || service.name;
   const description = metaData?.description || "";
   const ogImage = metaData?.og_image?.filename;
@@ -71,6 +76,7 @@ export async function generateMetadata({
 export default async function ServicePage({ params }: ServicePageProps) {
   const { slug } = await params;
   const service = await getServiceBySlug(slug);
+  //   console.log(JSON.stringify(service, null, 2));
 
   if (!service) {
     notFound();

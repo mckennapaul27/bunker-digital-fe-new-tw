@@ -4,21 +4,24 @@ import { useState } from "react";
 import Hamburger from "hamburger-react";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronDown, ChevronRight } from "lucide-react";
+import { navServices } from "@/lib/nav-services";
 
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/case-studies", label: "Case studies" },
   { href: "/work", label: "Recent work" },
   { href: "/about", label: "About" },
-  { href: "/what-we-do", label: "What we do" },
   { href: "/request-proposal", label: "Request a proposal" },
 ];
 
 export default function NavbarTouch() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
 
   const handleLinkClick = () => {
     setIsOpen(false);
+    setIsServicesOpen(false);
   };
 
   return (
@@ -93,7 +96,7 @@ export default function NavbarTouch() {
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex flex-col flex-1 pt-8">
+          <nav className="flex flex-col flex-1 pt-8 overflow-y-auto">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -104,6 +107,35 @@ export default function NavbarTouch() {
                 {item.label}
               </Link>
             ))}
+            {/* What we do dropdown */}
+            <div>
+              <button
+                onClick={() => setIsServicesOpen(!isServicesOpen)}
+                className="w-full text-left text-white text-lg font-body px-6 py-4 hover:bg-gray-900 transition-colors flex items-center justify-between"
+              >
+                <span>What we do</span>
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${
+                    isServicesOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              {isServicesOpen && (
+                <div className="bg-gray-900">
+                  {navServices.map((service) => (
+                    <Link
+                      key={service.href}
+                      href={service.href}
+                      onClick={handleLinkClick}
+                      className="block text-white text-base font-body px-10 py-3 hover:bg-gray-800 transition-colors flex items-center gap-2"
+                    >
+                      <ChevronRight className="w-3 h-3" />
+                      {service.title}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </nav>
         </div>
       </div>

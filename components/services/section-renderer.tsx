@@ -7,6 +7,9 @@ import type {
   ServiceCTAComponent,
   FAQContainerComponent,
   OverviewIntroComponent,
+  UseCaseGridComponent,
+  ServicesListComponent,
+  TextImageSectionComponent,
 } from "@/lib/storyblok-types";
 import MetaData from "./meta-data";
 import HeroService from "./hero-service";
@@ -16,6 +19,9 @@ import CaseStudyContainer from "./case-study-container";
 import ServiceCTA from "./service-cta";
 import FAQContainer from "./faq-container";
 import OverviewIntro from "./overview-intro";
+import UseCaseGrid from "./use-case-grid";
+import ServicesList from "./services-list";
+import TextImageSection from "./text-image-section";
 import WebsiteTransformations from "../website-transformations/website-transformations";
 
 interface SectionRendererProps {
@@ -74,6 +80,27 @@ export default function SectionRenderer({ sections }: SectionRendererProps) {
               <OverviewIntro
                 key={section._uid}
                 data={section as OverviewIntroComponent}
+              />
+            );
+          case "use_case_grid":
+            return (
+              <UseCaseGrid
+                key={section._uid}
+                data={section as UseCaseGridComponent}
+              />
+            );
+          case "services_list":
+            return (
+              <ServicesList
+                key={section._uid}
+                data={section as ServicesListComponent}
+              />
+            );
+          case "text_image_section":
+            return (
+              <TextImageSection
+                key={section._uid}
+                data={section as TextImageSectionComponent}
               />
             );
           case "before_after_container":

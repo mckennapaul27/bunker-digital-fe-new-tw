@@ -4,22 +4,22 @@ const services = [
   {
     title: "Custom websites",
     description: "Built for enquiries, not just decoration",
-    href: "/affordable-web-design-for-small-business",
+    href: "/services/affordable-web-design-for-small-business",
   },
   {
     title: "Website Maintenance",
     description: "Fast hosting + support local businesses trust",
-    href: "/website-management-maintenance/",
+    href: "/services/website-management-maintenance/",
   },
   {
     title: "Paid Ads",
     description: "Ads campaigns built for local services",
-    href: "/google-ads-agency-for-small-business",
+    href: "/services/google-ads-agency-for-small-business",
   },
   {
     title: "Local Growth Tools",
     description: "SEO, automations, performance insights",
-    href: "/seo-for-small-business",
+    href: "/services/seo-for-small-business",
   },
 ];
 

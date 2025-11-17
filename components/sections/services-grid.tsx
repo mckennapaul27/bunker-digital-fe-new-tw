@@ -19,7 +19,7 @@ const services = [
       "Fast, secure, and built for performance, guaranteed 90+ PageSpeed scores.",
       "Powered by modern, reliable technology for complete peace of mind.",
     ],
-    href: "/affordable-web-design-for-small-business",
+    href: "/services/affordable-web-design-for-small-business",
     cta: "Learn More",
   },
   {
@@ -31,7 +31,7 @@ const services = [
       "On-demand support for website content and structural changes.",
       "Keep your site running smoothly with an expert always on hand.",
     ],
-    href: "/website-management-and-maintenance",
+    href: "/services/website-management-and-maintenance",
     cta: "Learn More",
   },
   {
@@ -43,7 +43,7 @@ const services = [
       "Transparent performance reporting and data-driven improvements.",
       "Proven success across a range of industries.",
     ],
-    href: "/google-ads-agency-for-small-business",
+    href: "/services/google-ads-agency-for-small-business",
     cta: "Learn More",
   },
   {
@@ -56,7 +56,7 @@ const services = [
       "Smart automations to boost efficiency and save time.",
       "Google Analytics and Tag Manager configuration for accurate tracking.",
     ],
-    href: "/seo-for-small-business",
+    href: "/services/seo-for-small-business",
     cta: "Learn More",
   },
   {
@@ -68,7 +68,7 @@ const services = [
       "Automate repetitive tasks and streamline your business processes.",
       "Save time and money with systems built around your workflow.",
     ],
-    href: "/custom-software-for-small-business",
+    href: "/services/custom-software-for-small-business",
     cta: "Learn More",
   },
   {
@@ -80,7 +80,7 @@ const services = [
       "Ongoing IT support and management for small teams.",
       "Secure, reliable systems that keep your business running smoothly.",
     ],
-    href: "/managed-it-services-for-small-business",
+    href: "/services/managed-it-services-for-small-business",
     cta: "Learn More",
   },
 ];
