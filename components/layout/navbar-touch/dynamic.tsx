@@ -12,7 +12,7 @@ const navItems = [
   { href: "/case-studies", label: "Case studies" },
   { href: "/work", label: "Recent work" },
   { href: "/about", label: "About" },
-  { href: "/request-proposal", label: "Request a proposal" },
+  { href: "/request-proposal", label: "Discuss your project" },
 ];
 
 export default function NavbarTouch() {
@@ -25,7 +25,7 @@ export default function NavbarTouch() {
   };
 
   return (
-    <div className="relative z-50 top-0 left-0 w-full z-50">
+    <div className="relative z-[100] top-0 left-0 w-full">
       <nav className="bg-black">
         <div className="container mx-auto px-6 xl:px-12">
           <div className="flex items-center justify-between py-4">
@@ -54,22 +54,22 @@ export default function NavbarTouch() {
       </nav>
 
       {/* Slide-in Menu Overlay */}
-      {isOpen && (
+      {/* {isOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40"
           onClick={() => setIsOpen(false)}
         />
-      )}
+      )} */}
 
       {/* Slide-in Menu */}
       <div
-        className={`fixed top-0 left-0 h-full w-[80%] bg-black z-50 transform transition-transform duration-300 ease-in-out  ${
+        className={`fixed top-0 left-0 h-full w-[80%] sm:w-[80%] lg:w-[60%] bg-black z-[100] transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Menu Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-800">
+          <div className="flex items-center justify-between p-6 ">
             <Link
               href="/"
               onClick={handleLinkClick}
@@ -121,7 +121,7 @@ export default function NavbarTouch() {
                 />
               </button>
               {isServicesOpen && (
-                <div className="bg-gray-900">
+                <div className="bg-charcoal/80">
                   {navServices.map((service) => (
                     <Link
                       key={service.href}

@@ -8,6 +8,15 @@ interface FeatureGridProps {
 export default function FeatureGrid({ data }: FeatureGridProps) {
   return (
     <section className="bg-beige py-20 xl:py-28 relative z-50">
+      {/* Background Pattern */}
+      <div
+        className="absolute inset-0 z-0 opacity-100"
+        style={{
+          backgroundImage: "url('/logo-svg-pattern.svg')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "100% 100%",
+        }}
+      />
       <div className="container mx-auto px-6 xl:px-12">
         {/* Heading Section */}
         <div className="mb-12 lg:mb-20">
@@ -34,7 +43,7 @@ export default function FeatureGrid({ data }: FeatureGridProps) {
               return (
                 <div
                   key={item._uid}
-                  className="p-6 border border-charcoal/40 rounded shadow-sm"
+                  className="p-6 border border-charcoal/40 rounded shadow-sm bg-white/80 backdrop-blur-sm"
                 >
                   {Icon && (
                     <div className="mb-4">

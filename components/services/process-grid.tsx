@@ -29,7 +29,7 @@ export default function ProcessGrid({ data }: ProcessGridProps) {
           )}
         </div>
         {data.columns && data.columns.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8 relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 relative">
             {data.columns.map((item, index) => {
               const Icon = item.icon_code ? getIcon(item.icon_code) : null;
               const columnsLength = data.columns?.length || 0;
@@ -37,8 +37,8 @@ export default function ProcessGrid({ data }: ProcessGridProps) {
               const showArrow = !isLastItem && columnsLength > 1;
 
               return (
-                <div key={item._uid} className="relative">
-                  <div className="p-6 border border-white/20 rounded shadow-sm">
+                <div key={item._uid} className="relative ">
+                  <div className="rounded shadow-sm">
                     {Icon && (
                       <div className="mb-4">
                         <Icon className="w-6 lg:w-8 h-6 lg:h-8  text-white" />

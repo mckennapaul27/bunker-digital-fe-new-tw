@@ -39,7 +39,7 @@ export default function TextImageSection({ data }: TextImageSectionProps) {
           {/* Image */}
           {data.image?.filename && (
             <div className={isImageRight ? "lg:order-2" : "lg:order-1"}>
-              <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+              <div className="relative w-full aspect-1/1 rounded-lg overflow-hidden">
                 <Image
                   src={data.image.filename}
                   alt={data.image.alt || data.title || "Image"}

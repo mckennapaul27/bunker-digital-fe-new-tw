@@ -42,7 +42,7 @@ export async function generateMetadata({
   }
 
   const metaData = getMetaData(service);
-  console.log(JSON.stringify(metaData, null, 2));
+
   const title = metaData?.title || service.name;
   const description = metaData?.description || "";
   const ogImage = metaData?.og_image?.filename;

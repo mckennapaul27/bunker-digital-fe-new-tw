@@ -7,7 +7,7 @@ interface ServicesListProps {
 
 export default function ServicesList({ data }: ServicesListProps) {
   return (
-    <section className="bg-white py-20 xl:py-28 relative z-50">
+    <section className="bg-beige py-20 xl:py-28 relative z-50">
       <div className="container mx-auto px-6 xl:px-12">
         {/* Heading Section */}
         <div className="mb-12 lg:mb-20">
@@ -36,7 +36,7 @@ export default function ServicesList({ data }: ServicesListProps) {
               return (
                 <div
                   key={item._uid}
-                  className="p-6 border border-charcoal/10 rounded"
+                  className="p-6 border border-charcoal/10 rounded shadow-sm"
                 >
                   {Icon && (
                     <div className="mb-4">

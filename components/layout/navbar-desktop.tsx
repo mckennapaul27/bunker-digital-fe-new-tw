@@ -70,7 +70,7 @@ export default function NavbarDesktop() {
               href="/request-proposal"
               className="text-white text-lg y hover:text-charcoal/80 transition-colors flex items-center"
             >
-              Request a proposal
+              Discuss your project
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
           </div>
