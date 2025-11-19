@@ -1,8 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import type { HeroTestimonialComponent } from "@/lib/storyblok-types";
 
-export default function TrustBar() {
+interface TrustBarProps {
+  testimonial?: HeroTestimonialComponent | null;
+}
+
+export default function TrustBar({ testimonial }: TrustBarProps) {
+  // Default testimonial (Jordan / Unearthed.land)
+  const defaultTestimonial = {
+    testimonial:
+      "I would definitely recommend others to use Bunker Digital and we will certainly be continuing to work with them in the future.",
+    name: "Jordan",
+    company: "Unearthed.land",
+  };
+
+  // Use provided testimonial or fall back to default
+  const testimonialText =
+    testimonial?.testimonial || defaultTestimonial.testimonial;
+  const testimonialName = testimonial?.name || defaultTestimonial.name;
+  const testimonialCompany = testimonial?.company || defaultTestimonial.company;
+
   return (
     <section className="bg-[var(--color-charcoal)] py-16">
       <div className="container mx-auto px-6 xl:px-12 md:flex md:items-start md:justify-between">
@@ -71,16 +90,14 @@ export default function TrustBar() {
           {/* Testimonial */}
           <div className="flex flex-col gap-3 max-w-md xl:max-w-2xl mb-6">
             <p className="text-white text-sm md:text-base lg:text-lg italic max-w-[400px] lg:max-w-none">
-              &quot;I would definitely recommend others to use Bunker Digital
-              and we will certainly be continuing to work with them in the
-              future.&quot;
+              &quot;{testimonialText}&quot;
             </p>
             <div>
               <p className="text-white text-sm lg:text-base font-bold">
-                Jordan
+                {testimonialName}
               </p>
               <p className="text-white/80 text-sm lg:text-base">
-                Unearthed.land
+                {testimonialCompany}
               </p>
             </div>
           </div>

@@ -173,6 +173,13 @@ export interface ServiceMetaDataComponent extends StoryblokComponent {
   og_image?: StoryblokAsset;
 }
 
+export interface HeroTestimonialComponent extends StoryblokComponent {
+  component: "testimonial";
+  name?: string;
+  company?: string;
+  testimonial?: string;
+}
+
 export interface HeroServiceComponent extends StoryblokComponent {
   component: "hero_service";
   headline?: string;
@@ -183,6 +190,7 @@ export interface HeroServiceComponent extends StoryblokComponent {
   secondary_cta_link?: string;
   background_image?: StoryblokAsset;
   trust_bar_below?: boolean;
+  blocks?: StoryblokComponent[]; // Can contain testimonial components
 }
 
 export interface FeatureItemComponent extends StoryblokComponent {
@@ -297,6 +305,11 @@ export interface TextImageSectionComponent extends StoryblokComponent {
   text?: any; // Rich text field (Storyblok rich text object)
   image?: StoryblokAsset;
   image_position?: string; // "left" or "right"
+}
+
+export interface SchemaBlockComponent extends StoryblokComponent {
+  component: "schema_block";
+  json_ld?: string; // JSON-LD structured data as text (textarea field)
 }
 
 export interface ServiceContent {

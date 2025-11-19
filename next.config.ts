@@ -56,6 +56,23 @@ const nextConfig: NextConfig = {
         destination: "/services/webdesign-and-seo-paid-ads-management",
         permanent: true,
       },
+      {
+        source: "/hazel-grove/google-ads-agency",
+        destination: "/hazel-grove/google-ads-management-agency",
+        permanent: true,
+      },
+      {
+        source: "/stockport/google-ads-agency",
+        destination: "/stockport/google-ads-management-agency",
+        permanent: true,
+      },
+      {
+        source:
+          "/case-studies/how-we-reduced-greenscapes-tree-service-cost-per-conversion-to-15.25-and-increased-leads-by-250-percent",
+        destination:
+          "/case-studies/how-we-reduced-greenscapes-tree-service-cost-per-conversion-to-15-25-and-increased-leads-by-250-percent",
+        permanent: true,
+      },
     ];
   },
 };

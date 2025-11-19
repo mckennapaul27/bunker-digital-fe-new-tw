@@ -1,7 +1,12 @@
 import { getServiceBySlug, getServices } from "@/lib/storyblok";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import type { Service, ServiceMetaDataComponent } from "@/lib/storyblok-types";
+import Script from "next/script";
+import type {
+  Service,
+  ServiceMetaDataComponent,
+  SchemaBlockComponent,
+} from "@/lib/storyblok-types";
 import SectionRenderer from "@/components/services/section-renderer";
 
 interface ServicePageProps {
@@ -14,6 +19,14 @@ function getMetaData(service: Service): ServiceMetaDataComponent | null {
     (item): item is ServiceMetaDataComponent => item.component === "meta_data"
   );
   return metaData || null;
+}
+
+// Helper function to extract schema block from service
+function getSchemaBlock(service: Service): SchemaBlockComponent | null {
+  const schemaBlock = service.content?.blocks?.find(
+    (item): item is SchemaBlockComponent => item.component === "schema_block"
+  );
+  return schemaBlock || null;
 }
 
 // Generate static params for all services at build time
@@ -82,7 +95,42 @@ export default async function ServicePage({ params }: ServicePageProps) {
     notFound();
   }
 
-  const sections = service.content?.blocks || [];
+  const allBlocks = service.content?.blocks || [];
+  const schemaBlock = getSchemaBlock(service);
 
-  return <SectionRenderer sections={sections} />;
+  // Filter out meta_data and schema_block from sections (they're handled separately)
+  const sections = allBlocks.filter(
+    (block) =>
+      block.component !== "meta_data" && block.component !== "schema_block"
+  );
+
+  // Parse and stringify JSON-LD to ensure valid formatting
+  let jsonLdContent: string | null = null;
+  if (schemaBlock?.json_ld) {
+    try {
+      // Parse to validate JSON, then stringify to ensure clean formatting
+      const parsed = JSON.parse(schemaBlock.json_ld);
+      jsonLdContent = JSON.stringify(parsed);
+    } catch (error) {
+      console.error("Invalid JSON-LD in schema_block:", error);
+      // If parsing fails, use the original string as fallback
+      jsonLdContent = schemaBlock.json_ld;
+    }
+  }
+
+  return (
+    <>
+      {/* JSON-LD Structured Data - Added to head via metadata */}
+      {jsonLdContent && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: jsonLdContent,
+          }}
+          async
+        />
+      )}
+      <SectionRenderer sections={sections} />
+    </>
+  );
 }

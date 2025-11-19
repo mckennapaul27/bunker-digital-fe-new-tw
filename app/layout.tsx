@@ -29,6 +29,67 @@ if (process.env.NODE_ENV !== "production") {
   initStoryblok();
 }
 
+const jsonLd = {
+  logo: {
+    "@type": "ImageObject",
+    url: "https://www.bunkerdigital.co.uk/path/to/logo.png",
+  },
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "ProfessionalService"],
+  "@id": "https://www.bunkerdigital.co.uk/#bunker-digital",
+  name: "BunkerDigital",
+  alternateName: "Bunker Digital",
+  legalName: "BUNKER DIGITAL LIMITED",
+  url: "https://www.bunkerdigital.co.uk/",
+  email: "info@bunkerdigital.co.uk",
+  telephone: "+441613838568",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "18 Vaudrey Drive",
+    addressLocality: "Hazel Grove",
+    addressRegion: "Stockport",
+    postalCode: "SK7 5PB",
+    addressCountry: "GB",
+  },
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      telephone: "+441613838568",
+      contactType: "customer service",
+      areaServed: "GB",
+      availableLanguage: ["en-GB"],
+    },
+    {
+      "@type": "ContactPoint",
+      telephone: "+447935157365",
+      contactType: "customer service",
+      areaServed: "GB",
+      availableLanguage: ["en-GB"],
+    },
+  ],
+  sameAs: [
+    "https://www.facebook.com/profile.php?id=61578199581517",
+    "https://www.google.com/search?kgmid=/g/11l6ymcs8q&q=BunkerDigital",
+    "https://www.bark.com/en/gb/b/bunkerdigital/Xo0AX/",
+  ],
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
+      opens: "00:00",
+      closes: "23:59",
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -36,6 +97,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Add JSON-LD to your page */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+      </head>
       <body className={`${poppins.variable} ${openSans.variable} antialiased`}>
         <Suspense>
           <Analytics />

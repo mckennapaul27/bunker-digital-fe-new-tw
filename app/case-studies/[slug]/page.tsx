@@ -144,7 +144,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative flex items-center min-h-[80vh]">
+      <section className="relative flex items-center ">
         {/* Background Image - Small (default) */}
         {coverImageSm && (
           <div className="fixed inset-0 z-0 lg:hidden">
@@ -207,12 +207,13 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               {/* Testimonial */}
               {testimonial && (
                 <div className="mb-4 max-w-3xl xl:max-w-5xl">
-                  <p className="text-white text-base lg:text-lg xl:text-xl italic leading-relaxed mb-2">
+                  <p className="text-white/80 text-base lg:text-lg xl:text-xl italic leading-relaxed mb-2">
                     &quot;{testimonial}&quot;
                   </p>
                   {testimonialName && (
                     <p className="text-white text-base lg:text-lg  font-semibold mt-4">
-                      — {testimonialName}
+                      <span className="text-[var(--color-primary)]">—</span>{" "}
+                      {testimonialName}
                     </p>
                   )}
                 </div>

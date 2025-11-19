@@ -1,0 +1,280 @@
+{
+  "name": "Affordable Web Design",
+  "created_at": "2025-11-12T16:37:56.656Z",
+  "published_at": "2025-11-17T17:36:09.053Z",
+  "content": {
+    "_uid": "b52446ba-8db7-4222-b92a-908f23f6eaeb",
+    "blocks": [
+      {
+        "_uid": "21d20f7b-e262-4aaa-8118-6bb671b34353",
+        "title": "Affordable Web Design for Small Businesses | Bunker Digital",
+        "og_image": {
+          "id": 112058093771361,
+          "alt": "",
+          "name": "",
+          "focus": "",
+          "title": "",
+          "source": "",
+          "filename": "https://a.storyblok.com/f/288302830974942/1200x630/f5d6bf064d/webdesign-og.png",
+          "copyright": "",
+          "fieldtype": "asset",
+          "meta_data": {},
+          "is_external_url": false
+        },
+        "component": "meta_data",
+        "description": "Fast, professional, high-performing websites that turn clicks into customers. Bunker Digital helps small businesses grow online through clean design, strong performance, and measurable results."
+      },
+      {
+        "_uid": "189a4cd0-e9a3-4235-b373-ea0444358145",
+        "cta_link": "/discuss-project",
+        "cta_text": "Book a Strategy Call",
+        "headline": "High-Performing Websites That Turn Clicks Into Customers",
+        "component": "hero_service",
+        "subheadline": "We design and build fast, professional websites that help you attract more customers and look credible online. Whether you’re starting fresh or upgrading an outdated site, we make your business stand out and drive real results.",
+        "trust_bar_below": true,
+        "background_image": {
+          "id": 112047800870181,
+          "alt": "",
+          "name": "",
+          "focus": "",
+          "title": "",
+          "source": "",
+          "filename": "https://a.storyblok.com/f/288302830974942/1510x904/6052ef9060/webdesign-hero.png",
+          "copyright": "",
+          "fieldtype": "asset",
+          "meta_data": {},
+          "is_external_url": false
+        },
+        "secondary_cta_link": "/work",
+        "secondary_cta_text": "View recent projects"
+      },
+      {
+        "_uid": "a34fdcb2-1446-4057-a061-bb538e1a3f28",
+        "content": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": {
+                "textAlign": null
+              },
+              "content": [
+                {
+                  "text": "Your website is the centre of your digital presence. We build modern, conversion-focused websites that look professional, load instantly, and work seamlessly across all devices.",
+                  "type": "text"
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "attrs": {
+                "textAlign": null
+              },
+              "content": [
+                {
+                  "text": "Our process blends strong design with marketing insight, ensuring your site not only looks great but also performs in search and turns visitors into leads.",
+                  "type": "text"
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "attrs": {
+                "textAlign": null
+              },
+              "content": [
+                {
+                  "text": "From small businesses to established brands, every website we create is crafted to deliver measurable results - fast, reliable, and easy to manage.",
+                  "type": "text"
+                }
+              ]
+            }
+          ]
+        },
+        "heading": "Websites built for performance, credibility, and growth",
+        "overline": "Website Design",
+        "component": "overview_intro",
+        "icon_grid": [
+          {
+            "_uid": "b07845e9-4b58-4cda-a115-58ae280e9d26",
+            "text": "90+ PageSpeed scores",
+            "component": "icon_grid_item",
+            "icon_code": "Zap",
+            "description": "Every site is optimised for top performance and fast load times."
+          },
+          {
+            "_uid": "f97146bc-d164-44e0-9e9f-c6691d1dcade",
+            "text": "Mobile-first design",
+            "component": "icon_grid_item",
+            "icon_code": "Smartphone",
+            "description": "Built to perform perfectly on any device or screen size."
+          },
+          {
+            "_uid": "8bfede3c-9944-4064-abe6-270f28b67e37",
+            "text": "Secure and scalable",
+            "component": "icon_grid_item",
+            "icon_code": "ShieldCheck",
+            "description": "Reliable hosting and up-to-date tech keep your site running smoothly."
+          },
+          {
+            "_uid": "49858461-488e-4044-a58f-d17190680864",
+            "text": "SEO & marketing ready",
+            "component": "icon_grid_item",
+            "icon_code": "BarChart3",
+            "description": "Clean structure and tracking tools for better visibility and insights."
+          }
+        ]
+      },
+      {
+        "_uid": "1b1f9859-ca8f-45f6-a4f2-61cc88235fb4",
+        "columns": [
+          {
+            "_uid": "aea5c9ca-f244-4902-8380-86b3c509e2c2",
+            "title": "Built for conversions",
+            "component": "feature_item",
+            "icon_code": "Target",
+            "description": "Every layout, button, and headline is designed to generate leads."
+          },
+          {
+            "_uid": "37dae2f8-a1fb-48fd-bcb6-bbaa75e7f1bf",
+            "title": "SEO-ready foundation",
+            "component": "feature_item",
+            "icon_code": "Search",
+            "description": "Clean code, structured data, and lightning-fast performance."
+          },
+          {
+            "_uid": "3edfa9d9-30bc-4112-9ca5-8d063bc266f7",
+            "title": "Professional branding",
+            "component": "feature_item",
+            "icon_code": "Palette",
+            "description": "A polished look that earns trust and credibility."
+          },
+          {
+            "_uid": "52d6abca-44e9-4f71-90fd-f33eb79c6e19",
+            "title": "Easy to update",
+            "component": "feature_item",
+            "icon_code": "Edit3",
+            "description": "Modern CMS options like Storyblok, Strapi, or custom-built editors."
+          },
+          {
+            "_uid": "493c95b6-5fee-4ab0-9efd-ee803244bd5c",
+            "title": "Fast delivery",
+            "component": "feature_item",
+            "icon_code": "Timer",
+            "description": "Most projects go from concept to launch in 3–5 weeks."
+          },
+          {
+            "_uid": "8aa5d9db-105f-46ed-baa9-9d8bf58e2a01",
+            "title": "Long-term value",
+            "component": "feature_item",
+            "icon_code": "Layers",
+            "description": "Designed to scale and integrate with your marketing systems."
+          }
+        ],
+        "heading": "Why businesses choose Bunker Digital for website design",
+        "overline": "Features",
+        "component": "feature_grid",
+        "subheading": "We combine smart design, strong performance, and practical strategy to help your website drive enquiries and growth."
+      },
+      {
+        "_uid": "05325bfc-ce55-42ad-8aaf-a41cfa84a59e",
+        "columns": [
+          {
+            "_uid": "ee07df13-c9be-406d-a076-abf323e5f7c0",
+            "title": "Plan",
+            "component": "process_item",
+            "icon_code": "ClipboardList",
+            "description": "We discuss your goals, audience, and competition to create a focused site plan."
+          },
+          {
+            "_uid": "4ee55721-5b92-4d9a-b938-8702d318982f",
+            "title": "Build",
+            "component": "process_item",
+            "icon_code": "Hammer",
+            "description": "We design and develop your new site using high-performance modern tools."
+          },
+          {
+            "_uid": "2aed3ff1-d1f4-4e65-b1e0-1d91e95b6ab3",
+            "title": "Launch",
+            "component": "process_item",
+            "icon_code": "Rocket",
+            "description": "Once approved, your site goes live: optimised, secure, and ready to convert."
+          }
+        ],
+        "headline": "Our simple, proven website process",
+        "overline": "Our Process",
+        "component": "process_grid",
+        "subheadline": "From first call to final launch, we keep everything straightforward and transparent."
+      },
+      {
+        "_uid": "aae296c2-806f-44e6-aacf-08bc1b558046",
+        "component": "before_after_container"
+      },
+      {
+        "_uid": "27ec5b67-317b-4e43-b599-c46bcae00a03",
+        "href": "/discuss-project",
+        "title": "Your next website should work harder. Let’s make it happen.",
+        "component": "cta",
+        "link_text": "Book a Strategy Call",
+        "description": "We’ve helped businesses across the UK turn underperforming websites into growth engines. Book a quick call to discuss your goals and we’ll show you what’s possible.",
+        "secondary_href": "/work",
+        "secondary_link_text": "View recent projects"
+      },
+      {
+        "_uid": "8f2f87e3-9b44-49e3-9127-c4809295c36f",
+        "heading": "Common questions about our website design service",
+        "component": "faq_container",
+        "questions": [
+          {
+            "_uid": "fc7b646d-6761-4567-a605-b785b9a15d88",
+            "answer": "Yes. We can modernise your site’s design, improve performance, and keep existing content intact.",
+            "question": "Can you redesign my existing website?",
+            "component": "faq_item"
+          },
+          {
+            "_uid": "7857ae15-58a1-4ed1-a799-aff04fb47767",
+            "answer": "Most projects take between 2–5 weeks from concept to launch, depending on content and feedback.If you have an urgent project, please get in touch and we can help.",
+            "question": "How long will my new website take to build?",
+            "component": "faq_item"
+          },
+          {
+            "_uid": "4608574d-f7a2-4fa6-8a9d-6f6ce5ed6300",
+            "answer": "Absolutely. Every site we build is responsive and optimised for phones, tablets, and desktops.",
+            "question": "Will my new website be mobile-friendly?",
+            "component": "faq_item"
+          },
+          {
+            "_uid": "cfdff109-9a46-41e9-a5ac-955303d69fee",
+            "answer": "Yes. We offer managed hosting, monitoring, and maintenance plans to keep your site secure and fast.",
+            "question": "Do you handle hosting and maintenance?",
+            "component": "faq_item"
+          },
+          {
+            "_uid": "50da9be5-1d02-4a34-bac0-7250029113d3",
+            "answer": "Yes. We can run ongoing campaigns or set up tracking and analytics to help your new website perform even better.",
+            "question": "Can you help with Google Ads or SEO after launch?",
+            "component": "faq_item"
+          }
+        ],
+        "subheading": "Clear answers to the most common questions about our website design service."
+      }
+    ],
+    "component": "service_page"
+  },
+  "slug": "affordable-web-design-for-small-business",
+  "full_slug": "services/affordable-web-design-for-small-business",
+  "sort_by_date": null,
+  "position": 0,
+  "tag_list": [],
+  "is_startpage": false,
+  "parent_id": 111721868140731,
+  "meta_data": null,
+  "group_id": "464d8494-fe4a-492c-aae2-fb16e7d601bd",
+  "first_published_at": "2025-11-17T17:36:09.053Z",
+  "release_id": null,
+  "lang": "default",
+  "path": null,
+  "alternates": [],
+  "default_full_slug": null,
+  "translated_slugs": null
+}

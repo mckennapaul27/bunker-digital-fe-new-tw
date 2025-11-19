@@ -1,4 +1,8 @@
-import type { HeroServiceComponent } from "@/lib/storyblok-types";
+import type {
+  HeroServiceComponent,
+  HeroTestimonialComponent,
+  StoryblokComponent,
+} from "@/lib/storyblok-types";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,8 +13,20 @@ interface HeroServiceProps {
   data: HeroServiceComponent;
 }
 
+// Helper function to extract testimonial from blocks
+function getTestimonial(
+  blocks?: StoryblokComponent[]
+): HeroTestimonialComponent | null {
+  if (!blocks) return null;
+  const testimonial = blocks.find(
+    (item): item is HeroTestimonialComponent => item.component === "testimonial"
+  );
+  return testimonial || null;
+}
+
 export default function HeroService({ data }: HeroServiceProps) {
   const backgroundImage = data.background_image?.filename || "/home_hero.png";
+  const testimonial = getTestimonial(data.blocks);
 
   return (
     <>
@@ -71,7 +87,7 @@ export default function HeroService({ data }: HeroServiceProps) {
           </div>
         </div>
       </section>
-      {data.trust_bar_below && <TrustBar />}
+      {data.trust_bar_below && <TrustBar testimonial={testimonial} />}
     </>
   );
 }
