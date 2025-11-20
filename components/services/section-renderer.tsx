@@ -24,6 +24,7 @@ import ServicesList from "./services-list";
 import TextImageSection from "./text-image-section";
 import WebsiteTransformations from "../website-transformations/website-transformations";
 import TestimonialContainer from "./testimonial-container";
+import TextImageSectionAlt from "./text-image-section-alt";
 
 interface SectionRendererProps {
   sections: StoryblokComponent[];
@@ -100,6 +101,13 @@ export default function SectionRenderer({ sections }: SectionRendererProps) {
           case "text_image_section":
             return (
               <TextImageSection
+                key={section._uid}
+                data={section as TextImageSectionComponent}
+              />
+            );
+          case "text_image_section_alt":
+            return (
+              <TextImageSectionAlt
                 key={section._uid}
                 data={section as TextImageSectionComponent}
               />

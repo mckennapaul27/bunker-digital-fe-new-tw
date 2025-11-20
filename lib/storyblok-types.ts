@@ -333,3 +333,43 @@ export interface Service {
   content: ServiceContent;
   [key: string]: unknown;
 }
+
+// Payment Setup Page types
+export interface PaymentMetaDataComponent extends StoryblokComponent {
+  component: "meta_data";
+  title?: string;
+  description?: string;
+  og_image?: StoryblokAsset;
+}
+
+export interface PaymentHeaderComponent extends StoryblokComponent {
+  component: "header";
+  title?: string;
+  background_image?: StoryblokAsset;
+}
+
+export interface PaymentBlockComponent extends StoryblokComponent {
+  component: "payment_block";
+  title?: string;
+  product_id?: string;
+  amount?: string;
+  currency?: string;
+  description?: string;
+  url_params?: string;
+  items?: any; // Rich text field (Storyblok rich text object)
+}
+
+export interface PaymentSetupPageContent {
+  _uid: string;
+  component: string;
+  blocks?: StoryblokComponent[];
+  [key: string]: unknown;
+}
+
+export interface PaymentSetupPage {
+  name: string;
+  slug: string;
+  uuid: string;
+  content: PaymentSetupPageContent;
+  [key: string]: unknown;
+}

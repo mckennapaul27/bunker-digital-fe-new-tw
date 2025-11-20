@@ -6,6 +6,7 @@ import type {
   BeforeAfterGrid,
   Testimonials,
   Service,
+  PaymentSetupPage,
 } from "./storyblok-types";
 
 // Initialize Storyblok client
@@ -178,6 +179,43 @@ export async function getAboutPage(): Promise<Service | null> {
     return (data.story || null) as Service | null;
   } catch (error) {
     console.error("Error fetching about page:", error);
+    return null;
+  }
+}
+
+// Fetch all payment setup pages
+export async function getPaymentSetupPages(): Promise<PaymentSetupPage[]> {
+  try {
+    const { data } = await storyblokClient.get("cdn/stories", {
+      starts_with: "subscriptions/",
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
+    });
+
+    return (data.stories || []) as PaymentSetupPage[];
+  } catch (error) {
+    console.error("Error fetching payment setup pages:", error);
+    return [];
+  }
+}
+
+// Fetch a single payment setup page by slug
+export async function getPaymentSetupPageBySlug(
+  slug: string
+): Promise<PaymentSetupPage | null> {
+  try {
+    const { data } = await storyblokClient.get(
+      `cdn/stories/subscriptions/${slug}`,
+      {
+        version: process.env.NODE_ENV === "development" ? "draft" : "published",
+      }
+    );
+
+    return (data.story || null) as PaymentSetupPage | null;
+  } catch (error) {
+    console.error(
+      `Error fetching payment setup page with slug ${slug}:`,
+      error
+    );
     return null;
   }
 }
