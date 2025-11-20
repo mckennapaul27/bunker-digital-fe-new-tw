@@ -7,8 +7,15 @@ interface TextImageSectionProps {
 }
 
 export default function TextImageSection({ data }: TextImageSectionProps) {
-  const imagePosition = data.image_position || "right";
-  const isImageRight = imagePosition.toLowerCase() === "right";
+  console.log(data);
+
+  if (!data.title && !data.text && !data.image) {
+    return null;
+  }
+  // return null;
+
+  const imagePosition = data.image_position?.[0] || "right";
+  const isImageRight = imagePosition?.toLowerCase?.() === "right";
 
   return (
     <section className="bg-white py-20 xl:py-28 relative z-50">

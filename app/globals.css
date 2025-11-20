@@ -181,3 +181,16 @@ img-comparison-slider::part(divider) {
 img-comparison-slider:active::part(divider) {
   cursor: grabbing;
 }
+
+/* Rich text bullet list styling */
+.prose ul {
+  list-style-type: square;
+}
+
+.prose ul li::marker {
+  color: var(--color-charcoal);
+}
+
+.prose ul li {
+  color: var(--color-charcoal);
+}

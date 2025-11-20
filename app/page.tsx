@@ -6,7 +6,7 @@ import WebsiteTransformations from "@/components/website-transformations/website
 import ServicesGrid from "@/components/sections/services-grid";
 import Testimonials from "@/components/testimonials/testimonials";
 import CTA from "@/components/sections/cta";
-import FAQ from "@/components/sections/faq";
+import FAQWrapper from "@/components/faqs/wrapper";
 
 export default async function Home() {
   const caseStudies = await getFeaturedCaseStudies();
@@ -44,27 +44,52 @@ export default async function Home() {
     },
   ];
 
+  // Generate FAQ structured data
+  const faqJsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs
+      .filter((item) => item.question && item.answer)
+      .map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
+  }).replace(/</g, "\\u003c");
+
   return (
-    <div>
-      <Hero />
-      <HowWeHelp />
-      <CaseStudiesWrapper caseStudies={caseStudies} />
-      <WebsiteTransformations />
-      <ServicesGrid />
-      <Testimonials />
-      <CTA
-        title="Your website should work harder. Let's make it happen."
-        description="Whether you need a complete website redesign, better Google Ads results, or ongoing digital management, Bunker Digital helps you turn clicks into customers. Book a free strategy call and let's plan your next step."
-        primaryLinkText="Book a Strategy Call"
-        primaryHref="#contact"
-        secondaryLinkText="View Recent Projects"
-        secondaryHref="/work"
+    <>
+      {/* FAQ Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: faqJsonLd,
+        }}
       />
-      <FAQ
-        faqs={faqs}
-        heading="Common questions about our services"
-        subheading="If you have any questions, please don't hesitate to contact us."
-      />
-    </div>
+      <div>
+        <Hero />
+        <HowWeHelp />
+        <CaseStudiesWrapper caseStudies={caseStudies} />
+        <WebsiteTransformations />
+        <ServicesGrid />
+        <Testimonials />
+        <CTA
+          title="Your website should work harder. Let's make it happen."
+          description="Whether you need a complete website redesign, better Google Ads results, or ongoing digital management, Bunker Digital helps you turn clicks into customers. Book a free strategy call and let's plan your next step."
+          primaryLinkText="Book a Strategy Call"
+          primaryHref="#contact"
+          secondaryLinkText="View Recent Projects"
+          secondaryHref="/work"
+        />
+        <FAQWrapper
+          faqs={faqs}
+          heading="Common questions about our services"
+          subheading="If you have any questions, please don't hesitate to contact us."
+        />
+      </div>
+    </>
   );
 }

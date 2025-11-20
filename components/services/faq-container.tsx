@@ -1,5 +1,5 @@
 import type { FAQContainerComponent } from "@/lib/storyblok-types";
-import FAQ from "@/components/sections/faq";
+import FAQWrapper from "../faqs/wrapper";
 
 interface FAQContainerProps {
   data: FAQContainerComponent;
@@ -13,6 +13,10 @@ export default function FAQContainer({ data }: FAQContainerProps) {
     })) || [];
 
   return (
-    <FAQ faqs={faqs} heading={data.heading} subheading={data.subheading} />
+    <FAQWrapper
+      faqs={faqs}
+      heading={data.heading}
+      subheading={data.subheading}
+    />
   );
 }

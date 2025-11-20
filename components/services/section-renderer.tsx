@@ -10,8 +10,8 @@ import type {
   UseCaseGridComponent,
   ServicesListComponent,
   TextImageSectionComponent,
+  TestimonialContainerComponent,
 } from "@/lib/storyblok-types";
-import MetaData from "./meta-data";
 import HeroService from "./hero-service";
 import FeatureGrid from "./feature-grid";
 import ProcessGrid from "./process-grid";
@@ -23,6 +23,7 @@ import UseCaseGrid from "./use-case-grid";
 import ServicesList from "./services-list";
 import TextImageSection from "./text-image-section";
 import WebsiteTransformations from "../website-transformations/website-transformations";
+import TestimonialContainer from "./testimonial-container";
 
 interface SectionRendererProps {
   sections: StoryblokComponent[];
@@ -105,6 +106,13 @@ export default function SectionRenderer({ sections }: SectionRendererProps) {
             );
           case "before_after_container":
             return <WebsiteTransformations key={section._uid} />;
+          case "testimonial_container":
+            return (
+              <TestimonialContainer
+                key={section._uid}
+                data={section as TestimonialContainerComponent}
+              />
+            );
           default:
             console.warn(`Unknown section component: ${section.component}`);
             return null;

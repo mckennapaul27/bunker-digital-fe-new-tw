@@ -266,6 +266,7 @@ export interface OverviewIntroComponent extends StoryblokComponent {
   overline?: string;
   heading?: string;
   content?: any; // Rich text field (Storyblok rich text object)
+  bg_color?: string;
   icon_grid?: IconGridItemComponent[];
 }
 
@@ -304,12 +305,18 @@ export interface TextImageSectionComponent extends StoryblokComponent {
   title?: string;
   text?: any; // Rich text field (Storyblok rich text object)
   image?: StoryblokAsset;
-  image_position?: string; // "left" or "right"
+  image_position?: string[]; // "left" or "right"
 }
 
 export interface SchemaBlockComponent extends StoryblokComponent {
   component: "schema_block";
   json_ld?: string; // JSON-LD structured data as text (textarea field)
+}
+
+export interface TestimonialContainerComponent extends StoryblokComponent {
+  component: "testimonial_container";
+  heading?: string;
+  subheading?: string;
 }
 
 export interface ServiceContent {

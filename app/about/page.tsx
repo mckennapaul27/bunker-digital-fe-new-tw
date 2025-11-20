@@ -1,4 +1,4 @@
-import { getServiceBySlug, getServices } from "@/lib/storyblok";
+import { getAboutPage } from "@/lib/storyblok";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import type {
@@ -8,10 +8,6 @@ import type {
   FAQContainerComponent,
 } from "@/lib/storyblok-types";
 import SectionRenderer from "@/components/services/section-renderer";
-
-interface ServicePageProps {
-  params: Promise<{ slug: string }>;
-}
 
 // Helper function to extract meta data from service
 function getMetaData(service: Service): ServiceMetaDataComponent | null {
@@ -37,34 +33,19 @@ function getFAQContainer(service: Service): FAQContainerComponent | null {
   return faqContainer || null;
 }
 
-// Generate static params for all services at build time
-export async function generateStaticParams() {
-  // Skip static generation in development
-  if (process.env.NODE_ENV === "development") {
-    return [];
-  }
-  const services = await getServices();
-  return services.map((service) => ({
-    slug: service.slug,
-  }));
-}
-
 // Generate metadata for the page
-export async function generateMetadata({
-  params,
-}: ServicePageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const service = await getServiceBySlug(slug);
+export async function generateMetadata(): Promise<Metadata> {
+  const aboutPage = await getAboutPage();
 
-  if (!service) {
+  if (!aboutPage) {
     return {
-      title: "Service Not Found",
+      title: "About Us",
     };
   }
 
-  const metaData = getMetaData(service);
+  const metaData = getMetaData(aboutPage);
 
-  const title = metaData?.title || service.name;
+  const title = metaData?.title || aboutPage.name || "About Us";
   const description = metaData?.description || "";
   const ogImage = metaData?.og_image?.filename;
 
@@ -94,18 +75,16 @@ export async function generateMetadata({
   };
 }
 
-export default async function ServicePage({ params }: ServicePageProps) {
-  const { slug } = await params;
-  const service = await getServiceBySlug(slug);
-  //   console.log(JSON.stringify(service, null, 2));
+export default async function AboutPage() {
+  const aboutPage = await getAboutPage();
 
-  if (!service) {
+  if (!aboutPage) {
     notFound();
   }
 
-  const allBlocks = service.content?.blocks || [];
-  const schemaBlock = getSchemaBlock(service);
-  const faqContainer = getFAQContainer(service);
+  const allBlocks = aboutPage.content?.blocks || [];
+  const schemaBlock = getSchemaBlock(aboutPage);
+  const faqContainer = getFAQContainer(aboutPage);
 
   // Filter out meta_data and schema_block from sections (they're handled separately)
   const sections = allBlocks.filter(
@@ -119,11 +98,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
     try {
       // Parse to validate JSON, then stringify to ensure clean formatting
       const parsed = JSON.parse(schemaBlock.json_ld);
-      jsonLdContent = JSON.stringify(parsed);
+      // Replace < with \u003c to prevent XSS (as per Next.js recommendation)
+      jsonLdContent = JSON.stringify(parsed).replace(/</g, "\\u003c");
     } catch (error) {
       console.error("Invalid JSON-LD in schema_block:", error);
-      // If parsing fails, use the original string as fallback
-      jsonLdContent = schemaBlock.json_ld;
+      // If parsing fails, use the original string as fallback (with XSS protection)
+      jsonLdContent = schemaBlock.json_ld.replace(/</g, "\\u003c");
     }
   }
 

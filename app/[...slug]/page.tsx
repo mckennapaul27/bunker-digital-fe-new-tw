@@ -4,6 +4,7 @@ import type {
   Service,
   ServiceMetaDataComponent,
   SchemaBlockComponent,
+  FAQContainerComponent,
 } from "@/lib/storyblok-types";
 import SectionRenderer from "@/components/services/section-renderer";
 
@@ -121,6 +122,14 @@ function getSchemaBlock(service: Service): SchemaBlockComponent | null {
   return schemaBlock || null;
 }
 
+// Helper function to extract FAQ container from service
+function getFAQContainer(service: Service): FAQContainerComponent | null {
+  const faqContainer = service.content?.blocks?.find(
+    (item): item is FAQContainerComponent => item.component === "faq_container"
+  );
+  return faqContainer || null;
+}
+
 // Generate static params for all location pages at build time
 export async function generateStaticParams() {
   // Skip static generation in development
@@ -206,6 +215,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
 
   const allBlocks = service.content?.blocks || [];
   const schemaBlock = getSchemaBlock(service);
+  const faqContainer = getFAQContainer(service);
 
   // Filter out meta_data and schema_block from sections (they're handled separately)
   const sections = allBlocks.filter(
@@ -228,6 +238,26 @@ export default async function LocationPage({ params }: LocationPageProps) {
     }
   }
 
+  // Generate FAQ structured data if FAQ container exists
+  let faqJsonLd: string | null = null;
+  if (faqContainer?.questions && faqContainer.questions.length > 0) {
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqContainer.questions
+        .filter((item) => item.question && item.answer)
+        .map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+    };
+    faqJsonLd = JSON.stringify(faqSchema).replace(/</g, "\\u003c");
+  }
+
   return (
     <>
       {/* JSON-LD Structured Data */}
@@ -236,6 +266,15 @@ export default async function LocationPage({ params }: LocationPageProps) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: jsonLdContent,
+          }}
+        />
+      )}
+      {/* FAQ Structured Data */}
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: faqJsonLd,
           }}
         />
       )}

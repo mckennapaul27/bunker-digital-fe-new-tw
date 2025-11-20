@@ -68,7 +68,7 @@ export default function NavbarDesktop() {
             </div>
             <Link
               href="/request-proposal"
-              className="text-white text-lg y hover:text-charcoal/80 transition-colors flex items-center"
+              className="text-white text-lg y hover:text-[var(--color-primary)] transition-colors flex items-center"
             >
               Discuss your project
               <ArrowRight className="w-4 h-4 ml-2" />

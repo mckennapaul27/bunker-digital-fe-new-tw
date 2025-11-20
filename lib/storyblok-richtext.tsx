@@ -242,7 +242,14 @@ function renderNode(
       ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
         node.content.map((child: any, idx: number) => renderNode(child, idx))
       : null;
-    return <ul key={key}>{children}</ul>;
+    return (
+      <ul
+        key={key}
+        className="list-square text-charcoal [&>li::marker]:text-charcoal"
+      >
+        {children}
+      </ul>
+    );
   }
 
   // Handle ordered list
@@ -260,7 +267,11 @@ function renderNode(
       ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
         node.content.map((child: any, idx: number) => renderNode(child, idx))
       : null;
-    return <li key={key}>{children}</li>;
+    return (
+      <li key={key} className="text-charcoal">
+        {children}
+      </li>
+    );
   }
 
   // Handle hard break

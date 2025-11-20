@@ -8,7 +8,9 @@ interface OverviewIntroProps {
 
 export default function OverviewIntro({ data }: OverviewIntroProps) {
   return (
-    <section className="bg-white py-20 xl:py-28 relative z-50">
+    <section
+      className={`${data.bg_color ? data.bg_color : "bg-white"} py-20 xl:py-28 relative z-50`}
+    >
       <div className="container mx-auto px-6 xl:px-12">
         {/* Heading Section */}
         <div className="mb-12 lg:mb-16">
@@ -34,7 +36,7 @@ export default function OverviewIntro({ data }: OverviewIntroProps) {
             </div>
           )}
           {data.icon_grid && data.icon_grid.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 self-start">
               {data.icon_grid.map((item) => {
                 const Icon = item.icon_code ? getIcon(item.icon_code) : null;
                 return (

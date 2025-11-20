@@ -9,7 +9,13 @@ import type {
   StoryblokComponent,
 } from "@/lib/storyblok-types";
 
-export default async function Testimonials() {
+interface TestimonialsProps {
+  heading?: string;
+  subheading?: string;
+}
+
+export default async function Testimonials(props: TestimonialsProps = {}) {
+  const { heading, subheading } = props;
   const testimonialsData = await getTestimonials();
 
   const testimonials = testimonialsData?.content?.blocks
@@ -18,17 +24,22 @@ export default async function Testimonials() {
         item.component === "testimonial"
     )
     .slice(0, 5);
+
+  // Default values
+  const defaultHeading = "Client Testimonials";
+  const defaultSubheading =
+    "We have a 5 star reputation on Bark and Google with over 20+ verified hires on Bark";
+
   return (
     <section className="bg-white py-20 xl:py-28 relative z-50">
       <div className="container mx-auto px-6 xl:px-12">
         {/* Heading Section */}
         <div className="mb-12 lg:mb-20">
           <p className="text-charcoal/90 text-sm mb-4 font-heading font-semibold uppercase tracking-widest">
-            Client Testimonials
+            {heading || defaultHeading}
           </p>
           <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-charcoal leading-tight max-w-4xl xl:max-w-5xl">
-            We have a 5 star reputation on Bark and Google with over 20+
-            verified hires on Bark
+            {subheading || defaultSubheading}
           </h2>
         </div>
         {/* Social Proof Section */}

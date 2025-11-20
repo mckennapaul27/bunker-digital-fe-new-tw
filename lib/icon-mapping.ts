@@ -60,7 +60,7 @@ import {
   CheckCircle2,
   Wand2,
   LayoutPanelLeft,
-
+  LaptopMinimal,
   // Add more icons as needed
   type LucideIcon,
 } from "lucide-react";
@@ -129,6 +129,7 @@ export const iconMap: Record<string, LucideIcon> = {
   Wand2,
   LayoutPanelLeft,
   Sitemap: Building2,
+  LaptopMinimal,
   // Add more mappings as needed
 };
 

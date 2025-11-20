@@ -167,3 +167,17 @@ export async function getServiceBySlug(slug: string): Promise<Service | null> {
     return null;
   }
 }
+
+// Fetch about page
+export async function getAboutPage(): Promise<Service | null> {
+  try {
+    const { data } = await storyblokClient.get("cdn/stories/about", {
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
+    });
+
+    return (data.story || null) as Service | null;
+  } catch (error) {
+    console.error("Error fetching about page:", error);
+    return null;
+  }
+}
