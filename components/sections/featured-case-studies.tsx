@@ -29,7 +29,6 @@ function getServices(study: CaseStudy): string[] {
 
 export default async function FeaturedCaseStudies() {
   const caseStudies = await getFeaturedCaseStudies();
-  console.log("caseStudies.length", caseStudies.length);
   if (caseStudies.length === 0) {
     return null;
   }

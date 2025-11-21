@@ -73,6 +73,11 @@ const nextConfig: NextConfig = {
           "/case-studies/how-we-reduced-greenscapes-tree-service-cost-per-conversion-to-15-25-and-increased-leads-by-250-percent",
         permanent: true,
       },
+      {
+        source: "/privacy-policy",
+        destination: "/legal/privacy-policy",
+        permanent: true,
+      },
     ];
   },
 };

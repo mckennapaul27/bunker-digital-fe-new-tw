@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import WhatsAppBtnWrapper from "@/components/layout/whatsapp-btn-wrapper";
 import Analytics from "@/components/google/analytics";
 import NavbarDesktop from "@/components/layout/navbar-desktop";
-import NavbarTouchDynamic from "@/components/layout/navbar-touch/dynamic";
+import Footer from "@/components/layout/footer";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -111,13 +111,8 @@ export default function RootLayout({
           <Analytics />
         </Suspense>
         <WhatsAppBtnWrapper />
-        <div className="hidden xl:block">
-          <NavbarDesktop />
-        </div>
-        <div className="xl:hidden">
-          <NavbarTouchDynamic />
-        </div>
         <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

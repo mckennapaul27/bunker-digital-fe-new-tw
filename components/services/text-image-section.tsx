@@ -7,8 +7,6 @@ interface TextImageSectionProps {
 }
 
 export default function TextImageSection({ data }: TextImageSectionProps) {
-  console.log(data);
-
   if (!data.title && !data.text && !data.image) {
     return null;
   }

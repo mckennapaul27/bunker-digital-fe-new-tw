@@ -7,8 +7,6 @@ interface TextImageSectionProps {
 }
 
 export default function TextImageSectionAlt({ data }: TextImageSectionProps) {
-  console.log(data);
-
   if (!data.title && !data.text && !data.image) {
     return null;
   }

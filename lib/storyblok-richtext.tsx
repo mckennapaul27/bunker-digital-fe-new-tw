@@ -301,6 +301,143 @@ function renderNode(
     );
   }
 
+  // Handle table (support both "table" and variations)
+  if (node.type === "table" || node.type === "table_wrapper") {
+    if (!node.content || !Array.isArray(node.content)) {
+      return null;
+    }
+
+    // Render children first
+    const children = node.content.map((child: any, idx: number) =>
+      renderNode(child, idx)
+    );
+
+    // Check if any direct children are table rows (not wrapped in tbody/thead)
+    // We check the raw node.content structure, not the rendered children
+    const hasDirectRows = node.content.some(
+      (child: any) =>
+        child.type === "table_row" ||
+        child.type === "tableRow" ||
+        child.type === "tr"
+    );
+
+    // Check if any direct children are wrappers (tbody/thead)
+    const hasWrapper = node.content.some(
+      (child: any) =>
+        child.type === "table_body" ||
+        child.type === "tableBody" ||
+        child.type === "tbody" ||
+        child.type === "table_head" ||
+        child.type === "tableHead" ||
+        child.type === "thead"
+    );
+
+    // If we have direct rows and no wrapper, wrap them in tbody
+    // This ensures valid HTML structure and prevents hydration errors
+    const tableContent =
+      hasDirectRows && !hasWrapper ? (
+        <tbody key="tbody">{children}</tbody>
+      ) : (
+        children
+      );
+
+    return (
+      <div
+        key={key}
+        className="my-8 overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0"
+      >
+        <div className="inline-block min-w-full align-middle">
+          <table className="min-w-full border-collapse border border-gray-300 text-sm bg-white shadow-sm">
+            {tableContent}
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Handle table head
+  if (
+    node.type === "table_head" ||
+    node.type === "tableHead" ||
+    node.type === "thead"
+  ) {
+    const children = node.content
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        node.content.map((child: any, idx: number) => renderNode(child, idx))
+      : null;
+    return <thead key={key}>{children}</thead>;
+  }
+
+  // Handle table body
+  if (
+    node.type === "table_body" ||
+    node.type === "tableBody" ||
+    node.type === "tbody"
+  ) {
+    const children = node.content
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        node.content.map((child: any, idx: number) => renderNode(child, idx))
+      : null;
+    return <tbody key={key}>{children}</tbody>;
+  }
+
+  // Handle table row (support both snake_case and camelCase)
+  if (
+    node.type === "table_row" ||
+    node.type === "tableRow" ||
+    node.type === "tr"
+  ) {
+    const children = node.content
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        node.content.map((child: any, idx: number) => renderNode(child, idx))
+      : null;
+    return (
+      <tr key={key} className="border-b border-gray-300 hover:bg-gray-50">
+        {children}
+      </tr>
+    );
+  }
+
+  // Handle table header cell (support both snake_case and camelCase)
+  if (
+    node.type === "table_header" ||
+    node.type === "tableHeader" ||
+    node.type === "th"
+  ) {
+    const children = node.content
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        node.content.map((child: any, idx: number) => renderNode(child, idx))
+      : null;
+    return (
+      <th
+        key={key}
+        className="border border-gray-300 px-4 py-3 bg-gray-100 font-semibold text-left text-charcoal"
+      >
+        {children}
+      </th>
+    );
+  }
+
+  // Handle table cell (support both snake_case and camelCase)
+  if (
+    node.type === "table_cell" ||
+    node.type === "tableCell" ||
+    node.type === "td"
+  ) {
+    const children = node.content
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        node.content.map((child: any, idx: number) => renderNode(child, idx))
+      : null;
+    // Handle empty cells
+    const cellContent =
+      children && children.length > 0 ? children : <>&nbsp;</>;
+    return (
+      <td key={key} className="border border-gray-300 px-4 py-3 text-gray-700">
+        {cellContent}
+      </td>
+    );
+  }
+
   // For any other node types, try to render children if they exist
   if (node.content && Array.isArray(node.content)) {
     return (
@@ -329,11 +466,20 @@ export function renderStoryblokRichText({
   // Combine prose classes with any additional classes
   const proseClasses = `prose lg:prose-lg max-w-none ${className}`;
 
-  // Render nodes recursively
+  // Render nodes recursively and filter out null/undefined values
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const renderedContent = content.content.map((node: any, index: number) =>
-    renderNode(node, index)
-  );
+  const renderedContent: React.ReactNode[] = [];
+  content.content.forEach((node: any, index: number) => {
+    const rendered = renderNode(node, index);
+    if (rendered !== null && rendered !== undefined) {
+      renderedContent.push(rendered);
+    }
+  });
+
+  // If no valid content after filtering, return null
+  if (renderedContent.length === 0) {
+    return null;
+  }
 
   return <div className={proseClasses}>{renderedContent}</div>;
 }

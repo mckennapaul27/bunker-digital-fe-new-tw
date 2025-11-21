@@ -19,9 +19,5 @@ export const pageview = (url: string) => {
       page: url,
     });
   } else {
-    // console.log({
-    //   event: "pageview",
-    //   page: url,
-    // });
   }
 };

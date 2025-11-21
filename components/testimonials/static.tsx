@@ -8,7 +8,6 @@ interface TestimonialsCarouselProps {
 export default function TestimonialsDynamic({
   testimonials,
 }: TestimonialsCarouselProps) {
-  console.log("STATIC TESTIMONIALS");
   if (testimonials.length === 0) {
     return null;
   }

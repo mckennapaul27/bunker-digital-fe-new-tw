@@ -7,6 +7,10 @@ import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { serverUrl } from "@/config";
 
 const formSchema = z
   .object({
@@ -23,7 +27,10 @@ const formSchema = z
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function SignUpSubscribe() {
+export default function SignUpSubscribe({ productId }: { productId: string }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -32,10 +39,66 @@ export default function SignUpSubscribe() {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = async (data: FormValues) => {
-    // Placeholder for form submission
-    console.log("Form data:", data);
-    toast.success("Registration successful!");
+  useEffect(() => {
+    if (productId) {
+      localStorage.setItem("productId", productId);
+    }
+  }, [productId]);
+
+  const onSubmit = async (values: FormValues) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch(
+        `${serverUrl}/api/api-users/register-and-subscribe`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...values,
+            productId,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(
+          data.message || "Something went wrong with registration."
+        );
+      }
+
+      toast.success("Registration successful! Signing you in...");
+
+      const signInResult = await signIn("credentials", {
+        redirect: false,
+        email: values.email.trim(),
+        password: values.password,
+      });
+
+      if (signInResult?.error) {
+        throw new Error(signInResult.error);
+      }
+
+      if (!signInResult?.ok) {
+        throw new Error("Sign in failed. Please try logging in manually.");
+      }
+
+      toast.success("Sign in successful! Redirecting to payment...");
+
+      if (data.url) {
+        router.push(data.url);
+      } else {
+        throw new Error("Could not retrieve payment URL.");
+      }
+    } catch (e: any) {
+      const errorMessage = e.message || "An unexpected error occurred.";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      setLoading(false);
+    }
   };
 
   return (
@@ -107,8 +170,18 @@ export default function SignUpSubscribe() {
         )}
       </div>
 
-      <Button type="submit" disabled={isSubmitting} className="">
-        {isSubmitting ? "Registering..." : "Register & set up"}
+      {error && (
+        <div className="p-4 bg-destructive/10 text-destructive rounded-md text-sm">
+          {error}
+        </div>
+      )}
+
+      <Button
+        type="submit"
+        disabled={isSubmitting || loading}
+        className="w-full"
+      >
+        {isSubmitting || loading ? "Registering..." : "Register & set up"}
       </Button>
     </form>
   );

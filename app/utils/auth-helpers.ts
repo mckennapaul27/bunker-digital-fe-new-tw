@@ -45,10 +45,6 @@ export const authOptions: NextAuthOptions = {
             throw new Error(data.message || "Invalid credentials");
           }
 
-          // console.log("Login successful (auth-helpers):", data); // Keep for debugging if needed
-
-          console.log("data", data);
-
           // Return only essential user info for the session/JWT
           return {
             id: data.user.id || data.user._id,

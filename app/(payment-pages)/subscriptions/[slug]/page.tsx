@@ -9,6 +9,8 @@ import type {
   PaymentMetaDataComponent,
 } from "@/lib/storyblok-types";
 import PaymentSectionRenderer from "@/components/sections/payment-section-renderer";
+import NavbarDesktop from "@/components/layout/navbar-desktop";
+import NavbarTouchWrapper from "@/components/layout/navbar-touch/wrapper";
 
 interface PaymentPageProps {
   params: Promise<{ slug: string }>;
@@ -96,5 +98,15 @@ export default async function PaymentPage({ params }: PaymentPageProps) {
   // Filter out meta_data from sections (it's handled separately in metadata)
   const sections = allBlocks.filter((block) => block.component !== "meta_data");
 
-  return <PaymentSectionRenderer sections={sections} />;
+  return (
+    <>
+      <div className="hidden xl:block">
+        <NavbarDesktop />
+      </div>
+      <div className="xl:hidden">
+        <NavbarTouchWrapper />
+      </div>
+      <PaymentSectionRenderer sections={sections} />
+    </>
+  );
 }

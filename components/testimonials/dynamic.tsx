@@ -13,7 +13,6 @@ interface TestimonialsCarouselProps {
 export default function TestimonialsDynamic({
   testimonials,
 }: TestimonialsCarouselProps) {
-  console.log("DYNAMIC TESTIMONIALS");
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       align: "start",

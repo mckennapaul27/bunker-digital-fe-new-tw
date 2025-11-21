@@ -7,6 +7,7 @@ import Image from "next/image";
 
 interface HeroServiceProps {
   data: HeroServiceComponent;
+  textCenter?: boolean;
 }
 
 // Helper function to extract testimonial from blocks
@@ -20,7 +21,10 @@ function getTestimonial(
   return testimonial || null;
 }
 
-export default function HeroService({ data }: HeroServiceProps) {
+export default function HeroService({
+  data,
+  textCenter = false,
+}: HeroServiceProps) {
   const backgroundImage = data.background_image?.filename || "/home_hero.png";
   const testimonial = getTestimonial(data.blocks);
 
@@ -53,7 +57,9 @@ export default function HeroService({ data }: HeroServiceProps) {
           <div className="container mx-auto px-6 xl:px-12">
             <div>
               {/* Main Heading */}
-              <h1 className="text-[33px] md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 leading-tight  max-w-3xl xl:max-w-5xl">
+              <h1
+                className={`text-[33px] md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 leading-tight  ${textCenter ? "max-w-4xl mx-auto" : "max-w-3xl xl:max-w-5xl"} `}
+              >
                 {data.headline}
               </h1>
             </div>

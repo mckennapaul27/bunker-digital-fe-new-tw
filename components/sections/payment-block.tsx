@@ -12,8 +12,6 @@ export default function PaymentBlock({ data }: PaymentBlockProps) {
   const currencySymbol =
     currency === "GBP" ? "£" : currency === "USD" ? "$" : "";
 
-  console.log(data.items);
-
   return (
     <section className="bg-white py-20 xl:py-28">
       <div className="container mx-auto px-6 xl:px-12">
@@ -59,7 +57,7 @@ export default function PaymentBlock({ data }: PaymentBlockProps) {
             <h2 className="text-2xl lg:text-3xl font-bold text-charcoal mb-6">
               Create Your Account
             </h2>
-            <SignUpSubscribe />
+            <SignUpSubscribe productId={data.product_id || ""} />
           </div>
         </div>
       </div>

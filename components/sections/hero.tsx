@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <section className="relative flex items-center md:min-h-screen">
       {/* Background Image */}
-      <div className="fixed inset-0 z-0">
+      <div className="absolute inset-0 z-0">
         <Image
           src="/home_hero.png"
           alt="Hero background"
@@ -17,11 +17,11 @@ export default function Hero() {
 
       {/* Gradient Overlay */}
       <div
-        className="fixed inset-0 z-10 hidden lg:block"
+        className="absolute inset-0 z-10 hidden lg:block"
         style={{ background: "var(--gradient-charcoal)" }}
       />
       <div
-        className="fixed inset-0 z-10 block lg:hidden"
+        className="absolute inset-0 z-10 block lg:hidden"
         style={{ background: "var(--gradient-charcoal-simple)" }}
       />
 

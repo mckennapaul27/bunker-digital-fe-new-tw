@@ -12,10 +12,10 @@ const navItems = [
   { href: "/case-studies", label: "Case studies" },
   { href: "/work", label: "Recent work" },
   { href: "/about", label: "About" },
-  { href: "/request-proposal", label: "Discuss your project" },
+  { href: "/discuss-project", label: "Discuss your project" },
 ];
 
-export default function NavbarTouch() {
+export default function NavbarTouchDynamic() {
   const [isOpen, setIsOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
 

@@ -7,6 +7,8 @@ import type {
   Testimonials,
   Service,
   PaymentSetupPage,
+  BlogPost,
+  LegalPage,
 } from "./storyblok-types";
 
 // Initialize Storyblok client
@@ -216,6 +218,97 @@ export async function getPaymentSetupPageBySlug(
       `Error fetching payment setup page with slug ${slug}:`,
       error
     );
+    return null;
+  }
+}
+
+// Fetch contact page
+export async function getContactPage(): Promise<Service | null> {
+  try {
+    const { data } = await storyblokClient.get("cdn/stories/contact", {
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
+    });
+
+    return (data.story || null) as Service | null;
+  } catch (error) {
+    console.error("Error fetching contact page:", error);
+    return null;
+  }
+}
+
+// Fetch discuss project page
+export async function getDiscussProjectPage(): Promise<Service | null> {
+  try {
+    const { data } = await storyblokClient.get("cdn/stories/discuss-project", {
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
+    });
+
+    return (data.story || null) as Service | null;
+  } catch (error) {
+    console.error("Error fetching discuss project page:", error);
+    return null;
+  }
+}
+
+// Fetch all blog posts (insights)
+export async function getBlogPosts(): Promise<BlogPost[]> {
+  try {
+    const { data } = await storyblokClient.get("cdn/stories", {
+      starts_with: "insights/",
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
+      sort_by: "first_published_at:desc",
+    });
+
+    return (data.stories || []) as BlogPost[];
+  } catch (error) {
+    console.error("Error fetching blog posts:", error);
+    return [];
+  }
+}
+
+// Fetch a single blog post by slug
+export async function getBlogPostBySlug(
+  slug: string
+): Promise<BlogPost | null> {
+  try {
+    const { data } = await storyblokClient.get(`cdn/stories/insights/${slug}`, {
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
+    });
+
+    return (data.story || null) as BlogPost | null;
+  } catch (error) {
+    console.error(`Error fetching blog post with slug ${slug}:`, error);
+    return null;
+  }
+}
+
+// Fetch all legal pages
+export async function getLegalPages(): Promise<LegalPage[]> {
+  try {
+    const { data } = await storyblokClient.get("cdn/stories", {
+      starts_with: "legal/",
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
+    });
+
+    return (data.stories || []) as LegalPage[];
+  } catch (error) {
+    console.error("Error fetching legal pages:", error);
+    return [];
+  }
+}
+
+// Fetch a single legal page by slug
+export async function getLegalPageBySlug(
+  slug: string
+): Promise<LegalPage | null> {
+  try {
+    const { data } = await storyblokClient.get(`cdn/stories/legal/${slug}`, {
+      version: process.env.NODE_ENV === "development" ? "draft" : "published",
+    });
+
+    return (data.story || null) as LegalPage | null;
+  } catch (error) {
+    console.error(`Error fetching legal page with slug ${slug}:`, error);
     return null;
   }
 }

@@ -11,6 +11,7 @@ import TrustBar from "../sections/trust-bar";
 
 interface HeroServiceProps {
   data: HeroServiceComponent;
+  showCtaButtons?: boolean;
 }
 
 // Helper function to extract testimonial from blocks
@@ -24,7 +25,10 @@ function getTestimonial(
   return testimonial || null;
 }
 
-export default function HeroService({ data }: HeroServiceProps) {
+export default function HeroService({
+  data,
+  showCtaButtons = true,
+}: HeroServiceProps) {
   const backgroundImage = data.background_image?.filename || "/home_hero.png";
   const testimonial = getTestimonial(data.blocks);
 
@@ -67,22 +71,24 @@ export default function HeroService({ data }: HeroServiceProps) {
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col items-start gap-4">
-                {data.cta_text && data.cta_link && (
-                  <Button size="lg" className="" asChild>
-                    <Link href={data.cta_link}>{data.cta_text}</Link>
-                  </Button>
-                )}
-                {data.secondary_cta_text && data.secondary_cta_link && (
-                  <Link
-                    href={data.secondary_cta_link}
-                    className="text-white font-body font-semibold hover:underline inline-flex items-center gap-2"
-                  >
-                    {data.secondary_cta_text}
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                )}
-              </div>
+              {showCtaButtons && (
+                <div className="flex flex-col items-start gap-4">
+                  {data.cta_text && data.cta_link && (
+                    <Button size="lg" className="" asChild>
+                      <Link href={data.cta_link}>{data.cta_text}</Link>
+                    </Button>
+                  )}
+                  {data.secondary_cta_text && data.secondary_cta_link && (
+                    <Link
+                      href={data.secondary_cta_link}
+                      className="text-white font-body font-semibold hover:underline inline-flex items-center gap-2"
+                    >
+                      {data.secondary_cta_text}
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

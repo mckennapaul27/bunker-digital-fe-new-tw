@@ -373,3 +373,46 @@ export interface PaymentSetupPage {
   content: PaymentSetupPageContent;
   [key: string]: unknown;
 }
+
+// Blog/Insights page types
+export interface BlogPostContent {
+  _uid: string;
+  component: string;
+  title: string;
+  description?: string;
+  intro?: any; // Rich text field (Storyblok rich text object)
+  takeaways?: any; // Rich text field (Storyblok rich text object)
+  body?: any; // Rich text field (Storyblok rich text object)
+  blocks?: StoryblokComponent[]; // Can contain meta_data and cta components
+  first_published_at?: string;
+  published_at?: string;
+  [key: string]: unknown;
+}
+
+export interface BlogPost {
+  name: string;
+  slug: string;
+  uuid: string;
+  content: BlogPostContent;
+  first_published_at?: string;
+  published_at?: string;
+  [key: string]: unknown;
+}
+
+// Legal page types
+export interface LegalPageContent {
+  _uid: string;
+  component: string;
+  title: string;
+  body?: any; // Rich text field (Storyblok rich text object)
+  blocks?: StoryblokComponent[]; // Can contain meta_data components
+  [key: string]: unknown;
+}
+
+export interface LegalPage {
+  name: string;
+  slug: string;
+  uuid: string;
+  content: LegalPageContent;
+  [key: string]: unknown;
+}
