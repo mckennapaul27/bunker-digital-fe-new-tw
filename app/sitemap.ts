@@ -1,5 +1,10 @@
 import { MetadataRoute } from "next";
-import { getCaseStudies, getServices } from "@/lib/storyblok";
+import {
+  getCaseStudies,
+  getServices,
+  getBlogPosts,
+  getLegalPages,
+} from "@/lib/storyblok";
 
 // API base URL - use environment variable or fallback to production
 const API_BASE_URL =
@@ -62,6 +67,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
+      url: `${baseUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/testimonials`,
       lastModified: new Date(),
       changeFrequency: "monthly",
@@ -79,12 +90,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/insights`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/contact`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/discuss-project`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
   ];
 
   // Fetch dynamic pages from Storyblok
-  const [caseStudies, services] = await Promise.all([
+  const [caseStudies, services, blogPosts, legalPages] = await Promise.all([
     getCaseStudies(),
     getServices(),
+    getBlogPosts(),
+    getLegalPages(),
   ]);
 
   // Case study pages
@@ -131,6 +162,60 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
+  // Blog post (insights) pages
+  const blogPostPages: MetadataRoute.Sitemap = blogPosts.map((post) => {
+    let lastModified = new Date();
+    if (post.published_at) {
+      const publishedAt =
+        typeof post.published_at === "string"
+          ? post.published_at
+          : typeof post.published_at === "number"
+            ? post.published_at
+            : null;
+      if (publishedAt) {
+        lastModified = new Date(publishedAt);
+      }
+    } else if (post.first_published_at) {
+      const publishedAt =
+        typeof post.first_published_at === "string"
+          ? post.first_published_at
+          : typeof post.first_published_at === "number"
+            ? post.first_published_at
+            : null;
+      if (publishedAt) {
+        lastModified = new Date(publishedAt);
+      }
+    }
+    return {
+      url: `${baseUrl}/insights/${post.slug}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    };
+  });
+
+  // Legal pages
+  const legalPagesSitemap: MetadataRoute.Sitemap = legalPages.map((page) => {
+    let lastModified = new Date();
+    if (page.published_at) {
+      const publishedAt =
+        typeof page.published_at === "string"
+          ? page.published_at
+          : typeof page.published_at === "number"
+            ? page.published_at
+            : null;
+      if (publishedAt) {
+        lastModified = new Date(publishedAt);
+      }
+    }
+    return {
+      url: `${baseUrl}/legal/${page.slug}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    };
+  });
+
   // Fetch location pages
   const locationPagesData = await getAllLocationPages();
   const locationPages: MetadataRoute.Sitemap = locationPagesData.map(
@@ -143,5 +228,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   // Combine all pages
-  return [...staticPages, ...caseStudyPages, ...servicePages, ...locationPages];
+  return [
+    ...staticPages,
+    ...caseStudyPages,
+    ...servicePages,
+    ...blogPostPages,
+    ...legalPagesSitemap,
+    ...locationPages,
+  ];
 }

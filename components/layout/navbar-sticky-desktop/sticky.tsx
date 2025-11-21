@@ -32,7 +32,7 @@ export default function StickyNavbar() {
       }`}
     >
       <div className="container mx-auto px-6 xl:px-12">
-        <div className="flex items-center justify-between py-5">
+        <div className="flex items-center justify-between py-3">
           {/* Logo Section */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
