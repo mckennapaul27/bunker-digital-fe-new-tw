@@ -14,7 +14,8 @@ function formatBudget(budget: string): string {
   return budgetMap[budget] || budget;
 }
 
-function formatPreferredContact(contact: string): string {
+function formatPreferredContact(contact?: string): string {
+  if (!contact) return "Not specified";
   return contact === "email" ? "Email" : "Call back";
 }
 
@@ -27,7 +28,7 @@ function createNotificationEmailHTML(data: {
   message: string;
   budget?: string;
   howDidYouFindUs?: string;
-  preferredContact: string;
+  preferredContact?: string;
 }): string {
   const isProjectForm = data.formType === "discuss-project";
 
@@ -50,7 +51,7 @@ function createNotificationEmailHTML(data: {
           <p><strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a></p>
           ${data.phone ? `<p><strong>Phone:</strong> <a href="tel:${data.phone}">${data.phone}</a></p>` : ""}
           ${data.companyName ? `<p><strong>Company Name:</strong> ${data.companyName}</p>` : ""}
-          <p><strong>Preferred Contact Method:</strong> ${formatPreferredContact(data.preferredContact)}</p>
+          ${data.preferredContact ? `<p><strong>Preferred Contact Method:</strong> ${formatPreferredContact(data.preferredContact)}</p>` : ""}
         </div>
 
         ${
@@ -155,7 +156,7 @@ export async function POST(request: NextRequest) {
     } = body;
 
     // Validate required fields
-    if (!name || !email || !message || !preferredContact) {
+    if (!name || !email || !message) {
       return NextResponse.json(
         { message: "Missing required fields" },
         { status: 400 }
@@ -171,11 +172,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // For discuss-project form, validate additional fields
+    // For discuss-project form, validate additional required fields
+    // Required: name, email, companyName, budget, message
+    // Optional: phone, howDidYouFindUs, preferredContact
     if (formType === "discuss-project") {
-      if (!companyName || !budget || !howDidYouFindUs) {
+      if (!companyName || !budget) {
         return NextResponse.json(
           { message: "Missing required fields for project discussion" },
+          { status: 400 }
+        );
+      }
+    } else {
+      // For contact form, preferredContact is required
+      if (!preferredContact) {
+        return NextResponse.json(
+          { message: "Missing required fields" },
           { status: 400 }
         );
       }

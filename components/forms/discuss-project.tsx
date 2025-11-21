@@ -23,24 +23,14 @@ const formSchema = z.object({
   phone: z.string().optional(),
   companyName: z.string().min(1, "Company name is required"),
   message: z.string().min(1, "Message is required"),
-  budget: z
-    .optional(
-      z.enum(["under-250", "250-1000", "1000-2000", "2000-5000", "5000-plus"])
-    )
-    .refine((val) => val !== undefined, {
+  budget: z.enum(
+    ["under-250", "250-1000", "1000-2000", "2000-5000", "5000-plus"],
+    {
       message: "Please select a budget range",
-    }),
-  howDidYouFindUs: z
-    .string()
-    .optional()
-    .refine((val) => val !== undefined, {
-      message: "Please tell us how you found us",
-    }),
-  preferredContact: z
-    .optional(z.enum(["email", "call"]))
-    .refine((val) => val !== undefined, {
-      message: "Please select how you'd like us to contact you",
-    }),
+    }
+  ),
+  howDidYouFindUs: z.string().optional(),
+  preferredContact: z.enum(["email", "call"]).optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -52,9 +42,11 @@ export default function DiscussProjectForm() {
     handleSubmit,
     setValue,
     watch,
+    trigger,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    mode: "onChange",
   });
 
   const budget = watch("budget");
@@ -103,7 +95,9 @@ export default function DiscussProjectForm() {
         <Input
           id="name"
           type="text"
-          {...register("name")}
+          {...register("name", {
+            onChange: () => trigger("name"),
+          })}
           aria-invalid={errors.name ? "true" : "false"}
         />
         {errors.name && (
@@ -116,7 +110,9 @@ export default function DiscussProjectForm() {
         <Input
           id="email"
           type="email"
-          {...register("email")}
+          {...register("email", {
+            onChange: () => trigger("email"),
+          })}
           aria-invalid={errors.email ? "true" : "false"}
         />
         {errors.email && (
@@ -142,7 +138,9 @@ export default function DiscussProjectForm() {
         <Input
           id="companyName"
           type="text"
-          {...register("companyName")}
+          {...register("companyName", {
+            onChange: () => trigger("companyName"),
+          })}
           aria-invalid={errors.companyName ? "true" : "false"}
         />
         {errors.companyName && (
@@ -156,9 +154,10 @@ export default function DiscussProjectForm() {
         <Label htmlFor="budget">Budget *</Label>
         <Select
           value={budget}
-          onValueChange={(value) =>
-            setValue("budget", value as FormValues["budget"])
-          }
+          onValueChange={(value) => {
+            setValue("budget", value as FormValues["budget"]);
+            trigger("budget");
+          }}
         >
           <SelectTrigger
             id="budget"
@@ -181,9 +180,7 @@ export default function DiscussProjectForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="howDidYouFindUs">
-          How did you find out about us? *
-        </Label>
+        <Label htmlFor="howDidYouFindUs">How did you find out about us?</Label>
         <Input
           id="howDidYouFindUs"
           type="text"
@@ -202,7 +199,9 @@ export default function DiscussProjectForm() {
         <Textarea
           id="message"
           rows={6}
-          {...register("message")}
+          {...register("message", {
+            onChange: () => trigger("message"),
+          })}
           aria-invalid={errors.message ? "true" : "false"}
         />
         {errors.message && (
@@ -212,13 +211,14 @@ export default function DiscussProjectForm() {
 
       <div className="space-y-2">
         <Label htmlFor="preferredContact">
-          How would you prefer us to contact you? *
+          How would you prefer us to contact you?
         </Label>
         <Select
           value={preferredContact}
-          onValueChange={(value) =>
-            setValue("preferredContact", value as "email" | "call")
-          }
+          onValueChange={(value) => {
+            setValue("preferredContact", value as "email" | "call");
+            trigger("preferredContact");
+          }}
         >
           <SelectTrigger
             id="preferredContact"
