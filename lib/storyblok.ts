@@ -155,7 +155,7 @@ export async function getServices(): Promise<Service[]> {
     return [];
   }
 }
-
+//
 // Fetch a single service by slug
 export async function getServiceBySlug(slug: string): Promise<Service | null> {
   try {
