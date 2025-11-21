@@ -200,6 +200,7 @@ export default function SubscriptionsPage() {
           setAvailableSubscriptions(available);
           hasInitiallyLoaded.current = true;
         } catch (error: any) {
+          console.error("Failed to fetch subscriptions", error);
           setError(error.message);
         } finally {
           setLoading(false);
