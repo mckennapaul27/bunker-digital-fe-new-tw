@@ -44,7 +44,7 @@ export default function UseCaseGrid({ data }: UseCaseGridProps) {
 
         {/* Bento Grid - Fixed layout for 5 items */}
         {data.items && data.items.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-8 ">
             {data.items.slice(0, 5).map((item, index) => {
               const Icon = item.icon_code ? getIcon(item.icon_code) : null;
               const bentoSize = getBentoSize(index);
@@ -52,7 +52,7 @@ export default function UseCaseGrid({ data }: UseCaseGridProps) {
               return (
                 <div
                   key={item._uid}
-                  className={`group relative p-4 border-b border-t border-[var(--color-primary)]/50 rounded-xl flex flex-col ${bentoSize}`}
+                  className={`group relative p-4 lg:p-6 border border-[var(--color-primary)]/50 rounded-xl flex flex-col ${bentoSize}`}
                 >
                   {/* Icon */}
                   {Icon && (

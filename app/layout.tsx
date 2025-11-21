@@ -33,7 +33,7 @@ if (process.env.NODE_ENV !== "production") {
 const jsonLd = {
   logo: {
     "@type": "ImageObject",
-    url: "https://www.bunkerdigital.co.uk/path/to/logo.png",
+    url: "https://a.storyblok.com/f/288302830974942/1800x1800/5a6177ec98/bunkerdigital-logo-square.png",
   },
   "@context": "https://schema.org",
   "@type": ["LocalBusiness", "ProfessionalService"],

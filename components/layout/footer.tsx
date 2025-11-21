@@ -34,7 +34,7 @@ export default function Footer() {
       <div className="container mx-auto px-6 xl:px-12">
         <div className="flex flex-col lg:flex-row lg:justify-between gap-12 lg:gap-16 xl:gap-32">
           {/* About Section */}
-          <div className="flex-1">
+          <div className="flex-[1.2]">
             <h3 className="text-xl font-bold mb-4">About Bunker Digital</h3>
             <p className="text-white/80 text-sm leading-relaxed mb-6">
               BunkerDigital.co.uk is an independent web design and digital
@@ -75,7 +75,7 @@ export default function Footer() {
           </div>
 
           {/* Services Section */}
-          <div className="flex-1">
+          <div className="flex-[1.2]">
             <h3 className="text-xl font-bold mb-4">Services</h3>
             <ul className="space-y-2">
               {services.map((service) => (
@@ -91,8 +91,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Pages Section */}
-          <div className="flex-1">
+          {/* Site Links Section */}
+          <div className="flex-[0.8]">
             <h3 className="text-xl font-bold mb-4">Site Links</h3>
             <ul className="space-y-2">
               <li>
@@ -127,12 +127,19 @@ export default function Footer() {
                   Insights
                 </Link>
               </li>
+            </ul>
+          </div>
+
+          {/* Information Section */}
+          <div className="flex-[0.8]">
+            <h3 className="text-xl font-bold mb-4">Information</h3>
+            <ul className="space-y-2">
               <li>
                 <Link
-                  href="/about"
+                  href="/work"
                   className="text-white/80 hover:text-white transition-colors text-sm"
                 >
-                  About
+                  Portfolio of work
                 </Link>
               </li>
               <li>
@@ -141,6 +148,14 @@ export default function Footer() {
                   className="text-white/80 hover:text-white transition-colors text-sm"
                 >
                   Testimonials
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about"
+                  className="text-white/80 hover:text-white transition-colors text-sm"
+                >
+                  About
                 </Link>
               </li>
               <li>
