@@ -6,6 +6,26 @@ import type {
   StoryblokComponent,
 } from "@/lib/storyblok-types";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Client Testimonials | Bunker Digital",
+  description:
+    "We have a 5 star reputation on Bark and Google with over 20+ verified hires on Bark.",
+  openGraph: {
+    title: "Client Testimonials | Bunker Digital",
+    description:
+      "We have a 5 star reputation on Bark and Google with over 20+ verified hires on Bark.",
+    images: [
+      {
+        url: "https://a.storyblok.com/f/288302830974942/1200x630/f1eb2b2497/bunker-digital-office_og.png",
+        width: 1200,
+        height: 630,
+        alt: "Bunker Digital",
+      },
+    ],
+  },
+};
 
 export default async function TestimonialsPage() {
   const testimonialsData = await getTestimonials();

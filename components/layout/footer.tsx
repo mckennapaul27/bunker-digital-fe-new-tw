@@ -32,7 +32,7 @@ export default function Footer() {
   return (
     <footer className="bg-charcoal text-white py-12 xl:py-16 relative z-50">
       <div className="container mx-auto px-6 xl:px-12">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 xl:gap-32">
+        <div className="flex flex-col lg:flex-row lg:justify-between gap-12 lg:gap-16 xl:gap-32">
           {/* About Section */}
           <div className="flex-1">
             <h3 className="text-xl font-bold mb-4">About Bunker Digital</h3>

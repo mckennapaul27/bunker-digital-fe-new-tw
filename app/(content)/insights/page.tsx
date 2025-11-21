@@ -6,6 +6,26 @@ import { ArrowRight, Calendar } from "lucide-react";
 import type { BlogPost, MetaDataComponent } from "@/lib/storyblok-types";
 import NavbarDesktop from "@/components/layout/navbar-desktop";
 import NavbarTouchWrapper from "@/components/layout/navbar-touch/wrapper";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Insights | Bunker Digital",
+  description:
+    "Latest insights, tips, and strategies to help your business grow online.",
+  openGraph: {
+    title: "Insights | Bunker Digital",
+    description:
+      "Latest insights, tips, and strategies to help your business grow online.",
+    images: [
+      {
+        url: "https://a.storyblok.com/f/288302830974942/1200x630/f1eb2b2497/bunker-digital-office_og.png",
+        width: 1200,
+        height: 630,
+        alt: "Bunker Digital",
+      },
+    ],
+  },
+};
 
 // Helper function to extract meta data from blog post
 function getMetaData(post: BlogPost): MetaDataComponent | null {

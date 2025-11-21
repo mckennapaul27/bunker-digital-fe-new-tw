@@ -10,6 +10,26 @@ import type {
 } from "@/lib/storyblok-types";
 import NavbarDesktop from "@/components/layout/navbar-desktop";
 import NavbarTouchWrapper from "@/components/layout/navbar-touch/wrapper";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Case Studies | Bunker Digital",
+  description:
+    "Learn how we've helped businesses like yours grow their online presence and attract more customers.",
+  openGraph: {
+    title: "Case Studies | Bunker Digital",
+    description:
+      "Learn how we've helped businesses like yours grow their online presence and attract more customers.",
+    images: [
+      {
+        url: "https://a.storyblok.com/f/288302830974942/1200x630/f1eb2b2497/bunker-digital-office_og.png",
+        width: 1200,
+        height: 630,
+        alt: "Bunker Digital",
+      },
+    ],
+  },
+};
 
 // Helper function to extract company details from case study
 function getCompanyDetails(study: CaseStudy): CompanyDetailsComponent | null {
