@@ -9,7 +9,7 @@ const services = [
   {
     title: "Website Maintenance",
     description: "Fast hosting + support local businesses trust",
-    href: "/services/website-management-maintenance/",
+    href: "/services/website-management-and-maintenance/",
   },
   {
     title: "Paid Ads",
