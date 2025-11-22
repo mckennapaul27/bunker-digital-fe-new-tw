@@ -17,6 +17,18 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 
+interface GTMEvent {
+  event: string;
+  page?: string;
+  [key: string]: unknown;
+}
+
+type WindowWithDataLayer = Window & {
+  dataLayer: GTMEvent[];
+};
+
+declare const window: WindowWithDataLayer;
+
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
@@ -80,6 +92,10 @@ export default function DiscussProjectForm() {
       setValue("budget", undefined as any);
       setValue("howDidYouFindUs", "");
       setValue("preferredContact", undefined as any);
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "projectFormSubmission",
+      });
     } catch (e: any) {
       const errorMessage = e.message || "An unexpected error occurred.";
       toast.error(errorMessage);
