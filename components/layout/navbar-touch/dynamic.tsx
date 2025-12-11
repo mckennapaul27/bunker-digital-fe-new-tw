@@ -13,6 +13,7 @@ const navItems = [
   { href: "/work", label: "Recent work" },
   { href: "/about", label: "About" },
   { href: "/discuss-project", label: "Discuss your project" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function NavbarTouchDynamic() {
