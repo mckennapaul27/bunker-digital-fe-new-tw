@@ -29,6 +29,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://bunkerdigital.co.uk/case-studies",
+  },
 };
 
 // Helper function to extract company details from case study

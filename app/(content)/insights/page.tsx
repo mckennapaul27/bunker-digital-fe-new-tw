@@ -25,6 +25,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://bunkerdigital.co.uk/insights",
+  },
 };
 
 // Helper function to extract meta data from blog post

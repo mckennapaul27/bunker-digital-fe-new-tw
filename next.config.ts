@@ -78,6 +78,16 @@ const nextConfig: NextConfig = {
         destination: "/legal/privacy-policy",
         permanent: true,
       },
+      {
+        source: "/consultancy",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/seo",
+        destination: "/services/seo-for-small-business",
+        permanent: true,
+      },
     ];
   },
 };
