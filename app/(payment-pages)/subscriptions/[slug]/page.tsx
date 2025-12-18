@@ -31,6 +31,12 @@ export async function generateStaticParams() {
     return [];
   }
   const pages = await getPaymentSetupPages();
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[link-debug] generateStaticParams subscriptions", {
+      count: pages.length,
+      sample: pages.slice(0, 10).map((p) => p.slug),
+    });
+  }
   return pages.map((page) => ({
     slug: page.slug,
   }));
@@ -87,6 +93,9 @@ export async function generateMetadata({
 
 export default async function PaymentPage({ params }: PaymentPageProps) {
   const { slug } = await params;
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[link-debug] PaymentPage fetch", { slug });
+  }
   const page = await getPaymentSetupPageBySlug(slug);
 
   if (!page) {

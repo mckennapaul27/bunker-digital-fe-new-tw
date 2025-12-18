@@ -69,11 +69,16 @@ async function getAllLocationPages(): Promise<
   Array<{ location: string; pageType: string }>
 > {
   try {
-    const url = `${API_BASE_URL}/api-location-pages/all?pageSize=1000`;
+    // Keep endpoint namespace consistent with getLocationPageBySlug()
+    const url = `${API_BASE_URL}/api/api-location-pages/all?pageSize=1000`;
     const headers: HeadersInit = {};
 
     if (process.env.CMS_API_KEY) {
       headers["Authorization"] = process.env.CMS_API_KEY;
+    }
+
+    if (process.env.NODE_ENV !== "production") {
+      console.log("[link-debug] Fetching all location pages", { url });
     }
 
     const response = await fetch(url, {
@@ -138,6 +143,13 @@ export async function generateStaticParams() {
   // }
 
   const locationPages = await getAllLocationPages();
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[link-debug] generateStaticParams location pages", {
+      API_BASE_URL,
+      count: locationPages.length,
+      sample: locationPages.slice(0, 10),
+    });
+  }
 
   return locationPages.map((page) => ({
     slug: [page.location, page.pageType],
@@ -205,6 +217,13 @@ export default async function LocationPage({ params }: LocationPageProps) {
   }
 
   const [location, pageType] = slug;
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[link-debug] LocationPage fetch", {
+      API_BASE_URL,
+      location,
+      pageType,
+    });
+  }
   const service = await getLocationPageBySlug(location, pageType);
 
   if (!service) {

@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import BeforeAfterWrapper from "@/components/before-after/wrapper";
 import Link from "next/link";
+import { isValidHref, warnInvalidHref } from "@/lib/utils";
 
 // Storyblok Rich Text Types
 interface RichTextMark {
@@ -215,20 +216,30 @@ function renderNode(
         } else if (mark.type === "code") {
           text = <code key={key}>{text}</code>;
         } else if (mark.type === "link") {
-          const href = mark.attrs?.href || "#";
-          //   const target = mark.attrs?.target || "_self";
-          text = (
-            <Link
-              key={key}
-              href={href}
-              target={href.startsWith("http") ? "_blank" : "_self"}
-              rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="hover:text-[var(--color-primary)] transition-colors"
-              aria-label={`Link to ${href}`}
-            >
-              {text}
-            </Link>
-          );
+          const href = mark.attrs?.href;
+          warnInvalidHref({
+            href,
+            context: "lib/storyblok-richtext.tsx mark.type=link",
+            extra: { attrs: mark.attrs },
+          });
+
+          if (isValidHref(href)) {
+            //   const target = mark.attrs?.target || "_self";
+            text = (
+              <Link
+                key={key}
+                href={href}
+                target={href.startsWith("http") ? "_blank" : "_self"}
+                rel={
+                  href.startsWith("http") ? "noopener noreferrer" : undefined
+                }
+                className="hover:text-[var(--color-primary)] transition-colors"
+                aria-label={`Link to ${href}`}
+              >
+                {text}
+              </Link>
+            );
+          }
         }
       });
     }

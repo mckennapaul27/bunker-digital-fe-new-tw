@@ -27,6 +27,12 @@ export async function generateStaticParams() {
     return [];
   }
   const legalPages = await getLegalPages();
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[link-debug] generateStaticParams legal", {
+      count: legalPages.length,
+      sample: legalPages.slice(0, 10).map((p) => p.slug),
+    });
+  }
   return legalPages.map((page) => ({
     slug: page.slug,
   }));
@@ -67,6 +73,9 @@ export async function generateMetadata({
 
 export default async function LegalPageComponent({ params }: LegalPageProps) {
   const { slug } = await params;
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[link-debug] LegalPage fetch", { slug });
+  }
   const legalPage = await getLegalPageBySlug(slug);
 
   if (!legalPage) {

@@ -69,6 +69,12 @@ export async function generateStaticParams() {
     return [];
   }
   const caseStudies = await getCaseStudies();
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[link-debug] generateStaticParams case-studies", {
+      count: caseStudies.length,
+      sample: caseStudies.slice(0, 10).map((s) => s.slug),
+    });
+  }
   return caseStudies.map((study) => ({
     slug: study.slug,
   }));
@@ -120,6 +126,9 @@ export async function generateMetadata({
 
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[link-debug] CaseStudyPage fetch", { slug });
+  }
   const caseStudy = await getCaseStudyBySlug(slug);
 
   if (!caseStudy) {

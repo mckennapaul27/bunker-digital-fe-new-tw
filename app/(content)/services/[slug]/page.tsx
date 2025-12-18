@@ -46,6 +46,12 @@ export async function generateStaticParams() {
     return [];
   }
   const services = await getServices();
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[link-debug] generateStaticParams services", {
+      count: services.length,
+      sample: services.slice(0, 10).map((s) => s.slug),
+    });
+  }
   return services.map((service) => ({
     slug: service.slug,
   }));
@@ -98,6 +104,9 @@ export async function generateMetadata({
 
 export default async function ServicePage({ params }: ServicePageProps) {
   const { slug } = await params;
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[link-debug] ServicePage fetch", { slug });
+  }
   const service = await getServiceBySlug(slug);
 
   if (!service) {

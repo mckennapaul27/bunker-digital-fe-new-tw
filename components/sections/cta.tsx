@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { isValidHref, warnInvalidHref } from "@/lib/utils";
 
 interface CTAProps {
   title: string;
@@ -21,6 +22,23 @@ export default function CTA({
   secondaryHref,
   className = "",
 }: CTAProps) {
+  // Dev-only: catch broken CMS/back-end hrefs early.
+  warnInvalidHref({
+    href: primaryHref,
+    context: "components/sections/cta.tsx primaryHref",
+    extra: { title, primaryLinkText },
+  });
+  if (secondaryLinkText) {
+    warnInvalidHref({
+      href: secondaryHref,
+      context: "components/sections/cta.tsx secondaryHref",
+      extra: { title, secondaryLinkText },
+    });
+  }
+
+  const hasPrimaryHref = isValidHref(primaryHref);
+  const hasSecondaryHref = isValidHref(secondaryHref);
+
   return (
     <section
       className={`bg-[var(--color-primary)] py-16 ${className} relative z-50`}
@@ -36,10 +54,17 @@ export default function CTA({
             </p>
           )}
           <div className="flex flex-col items-center gap-4">
-            <Button asChild size="lg" variant="charcoal-outline" className="">
-              <Link href={primaryHref}>{primaryLinkText}</Link>
-            </Button>
-            {secondaryLinkText && secondaryHref && (
+            {hasPrimaryHref ? (
+              <Button asChild size="lg" variant="charcoal-outline" className="">
+                <Link href={primaryHref}>{primaryLinkText}</Link>
+              </Button>
+            ) : (
+              <Button size="lg" variant="charcoal-outline" disabled>
+                {primaryLinkText}
+              </Button>
+            )}
+
+            {secondaryLinkText && hasSecondaryHref && (
               <Link
                 href={secondaryHref}
                 className="text-charcoal font-body font-semibold hover:underline inline-flex items-center gap-2"

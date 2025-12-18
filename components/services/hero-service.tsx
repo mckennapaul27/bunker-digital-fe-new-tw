@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import TrustBar from "../sections/trust-bar";
+import { isValidHref, warnInvalidHref } from "@/lib/utils";
 
 interface HeroServiceProps {
   data: HeroServiceComponent;
@@ -31,6 +32,25 @@ export default function HeroService({
 }: HeroServiceProps) {
   const backgroundImage = data.background_image?.filename || "/home_hero.png";
   const testimonial = getTestimonial(data.blocks);
+
+  warnInvalidHref({
+    href: data.cta_link,
+    context: "components/services/hero-service.tsx data.cta_link",
+    extra: { uid: data._uid, cta_text: data.cta_text, headline: data.headline },
+  });
+  warnInvalidHref({
+    href: data.secondary_cta_link,
+    context: "components/services/hero-service.tsx data.secondary_cta_link",
+    extra: {
+      uid: data._uid,
+      secondary_cta_text: data.secondary_cta_text,
+      headline: data.headline,
+    },
+  });
+
+  const hasPrimaryCta = Boolean(data.cta_text) && isValidHref(data.cta_link);
+  const hasSecondaryCta =
+    Boolean(data.secondary_cta_text) && isValidHref(data.secondary_cta_link);
 
   return (
     <>
@@ -73,14 +93,19 @@ export default function HeroService({
               {/* CTA Buttons */}
               {showCtaButtons && (
                 <div className="flex flex-col items-start gap-4">
-                  {data.cta_text && data.cta_link && (
+                  {hasPrimaryCta ? (
                     <Button size="lg" className="" asChild>
-                      <Link href={data.cta_link}>{data.cta_text}</Link>
+                      <Link href={data.cta_link!}>{data.cta_text}</Link>
                     </Button>
-                  )}
-                  {data.secondary_cta_text && data.secondary_cta_link && (
+                  ) : data.cta_text ? (
+                    <Button size="lg" className="" disabled>
+                      {data.cta_text}
+                    </Button>
+                  ) : null}
+
+                  {hasSecondaryCta && (
                     <Link
-                      href={data.secondary_cta_link}
+                      href={data.secondary_cta_link!}
                       className="text-white font-body font-semibold hover:underline inline-flex items-center gap-2"
                     >
                       {data.secondary_cta_text}

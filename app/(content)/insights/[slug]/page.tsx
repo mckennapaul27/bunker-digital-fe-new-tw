@@ -97,6 +97,12 @@ export async function generateStaticParams() {
     return [];
   }
   const blogPosts = await getBlogPosts();
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[link-debug] generateStaticParams insights", {
+      count: blogPosts.length,
+      sample: blogPosts.slice(0, 10).map((p) => p.slug),
+    });
+  }
   return blogPosts.map((post) => ({
     slug: post.slug,
   }));
@@ -153,6 +159,9 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[link-debug] BlogPostPage fetch", { slug });
+  }
   const blogPost = await getBlogPostBySlug(slug);
 
   if (!blogPost) {
