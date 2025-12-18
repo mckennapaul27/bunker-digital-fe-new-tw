@@ -123,7 +123,7 @@ export default async function Home() {
           title="Your website should work harder. Let's make it happen."
           description="Whether you need a complete website redesign, better Google Ads results, or ongoing digital management, Bunker Digital helps you turn clicks into customers. Book a free strategy call and let's plan your next step."
           primaryLinkText="Book a Strategy Call"
-          primaryHref="#contact"
+          primaryHref="/contact"
           secondaryLinkText="View Recent Projects"
           secondaryHref="/work"
         />

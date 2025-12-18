@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function HeroService() {
   return (
@@ -44,8 +45,8 @@ export default function HeroService() {
 
             {/* CTA Button */}
             <div className="mb-10 lg:mb-12">
-              <Button size="lg" className="">
-                BOOK A STRATEGY CALL
+              <Button size="lg" className="" asChild>
+                <Link href="/contact">BOOK A STRATEGY CALL</Link>
               </Button>
             </div>
           </div>
