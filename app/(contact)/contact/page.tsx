@@ -61,7 +61,7 @@ export default function ContactPage() {
       <div className="xl:hidden">
         <NavbarTouchWrapper />
       </div>
-      <HeroService data={heroData} showCtaButtons={true} />
+      <HeroService data={heroData} showCtaButtons={true} pagePath="/contact" />
 
       {/* Contact Form and Info Section */}
       <section className="bg-white py-20 xl:py-28">

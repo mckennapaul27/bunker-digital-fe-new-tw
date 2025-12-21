@@ -155,7 +155,7 @@ export default async function AboutPage() {
       <div className="xl:hidden">
         <NavbarTouchWrapper />
       </div>
-      <SectionRenderer sections={sections} />
+      <SectionRenderer sections={sections} pagePath="/about" />
     </>
   );
 }

@@ -301,7 +301,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
       <div className="xl:hidden">
         <NavbarTouchWrapper />
       </div>
-      <SectionRenderer sections={sections} />
+      <SectionRenderer sections={sections} pagePath={`/${slug.join("/")}`} />
     </>
   );
 }

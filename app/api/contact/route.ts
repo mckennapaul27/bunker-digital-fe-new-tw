@@ -140,6 +140,35 @@ function createAcknowledgmentEmailHTML(data: {
   `;
 }
 
+async function verifyRecaptcha(token: string): Promise<{ success: boolean }> {
+  if (!process.env.RECAPTCHA_SECRET_KEY) {
+    console.error("RECAPTCHA_SECRET_KEY is not configured");
+    return { success: false };
+  }
+
+  try {
+    const response = await fetch(
+      "https://www.google.com/recaptcha/api/siteverify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
+      }
+    );
+
+    const data = await response.json();
+    console.log(data);
+    return {
+      success: data.success === true,
+    };
+  } catch (error) {
+    console.error("Error verifying reCAPTCHA:", error);
+    return { success: false };
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -153,7 +182,25 @@ export async function POST(request: NextRequest) {
       budget,
       howDidYouFindUs,
       preferredContact,
+      recaptchaToken,
     } = body;
+
+    // Verify reCAPTCHA token
+    if (!recaptchaToken) {
+      return NextResponse.json(
+        { message: "reCAPTCHA verification is required" },
+        { status: 400 }
+      );
+    }
+
+    const recaptchaResult = await verifyRecaptcha(recaptchaToken);
+
+    if (!recaptchaResult.success) {
+      return NextResponse.json(
+        { message: "reCAPTCHA verification failed. Please try again." },
+        { status: 400 }
+      );
+    }
 
     // Validate required fields
     if (!name || !email || !message) {

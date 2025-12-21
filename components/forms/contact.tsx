@@ -15,7 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 interface GTMEvent {
   event: string;
@@ -45,6 +46,8 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function ContactForm() {
   const [loading, setLoading] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
   const {
     register,
     handleSubmit,
@@ -57,7 +60,16 @@ export default function ContactForm() {
 
   const preferredContact = watch("preferredContact");
 
+  const onRecaptchaChange = (token: string | null) => {
+    setRecaptchaToken(token);
+  };
+
   const onSubmit = async (values: FormValues) => {
+    if (!recaptchaToken) {
+      toast.error("Please complete the reCAPTCHA verification.");
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch("/api/contact", {
@@ -66,6 +78,7 @@ export default function ContactForm() {
         body: JSON.stringify({
           ...values,
           formType: "contact",
+          recaptchaToken,
         }),
       });
 
@@ -82,6 +95,9 @@ export default function ContactForm() {
       setValue("phone", "");
       setValue("message", "");
       setValue("preferredContact", undefined as any);
+      // Reset reCAPTCHA
+      setRecaptchaToken(null);
+      recaptchaRef.current?.reset();
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: "contactFormSubmission",
@@ -89,6 +105,9 @@ export default function ContactForm() {
     } catch (e: any) {
       const errorMessage = e.message || "An unexpected error occurred.";
       toast.error(errorMessage);
+      // Reset reCAPTCHA on error
+      setRecaptchaToken(null);
+      recaptchaRef.current?.reset();
     } finally {
       setLoading(false);
     }
@@ -177,6 +196,11 @@ export default function ContactForm() {
         )}
       </div>
 
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+        onChange={onRecaptchaChange}
+      />
       <Button
         type="submit"
         disabled={isSubmitting || loading}

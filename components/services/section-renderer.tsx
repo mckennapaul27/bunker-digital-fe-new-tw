@@ -28,9 +28,13 @@ import TextImageSectionAlt from "./text-image-section-alt";
 
 interface SectionRendererProps {
   sections: StoryblokComponent[];
+  pagePath?: string;
 }
 
-export default function SectionRenderer({ sections }: SectionRendererProps) {
+export default function SectionRenderer({
+  sections,
+  pagePath,
+}: SectionRendererProps) {
   return (
     <>
       {sections.map((section) => {
@@ -40,6 +44,7 @@ export default function SectionRenderer({ sections }: SectionRendererProps) {
               <HeroService
                 key={section._uid}
                 data={section as HeroServiceComponent}
+                pagePath={pagePath}
               />
             );
           case "feature_grid":

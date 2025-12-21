@@ -183,7 +183,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
       <div className="xl:hidden">
         <NavbarTouchWrapper />
       </div>
-      <SectionRenderer sections={sections} />
+      <SectionRenderer sections={sections} pagePath={`/services/${slug}`} />
     </>
   );
 }

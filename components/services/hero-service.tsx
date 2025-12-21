@@ -13,6 +13,7 @@ import { isValidHref, warnInvalidHref } from "@/lib/utils";
 interface HeroServiceProps {
   data: HeroServiceComponent;
   showCtaButtons?: boolean;
+  pagePath?: string;
 }
 
 // Helper function to extract testimonial from blocks
@@ -29,6 +30,7 @@ function getTestimonial(
 export default function HeroService({
   data,
   showCtaButtons = true,
+  pagePath,
 }: HeroServiceProps) {
   const backgroundImage = data.background_image?.filename || "/home_hero.png";
   const testimonial = getTestimonial(data.blocks);
@@ -36,7 +38,12 @@ export default function HeroService({
   warnInvalidHref({
     href: data.cta_link,
     context: "components/services/hero-service.tsx data.cta_link",
-    extra: { uid: data._uid, cta_text: data.cta_text, headline: data.headline },
+    extra: {
+      uid: data._uid,
+      cta_text: data.cta_text,
+      headline: data.headline,
+      pagePath,
+    },
   });
   warnInvalidHref({
     href: data.secondary_cta_link,
@@ -45,6 +52,7 @@ export default function HeroService({
       uid: data._uid,
       secondary_cta_text: data.secondary_cta_text,
       headline: data.headline,
+      pagePath,
     },
   });
 
