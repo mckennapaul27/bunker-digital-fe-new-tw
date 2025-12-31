@@ -70,28 +70,72 @@ export default function SubscriptionsPage() {
     Product[]
   >([]);
   const hasInitiallyLoaded = useRef(false);
+  const hasPersistedProductId = useRef(false);
+  const persistedProductIdRef = useRef<string | null>(null);
+
+  // Helper function to calculate available subscriptions
+  const calculateAvailableSubscriptions = (
+    productsData: Product[],
+    subscriptionsData: Subscription[],
+    stripeDefaultProducts: string[]
+  ): Product[] => {
+    const activeProductIds = subscriptionsData
+      .filter((sub: Subscription) =>
+        ["active", "trialing", "past_due", "incomplete"].includes(sub.status)
+      )
+      .map((sub: Subscription) => sub.productId);
+
+    const available = productsData.filter((product: Product) => {
+      const allowed =
+        stripeDefaultProducts && stripeDefaultProducts.length > 0
+          ? stripeDefaultProducts.includes(product.id)
+          : false;
+      const notActive = !activeProductIds.includes(product.id);
+      return allowed && notActive;
+    });
+
+    return available;
+  };
 
   // Persist one-off productId stored during public sign-up flow
   const persistStoredProductId = async (
     storedId: string,
     currentDefaults: string[]
-  ) => {
-    if (!session?.accessToken || !storedId) return;
-    if (currentDefaults.includes(storedId)) return;
+  ): Promise<boolean> => {
+    if (!session?.accessToken || !storedId) return false;
+    if (currentDefaults.includes(storedId)) {
+      // Already in defaults, safe to remove from localStorage
+      localStorage.removeItem("productId");
+      return false;
+    }
 
     try {
-      await fetch(`${serverUrl}/api/api-users/add-stripe-product-default`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session.accessToken}`,
-        },
-        body: JSON.stringify({ productId: storedId }),
-      });
+      const res = await fetch(
+        `${serverUrl}/api/api-users/add-stripe-product-default`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session.accessToken}`,
+          },
+          body: JSON.stringify({ productId: storedId }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || "Failed to add product to defaults"
+        );
+      }
+
+      // Success - remove from localStorage
+      localStorage.removeItem("productId");
+      return true;
     } catch (e) {
       console.error("Failed to persist stored productId", e);
-    } finally {
-      localStorage.removeItem("productId");
+      // Keep in localStorage for retry on next load
+      return false;
     }
   };
 
@@ -171,33 +215,100 @@ export default function SubscriptionsPage() {
           }
 
           // Persist any productId captured in localStorage to user's defaults
+          // Only do this once per session to avoid multiple API calls
           const storedProductId = localStorage.getItem("productId");
-          if (storedProductId) {
-            await persistStoredProductId(
+          if (storedProductId && !hasPersistedProductId.current) {
+            // Use original backend data for persistence check
+            const originalDefaults = [...stripeDefaultProducts];
+            const persisted = await persistStoredProductId(
               storedProductId,
-              stripeDefaultProducts
+              originalDefaults
+            );
+
+            // If successfully persisted, refetch user data to get the latest defaults
+            if (persisted) {
+              hasPersistedProductId.current = true;
+              persistedProductIdRef.current = storedProductId;
+              try {
+                const updatedUserResponse = await fetch(
+                  `${serverUrl}/api/api-users/${session.user?.id}`,
+                  {
+                    headers: {
+                      Authorization: `Bearer ${session.accessToken}`,
+                    },
+                  }
+                );
+
+                if (updatedUserResponse.ok) {
+                  const updatedUserJson: UserResponse =
+                    await updatedUserResponse.json();
+                  if (Array.isArray(updatedUserJson.stripeProductsDefault)) {
+                    stripeDefaultProducts =
+                      updatedUserJson.stripeProductsDefault;
+                    console.log(
+                      "Updated stripeDefaultProducts after persistence:",
+                      stripeDefaultProducts
+                    );
+                  }
+                }
+              } catch (e) {
+                console.error(
+                  "Failed to refetch user data after persistence",
+                  e
+                );
+              }
+            }
+          }
+
+          // Always include productId in calculation if:
+          // 1. It's in localStorage (not yet persisted), OR
+          // 2. We've already persisted it (stored in ref, even if localStorage is cleared)
+          const productIdToInclude =
+            storedProductId || persistedProductIdRef.current;
+          if (
+            productIdToInclude &&
+            !stripeDefaultProducts.includes(productIdToInclude)
+          ) {
+            stripeDefaultProducts = [
+              ...stripeDefaultProducts,
+              productIdToInclude,
+            ];
+            console.log(
+              "Including productId in calculation:",
+              productIdToInclude,
+              "from localStorage:",
+              !!storedProductId,
+              "from ref:",
+              !!persistedProductIdRef.current
             );
           }
 
           // Determine available subscriptions based on user's defaults
-          const activeProductIds = subsData
-            .filter((sub: Subscription) =>
-              ["active", "trialing", "past_due", "incomplete"].includes(
-                sub.status
-              )
-            )
-            .map((sub: Subscription) => sub.productId);
+          const available = calculateAvailableSubscriptions(
+            productsData,
+            subsData,
+            stripeDefaultProducts
+          );
 
-          const available = productsData.filter((product: Product) => {
-            const allowed =
-              stripeDefaultProducts && stripeDefaultProducts.length > 0
-                ? stripeDefaultProducts.includes(product.id)
-                : false;
-            const notActive = !activeProductIds.includes(product.id);
-            return allowed && notActive;
+          console.log("Calculating available subscriptions:", {
+            stripeDefaultProducts,
+            productsCount: productsData.length,
+            availableCount: available.length,
+            availableIds: available.map((p) => p.id),
           });
 
-          setAvailableSubscriptions(available);
+          // Use functional update to ensure React detects the change
+          setAvailableSubscriptions((prev) => {
+            // Create new array reference to ensure React detects change
+            const newAvailable = [...available];
+            console.log("Setting available subscriptions:", {
+              prevCount: prev.length,
+              newCount: newAvailable.length,
+              prevIds: prev.map((p) => p.id),
+              newIds: newAvailable.map((p) => p.id),
+            });
+            return newAvailable;
+          });
           hasInitiallyLoaded.current = true;
         } catch (error: any) {
           console.error("Failed to fetch subscriptions", error);
