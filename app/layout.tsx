@@ -4,7 +4,7 @@ import "./globals.css";
 import { Suspense } from "react";
 import WhatsAppBtnWrapper from "@/components/layout/whatsapp-btn-wrapper";
 import Analytics from "@/components/google/analytics";
-import NavbarDesktop from "@/components/layout/navbar-desktop";
+// import NavbarDesktop from "@/components/layout/navbar-desktop";
 import Footer from "@/components/layout/footer";
 
 const poppins = Poppins({
