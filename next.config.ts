@@ -88,6 +88,11 @@ const nextConfig: NextConfig = {
         destination: "/services/seo-for-small-business",
         permanent: true,
       },
+      {
+        source: "/login",
+        destination: "/auth/login",
+        permanent: true,
+      },
     ];
   },
 };
