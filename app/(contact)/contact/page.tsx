@@ -4,7 +4,7 @@ import HeroService from "@/components/services/hero-service";
 import NavbarDesktop from "@/components/layout/navbar-desktop";
 import NavbarTouchWrapper from "@/components/layout/navbar-touch/wrapper";
 import ContactForm from "@/components/forms/contact";
-import { Phone, Mail, MessageSquare } from "lucide-react";
+import { Phone, Mail, MessageSquare, MapPin } from "lucide-react";
 import Link from "next/link";
 
 const OG_IMAGE_URL =
@@ -80,7 +80,21 @@ export default function ContactPage() {
               <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-charcoal mb-6">
                 Contact Information
               </h2>
+              <p className="text-charcoal/80 mb-6 text-sm lg:text-base">
+                Based in Stockport but serving the whole UK.
+              </p>
               <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <MapPin className="w-6 h-6 text-charcoal mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold text-charcoal mb-1">Address</p>
+                    <div className="text-charcoal/80">
+                      <p>Bank Chambers</p>
+                      <p>Stockport SK1 1AR</p>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="flex items-start gap-4">
                   <Phone className="w-6 h-6 text-charcoal mt-1 flex-shrink-0" />
                   <div>

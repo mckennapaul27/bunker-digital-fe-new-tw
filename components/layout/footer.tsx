@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, Mail, MessageSquare } from "lucide-react";
+import { Phone, Mail, MessageSquare, MapPin } from "lucide-react";
 
 export default function Footer() {
   const services = [
@@ -42,6 +42,13 @@ export default function Footer() {
               local businesses across the UK.
             </p>
             <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-white/80 mt-0.5 flex-shrink-0" />
+                <div className="text-white/80 text-sm">
+                  <p>Bank Chambers</p>
+                  <p>Stockport SK1 1AR</p>
+                </div>
+              </div>
               <div className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-white/80 mt-0.5 flex-shrink-0" />
                 <a

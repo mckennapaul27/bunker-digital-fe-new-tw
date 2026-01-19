@@ -46,10 +46,10 @@ const jsonLd = {
   telephone: "+441613838568",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "18 Vaudrey Drive",
-    addressLocality: "Hazel Grove",
+    streetAddress: "Bank Chambers",
+    addressLocality: "Stockport",
     addressRegion: "Stockport",
-    postalCode: "SK7 5PB",
+    postalCode: "SK1 1AR",
     addressCountry: "GB",
   },
   contactPoint: [
