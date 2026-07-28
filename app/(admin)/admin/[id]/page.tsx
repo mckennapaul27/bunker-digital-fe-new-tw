@@ -112,8 +112,11 @@ export default function AdminUserProfile() {
           }),
         ]);
         const userJson = await userRes.json();
+        console.log("userJson", userJson);
         const subsJson = await subsRes.json();
+        console.log("subsJson", subsJson);
         const productsJson = await productsRes.json();
+        console.log("productsJson", productsJson);
         setProducts(productsJson);
         if (!userRes.ok)
           throw new Error(userJson.message || "Failed to load user");
@@ -126,7 +129,7 @@ export default function AdminUserProfile() {
         setSelected(
           Array.isArray(userJson.stripeProductsDefault)
             ? userJson.stripeProductsDefault
-            : []
+            : [],
         );
         hasInitiallyLoaded.current = true;
       } catch (err: any) {
@@ -143,7 +146,7 @@ export default function AdminUserProfile() {
 
   const toggleProduct = (id: string) => {
     setSelected((prev) =>
-      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id],
     );
   };
 
@@ -160,7 +163,7 @@ export default function AdminUserProfile() {
             Authorization: `Bearer ${session.accessToken}`,
           },
           body: JSON.stringify({ productIds: selected }),
-        }
+        },
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to save products");
@@ -280,7 +283,7 @@ export default function AdminUserProfile() {
                           {formatMoney(
                             prod.price,
                             currencySymbols[prod.currency.toLowerCase()],
-                            2
+                            2,
                           )}
                         </span>
                       </div>
@@ -333,7 +336,7 @@ export default function AdminUserProfile() {
                             {formatMoney(
                               sub.price,
                               currencySymbols[sub.currency.toLowerCase()],
-                              2
+                              2,
                             )}{" "}
                             per month
                           </span>
