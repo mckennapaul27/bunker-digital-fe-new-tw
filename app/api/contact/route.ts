@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { blockedResponse, checkContactSpam } from "@/lib/check-contact-spam";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -155,7 +156,7 @@ async function verifyRecaptcha(token: string): Promise<{ success: boolean }> {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
-      }
+      },
     );
 
     const data = await response.json();
@@ -189,7 +190,7 @@ export async function POST(request: NextRequest) {
     if (!recaptchaToken) {
       return NextResponse.json(
         { message: "reCAPTCHA verification is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -198,7 +199,7 @@ export async function POST(request: NextRequest) {
     if (!recaptchaResult.success) {
       return NextResponse.json(
         { message: "reCAPTCHA verification failed. Please try again." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -206,7 +207,7 @@ export async function POST(request: NextRequest) {
     if (!name || !email || !message) {
       return NextResponse.json(
         { message: "Missing required fields" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -215,9 +216,13 @@ export async function POST(request: NextRequest) {
     if (!emailRegex.test(email)) {
       return NextResponse.json(
         { message: "Invalid email address" },
-        { status: 400 }
+        { status: 400 },
       );
     }
+
+    const check = await checkContactSpam({ name, email, phone, message });
+    console.log("check", check);
+    if (check.blocked) return blockedResponse(check.reason);
 
     // For discuss-project form, validate additional required fields
     // Required: name, email, companyName, budget, message
@@ -226,7 +231,7 @@ export async function POST(request: NextRequest) {
       if (!companyName || !budget) {
         return NextResponse.json(
           { message: "Missing required fields for project discussion" },
-          { status: 400 }
+          { status: 400 },
         );
       }
     } else {
@@ -234,7 +239,7 @@ export async function POST(request: NextRequest) {
       if (!preferredContact) {
         return NextResponse.json(
           { message: "Missing required fields" },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -244,7 +249,7 @@ export async function POST(request: NextRequest) {
       console.error("RESEND_API_KEY is not configured");
       return NextResponse.json(
         { message: "Email service is not configured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -277,11 +282,11 @@ export async function POST(request: NextRequest) {
     if (notificationResult.error) {
       console.error(
         "Error sending notification email:",
-        notificationResult.error
+        notificationResult.error,
       );
       return NextResponse.json(
         { message: "Failed to send notification email" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -296,20 +301,20 @@ export async function POST(request: NextRequest) {
     if (acknowledgmentResult.error) {
       console.error(
         "Error sending acknowledgment email:",
-        acknowledgmentResult.error
+        acknowledgmentResult.error,
       );
       // Don't fail the request if acknowledgment fails, but log it
     }
 
     return NextResponse.json(
       { message: "Form submitted successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error processing contact form:", error);
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -17,6 +17,11 @@ import {
 } from "@/components/ui/select";
 import { useState, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import {
+  showIfBlocked,
+  SpamBlockedModal,
+  useSpamBlockedModal,
+} from "@/components/SpamBlockedModal";
 
 interface GTMEvent {
   event: string;
@@ -46,6 +51,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function ContactForm() {
   const [loading, setLoading] = useState(false);
+  const blocked = useSpamBlockedModal();
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const {
@@ -83,6 +89,11 @@ export default function ContactForm() {
       });
 
       const data = await res.json();
+      if (showIfBlocked(data, blocked.show)) {
+        setRecaptchaToken(null);
+        recaptchaRef.current?.reset();
+        return;
+      }
 
       if (!res.ok) {
         throw new Error(data.message || "Something went wrong.");
@@ -114,102 +125,109 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="name">Name *</Label>
-        <Input
-          id="name"
-          type="text"
-          {...register("name")}
-          aria-invalid={errors.name ? "true" : "false"}
-        />
-        {errors.name && (
-          <p className="text-sm text-destructive">{errors.name.message}</p>
-        )}
-      </div>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="space-y-2">
+          <Label htmlFor="name">Name *</Label>
+          <Input
+            id="name"
+            type="text"
+            {...register("name")}
+            aria-invalid={errors.name ? "true" : "false"}
+          />
+          {errors.name && (
+            <p className="text-sm text-destructive">{errors.name.message}</p>
+          )}
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="email">Email *</Label>
-        <Input
-          id="email"
-          type="email"
-          {...register("email")}
-          aria-invalid={errors.email ? "true" : "false"}
-        />
-        {errors.email && (
-          <p className="text-sm text-destructive">{errors.email.message}</p>
-        )}
-      </div>
+        <div className="space-y-2">
+          <Label htmlFor="email">Email *</Label>
+          <Input
+            id="email"
+            type="email"
+            {...register("email")}
+            aria-invalid={errors.email ? "true" : "false"}
+          />
+          {errors.email && (
+            <p className="text-sm text-destructive">{errors.email.message}</p>
+          )}
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="phone">Phone</Label>
-        <Input
-          id="phone"
-          type="tel"
-          {...register("phone")}
-          aria-invalid={errors.phone ? "true" : "false"}
-        />
-        {errors.phone && (
-          <p className="text-sm text-destructive">{errors.phone.message}</p>
-        )}
-      </div>
+        <div className="space-y-2">
+          <Label htmlFor="phone">Phone</Label>
+          <Input
+            id="phone"
+            type="tel"
+            {...register("phone")}
+            aria-invalid={errors.phone ? "true" : "false"}
+          />
+          {errors.phone && (
+            <p className="text-sm text-destructive">{errors.phone.message}</p>
+          )}
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="message">Message *</Label>
-        <Textarea
-          id="message"
-          rows={6}
-          {...register("message")}
-          aria-invalid={errors.message ? "true" : "false"}
-        />
-        {errors.message && (
-          <p className="text-sm text-destructive">{errors.message.message}</p>
-        )}
-      </div>
+        <div className="space-y-2">
+          <Label htmlFor="message">Message *</Label>
+          <Textarea
+            id="message"
+            rows={6}
+            {...register("message")}
+            aria-invalid={errors.message ? "true" : "false"}
+          />
+          {errors.message && (
+            <p className="text-sm text-destructive">{errors.message.message}</p>
+          )}
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="preferredContact">
-          How would you prefer us to contact you? *
-        </Label>
-        <Select
-          value={preferredContact}
-          onValueChange={(value) =>
-            setValue("preferredContact", value as "email" | "call")
-          }
-        >
-          <SelectTrigger
-            id="preferredContact"
-            className="w-full"
-            aria-invalid={errors.preferredContact ? "true" : "false"}
+        <div className="space-y-2">
+          <Label htmlFor="preferredContact">
+            How would you prefer us to contact you? *
+          </Label>
+          <Select
+            value={preferredContact}
+            onValueChange={(value) =>
+              setValue("preferredContact", value as "email" | "call")
+            }
           >
-            <SelectValue placeholder="Select an option" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="email">Email</SelectItem>
-            <SelectItem value="call">Call back</SelectItem>
-          </SelectContent>
-        </Select>
-        {errors.preferredContact && (
-          <p className="text-sm text-destructive">
-            {errors.preferredContact.message}
-          </p>
-        )}
-      </div>
+            <SelectTrigger
+              id="preferredContact"
+              className="w-full"
+              aria-invalid={errors.preferredContact ? "true" : "false"}
+            >
+              <SelectValue placeholder="Select an option" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="email">Email</SelectItem>
+              <SelectItem value="call">Call back</SelectItem>
+            </SelectContent>
+          </Select>
+          {errors.preferredContact && (
+            <p className="text-sm text-destructive">
+              {errors.preferredContact.message}
+            </p>
+          )}
+        </div>
 
-      <ReCAPTCHA
-        ref={recaptchaRef}
-        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-        onChange={onRecaptchaChange}
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+          onChange={onRecaptchaChange}
+        />
+        <Button
+          type="submit"
+          disabled={isSubmitting || loading}
+          className="w-full"
+          size="lg"
+        >
+          {isSubmitting || loading ? "Sending..." : "Send Message"}
+        </Button>
+        <Toaster position="top-right" />
+      </form>
+      <SpamBlockedModal
+        open={blocked.open}
+        message={blocked.message}
+        onClose={blocked.close}
       />
-      <Button
-        type="submit"
-        disabled={isSubmitting || loading}
-        className="w-full"
-        size="lg"
-      >
-        {isSubmitting || loading ? "Sending..." : "Send Message"}
-      </Button>
-      <Toaster position="top-right" />
-    </form>
+    </>
   );
 }
