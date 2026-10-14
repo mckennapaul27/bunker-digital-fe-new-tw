@@ -22,7 +22,59 @@ export default function NavbarTouchStatic() {
 
             {/* Hamburger Menu Button */}
             <button aria-label="Toggle menu" className="text-white">
-              <Hamburger toggled={false} size={24} />
+              <div
+                className="hamburger-react"
+                aria-expanded="false"
+                role="button"
+                tabIndex={0}
+                style={{
+                  cursor: "pointer",
+                  height: "48px",
+                  position: "relative",
+                  transition: "0.4s cubic-bezier(0, 0, 0, 1)",
+                  userSelect: "none",
+                  width: "48px",
+                  outline: "none",
+                  transform: "none",
+                }}
+              >
+                <div
+                  style={{
+                    background: "currentcolor",
+                    height: "2px",
+                    left: "12px",
+                    position: "absolute",
+                    width: "24px",
+                    top: "16px",
+                    transition: "0.4s cubic-bezier(0, 0, 0, 1)",
+                    transform: "none",
+                  }}
+                ></div>
+                <div
+                  style={{
+                    background: "currentcolor",
+                    height: "2px",
+                    left: "12px",
+                    position: "absolute",
+                    width: "24px",
+                    top: "23px",
+                    transition: "0.4s cubic-bezier(0, 0, 0, 1)",
+                    transform: "none",
+                  }}
+                ></div>
+                <div
+                  style={{
+                    background: "currentcolor",
+                    height: "2px",
+                    left: "12px",
+                    position: "absolute",
+                    width: "24px",
+                    top: "30px",
+                    transition: "0.4s cubic-bezier(0, 0, 0, 1)",
+                    transform: "none",
+                  }}
+                ></div>
+              </div>
             </button>
           </div>
         </div>
