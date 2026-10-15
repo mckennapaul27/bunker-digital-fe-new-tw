@@ -13,6 +13,14 @@ export const metadata: Metadata = {
 const designs = [
   {
     version: "V1",
+    title: "Amended",
+    thumbnail: "/client-designs/healthhealingfestivals/thumbs/v1-amended.jpg",
+    width: 871,
+    height: 4200,
+    file: "V1 - Amended.pdf",
+  },
+  {
+    version: "V1",
     title: "Full-page gradient, like the current site",
     thumbnail: "/client-designs/healthhealingfestivals/thumbs/v1.jpg",
     width: 1116,
@@ -68,7 +76,7 @@ export default function HealthHealingFestivalsDesignsPage() {
             );
 
             return (
-              <li key={design.version}>
+              <li key={design.file}>
                 <a
                   href={href}
                   target="_blank"
