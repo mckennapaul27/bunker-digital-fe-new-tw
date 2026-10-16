@@ -12,6 +12,14 @@ export const metadata: Metadata = {
 
 const designs = [
   {
+    version: "V1b",
+    title: "Amended",
+    thumbnail: "/client-designs/healthhealingfestivals/thumbs/v1b-amended.jpg",
+    width: 926,
+    height: 4200,
+    file: "V1b - Amended.pdf",
+  },
+  {
     version: "V1",
     title: "Amended",
     thumbnail: "/client-designs/healthhealingfestivals/thumbs/v1-amended.jpg",
