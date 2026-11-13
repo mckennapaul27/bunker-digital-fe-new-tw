@@ -9,6 +9,7 @@ import NavbarDesktop from "@/components/layout/navbar-desktop";
 import NavbarTouchWrapper from "@/components/layout/navbar-touch/wrapper";
 import type { Metadata } from "next";
 
+// SEO
 export const metadata: Metadata = {
   title: "Our Work | Bunker Digital",
   description:
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
 function getProjectCards(body: any[]): ProjectCardComponent[] {
   return (
     body?.filter(
-      (item): item is ProjectCardComponent => item.component === "project_card"
+      (item): item is ProjectCardComponent => item.component === "project_card",
     ) || []
   );
 }
