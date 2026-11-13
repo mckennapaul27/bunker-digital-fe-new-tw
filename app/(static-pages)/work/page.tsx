@@ -3,7 +3,7 @@ import { getProjectsPage } from "@/lib/storyblok";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
 import type { ProjectCardComponent, CaseStudy } from "@/lib/storyblok-types";
 import NavbarDesktop from "@/components/layout/navbar-desktop";
 import NavbarTouchWrapper from "@/components/layout/navbar-touch/wrapper";
@@ -78,7 +78,7 @@ export default async function WorkPage() {
           {projectCards.length === 0 ? (
             <p className="text-gray-600">No projects found.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 ">
               {projectCards.map((card: ProjectCardComponent) => {
                 const mockupImage = card.mockup?.filename;
                 const projectName = card.name;
@@ -89,6 +89,7 @@ export default async function WorkPage() {
                 const primaryColor = card.primary_color;
                 const secondaryColor = card.secondary_color;
                 const accentColor = card.accent_color;
+                const location = card.location?.trim();
 
                 // Get the first case study slug if available
                 // With resolve_relations, the case study should be resolved as an object
@@ -111,14 +112,14 @@ export default async function WorkPage() {
                             src={mockupImage}
                             alt={projectName}
                             fill
-                            className="object-cover"
+                            className="object-cover aspect-[16/9]"
                             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                           />
                         </div>
                       )}
 
                       {/* Content */}
-                      <div className="p-6 lg:p-8 flex flex-col flex-grow">
+                      <div className="p-6  flex flex-col flex-grow">
                         {/* Title */}
                         <div className="text-xl lg:text-2xl font-bold text-white leading-tight font-heading">
                           {projectName}
@@ -194,7 +195,7 @@ export default async function WorkPage() {
 
                         {/* Skills/Tags */}
                         {skills.length > 0 && (
-                          <div className="text-white/90 text-sm mb-6 font-body">
+                          <div className="text-white/90 text-sm font-body">
                             {skills.join(", ")}
                           </div>
                         )}
@@ -216,12 +217,21 @@ export default async function WorkPage() {
                           </div>
                         )}
                       </div>
+
+                      {location && (
+                        <div className="mt-auto flex items-center gap-2.5 border-t border-white/15 px-6 py-4 lg:px-8 lg:py-5">
+                          <MapPin className="size-5 shrink-0 text-[#fa7d54]" />
+                          <span className="font-heading text-sm font-medium leading-none text-white">
+                            {location}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </>
                 );
 
                 return (
-                  <div key={card._uid} className="group relative bloc  h-full">
+                  <div key={card._uid} className="group relative block  h-full">
                     {cardContent}
                   </div>
                 );

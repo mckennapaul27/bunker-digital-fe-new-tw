@@ -101,6 +101,7 @@ export interface ProjectCardComponent extends StoryblokComponent {
   case_study?: (string | CaseStudy)[]; // References to case studies (UUIDs or resolved CaseStudy objects)
   skills?: string[];
   type?: string[];
+  location?: string;
 }
 
 export interface ProjectsPageContent {

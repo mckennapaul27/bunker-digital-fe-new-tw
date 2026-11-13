@@ -6,7 +6,7 @@ export default function Hero() {
   return (
     <section className="relative flex items-center md:min-h-screen">
       {/* Background Image */}
-      <div className="absolute inset-0 z-0">
+      <div className="fixed inset-0 z-0">
         <Image
           src="/home_hero.png"
           alt="Hero background"
@@ -18,11 +18,11 @@ export default function Hero() {
 
       {/* Gradient Overlay */}
       <div
-        className="absolute inset-0 z-10 hidden lg:block"
+        className="fixed inset-0 z-10 hidden lg:block"
         style={{ background: "var(--gradient-charcoal)" }}
       />
       <div
-        className="absolute inset-0 z-10 block lg:hidden"
+        className="fixed inset-0 z-10 block lg:hidden"
         style={{ background: "var(--gradient-charcoal-simple)" }}
       />
 
@@ -113,7 +113,7 @@ export default function Hero() {
                   className="h-auto"
                 />
                 <p className="text-white text-sm lg:text-base font-bold whitespace-nowrap">
-                  20+ verified Bark hires
+                  30+ verified Bark hires
                 </p>
               </div>
             </div>

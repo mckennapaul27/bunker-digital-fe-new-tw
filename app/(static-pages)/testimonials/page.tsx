@@ -11,11 +11,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Client Testimonials | Bunker Digital",
   description:
-    "We have a 5 star reputation on Bark and Google with over 20+ verified hires on Bark.",
+    "We have a 5 star reputation on Bark and Google with over 30+ verified hires on Bark.",
   openGraph: {
     title: "Client Testimonials | Bunker Digital",
     description:
-      "We have a 5 star reputation on Bark and Google with over 20+ verified hires on Bark.",
+      "We have a 5 star reputation on Bark and Google with over 30+ verified hires on Bark.",
     images: [
       {
         url: "https://a.storyblok.com/f/288302830974942/1200x630/f1eb2b2497/bunker-digital-office_og.png",
@@ -42,7 +42,7 @@ export default async function TestimonialsPage() {
 
   const testimonials = testimonialsData.content.blocks.filter(
     (item: StoryblokComponent): item is TestimonialComponent =>
-      item.component === "testimonial"
+      item.component === "testimonial",
   );
 
   return (
@@ -61,15 +61,15 @@ export default async function TestimonialsPage() {
               Client Testimonials
             </p>
             <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-charcoal leading-tight max-w-4xl xl:max-w-5xl">
-              We have a 5 star reputation on Bark and Google with over 20+
+              We have a 5 star reputation on Bark and Google with over 30+
               verified hires on Bark
             </h1>
           </div>
 
           {/* Social Proof Section */}
-          <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-12 mb-12">
+          <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 mb-12 lg:items-center">
             {/* Google Rating */}
-            <div className="flex flex-col gap-3">
+            {/* <div className="flex flex-col gap-3">
               <div className="h-auto lg:h-8 flex items-start">
                 <a
                   href="https://share.google/hX5oMeXYfwTH0eK2r"
@@ -96,10 +96,25 @@ export default async function TestimonialsPage() {
               <p className="text-charcoal/80 text-sm lg:text-base font-bold whitespace-nowrap">
                 Rated 5.0 on Google
               </p>
-            </div>
+            </div> */}
+
+            <a
+              href="https://share.google/hX5oMeXYfwTH0eK2r"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block shrink-0"
+            >
+              <Image
+                src="/google-review-widget-c.png"
+                alt="BunkerDigital, rated 5.0 from 26 Google reviews. Web designer in Stockport, England"
+                width={386}
+                height={143}
+                className="h-[104px] w-auto"
+              />
+            </a>
 
             {/* Bark Rating */}
-            <div className="flex flex-col gap-3">
+            {/* <div className="flex flex-col gap-3">
               <div className="h-auto lg:h-8 flex items-start">
                 <a
                   href="https://www.bark.com/en/gb/b/bunkerdigital/Xo0AX/"
@@ -124,16 +139,36 @@ export default async function TestimonialsPage() {
                 className="h-auto"
               />
               <p className="text-charcoal/80 text-sm lg:text-base font-bold whitespace-nowrap">
-                20+ verified Bark hires
+                30+ verified Bark hires
               </p>
-            </div>
+            </div> */}
+
+            <a
+              href="https://www.bark.com/en/gb/company/bunkerdigital/Xo0AX/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block w-[192px] shrink-0 overflow-hidden border-4 border-[#1C2C3B] bg-white text-center no-underline"
+            >
+              <div className="flex h-[60px] items-start justify-center bg-white pt-[11px]">
+                <Image
+                  src="/bark-pro-medium.png"
+                  alt="Bark Professional"
+                  width={260}
+                  height={80}
+                  className="h-10 w-auto"
+                />
+              </div>
+              <div className="border-t-4 border-[#1C2C3B] bg-[#213344] px-2.5 py-2.5 font-normal text-base leading-[18px] text-white [font-family:'Helvetica_Neue',Helvetica,Arial,sans-serif]">
+                BunkerDigital
+              </div>
+            </a>
           </div>
 
           {/* Testimonials Grid */}
           {testimonials.length === 0 ? (
             <p className="text-charcoal">No testimonials found.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 ">
               {testimonials.map((testimonial: TestimonialComponent) => {
                 const platform = testimonial.platform?.[0] || "";
                 const isBark = platform.toLowerCase() === "bark";

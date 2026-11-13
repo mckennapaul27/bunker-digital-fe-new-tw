@@ -82,7 +82,7 @@ export default function TrustBar({ testimonial }: TrustBarProps) {
               className="h-auto"
             />
             <p className="text-white text-sm lg:text-base font-bold whitespace-nowrap">
-              20+ verified Bark hires
+              30+ verified Bark hires
             </p>
           </div>
         </div>
