@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import BeforeAfterWrapper from "@/components/before-after/wrapper";
+import FAQContainer from "@/components/services/faq-container";
+import type { FAQContainerComponent } from "@/lib/storyblok-types";
 import Link from "next/link";
 import { isValidHref, warnInvalidHref } from "@/lib/utils";
 
@@ -29,6 +31,55 @@ interface RenderRichTextOptions {
   className?: string;
 }
 
+function renderEmbeddedBlok(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component: any,
+  key: string
+): React.ReactNode {
+  if (component?.component === "before_after") {
+    const images = component.images;
+
+    if (!images || !Array.isArray(images) || images.length < 2) {
+      return null;
+    }
+
+    const beforeImage = images[0];
+    const afterImage = images[1];
+
+    if (!beforeImage?.filename || !afterImage?.filename) {
+      return null;
+    }
+
+    return (
+      <div key={key} className="my-8">
+        <BeforeAfterWrapper
+          beforeImage={{
+            imageUrl: beforeImage.filename,
+            alt: beforeImage.alt || "Before image",
+          }}
+          afterImage={{
+            imageUrl: afterImage.filename,
+            alt: afterImage.alt || "After image",
+          }}
+          caption={component.caption}
+        />
+      </div>
+    );
+  }
+
+  if (component?.component === "faq_container") {
+    return (
+      <FAQContainer
+        key={component._uid || key}
+        data={component as FAQContainerComponent}
+        embedded
+      />
+    );
+  }
+
+  return null;
+}
+
 /**
  * Recursively renders rich text nodes, converting images to Next.js Image components
  */
@@ -50,42 +101,15 @@ function renderNode(
       return null;
     }
 
-    // Handle before_after component
-    const firstComponent = body[0];
-    if (firstComponent?.component === "before_after") {
-      const images = firstComponent.images;
+    const blocks = body
+      .map((component: any, index: number) =>
+        renderEmbeddedBlok(component, `${key}-${index}`)
+      )
+      .filter(Boolean);
 
-      if (!images || !Array.isArray(images) || images.length < 2) {
-        return null;
-      }
+    if (blocks.length === 0) return null;
 
-      const beforeImage = images[0];
-      const afterImage = images[1];
-      const caption = firstComponent.caption;
-
-      if (!beforeImage?.filename || !afterImage?.filename) {
-        return null;
-      }
-
-      return (
-        <div key={key} className="my-8">
-          <BeforeAfterWrapper
-            beforeImage={{
-              imageUrl: beforeImage.filename,
-              alt: beforeImage.alt || "Before image",
-            }}
-            afterImage={{
-              imageUrl: afterImage.filename,
-              alt: afterImage.alt || "After image",
-            }}
-            caption={caption}
-          />
-        </div>
-      );
-    }
-
-    // For other component types, return null or handle them here
-    return null;
+    return <React.Fragment key={key}>{blocks}</React.Fragment>;
   }
 
   // Handle image nodes

@@ -381,6 +381,7 @@ export interface BlogPostContent {
   component: string;
   title: string;
   description?: string;
+  bg_image?: StoryblokAsset;
   intro?: any; // Rich text field (Storyblok rich text object)
   takeaways?: any; // Rich text field (Storyblok rich text object)
   body?: any; // Rich text field (Storyblok rich text object)

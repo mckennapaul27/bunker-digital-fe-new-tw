@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "Bunker Hub SOPs": {
+      "url": "http://localhost:3000/api/mcp",
+      "headers": {
+        "Authorization": "Bearer 7BlkeyUz0F66kPnEiqfQDO5wWYViPs+SYcjN7mE3bTc="
+      }
+    }
+  }
+}

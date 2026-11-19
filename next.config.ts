@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/home",
+        destination: "/",
+        permanent: false,
+      },
+      {
         source: "/affordable-web-design-for-small-business",
         destination: "/services/affordable-web-design-for-small-business",
         permanent: true,

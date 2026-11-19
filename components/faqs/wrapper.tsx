@@ -14,6 +14,7 @@ interface FAQProps {
   heading?: string;
   subheading?: string;
   className?: string;
+  embedded?: boolean;
 }
 
 export default function FAQWrapper(props: FAQProps) {

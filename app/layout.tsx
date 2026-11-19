@@ -2,10 +2,19 @@ import type { Metadata } from "next";
 import { Open_Sans, Poppins } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
+import dynamic from "next/dynamic";
+import { draftMode } from "next/headers";
 import WhatsAppBtnWrapper from "@/components/layout/whatsapp-btn-wrapper";
 import Analytics from "@/components/google/analytics";
 // import NavbarDesktop from "@/components/layout/navbar-desktop";
 import Footer from "@/components/layout/footer";
+
+/** Bridge script loads only while Next.js draft mode is on. */
+const StoryblokPreviewWrapper = dynamic(() =>
+  import("@/components/storyblok/storyblok-preview-wrapper").then(
+    (mod) => mod.StoryblokPreviewWrapper,
+  ),
+);
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -23,12 +32,6 @@ export const metadata: Metadata = {
   description:
     "BunkerDigital is a web design and digital marketing agency that helps businesses grow their online presence.",
 };
-
-if (process.env.NODE_ENV !== "production") {
-  // Load Storyblok only in preview mode
-  const { initStoryblok } = require("@/lib/storyblok");
-  initStoryblok();
-}
 
 const jsonLd = {
   logo: {
@@ -91,11 +94,13 @@ const jsonLd = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const draft = await draftMode();
+
   return (
     <html lang="en">
       <head>
@@ -108,6 +113,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${poppins.variable} ${openSans.variable} antialiased`}>
+        {draft.isEnabled ? <StoryblokPreviewWrapper /> : null}
         <Suspense>
           <Analytics />
         </Suspense>

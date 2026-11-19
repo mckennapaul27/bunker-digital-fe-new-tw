@@ -13,6 +13,7 @@ interface FAQProps {
   heading?: string;
   subheading?: string;
   className?: string;
+  embedded?: boolean;
 }
 
 export default function FAQ({
@@ -20,6 +21,7 @@ export default function FAQ({
   heading,
   subheading,
   className = "",
+  embedded = false,
 }: FAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -27,28 +29,56 @@ export default function FAQ({
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  const Wrapper = embedded ? "div" : "section";
+
   return (
-    <section className={`bg-white py-20 xl:py-28 relative z-50 ${className}`}>
-      <div className="container mx-auto px-6 xl:px-12">
+    <Wrapper
+      className={
+        embedded
+          ? `not-prose my-10 ${className}`
+          : `bg-white py-20 xl:py-28 relative z-50 ${className}`
+      }
+    >
+      <div className={embedded ? "" : "container mx-auto px-6 xl:px-12"}>
         {/* Heading Section */}
-        <div className="mb-12 lg:mb-20 mx-auto text-center">
-          <p className="text-charcoal/90 text-sm mb-4 font-heading font-semibold uppercase tracking-widest">
-            frequently asked questions
-          </p>
+        <div
+          className={
+            embedded
+              ? "mb-6"
+              : "mb-12 lg:mb-20 mx-auto text-center"
+          }
+        >
+          {!embedded && (
+            <p className="text-charcoal/90 text-sm mb-4 font-heading font-semibold uppercase tracking-widest">
+              frequently asked questions
+            </p>
+          )}
           {heading && (
-            <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-charcoal leading-tight max-w-4xl xl:max-w-5xl mx-auto">
+            <h2
+              className={
+                embedded
+                  ? "text-2xl lg:text-3xl font-bold text-charcoal leading-tight font-heading"
+                  : "text-2xl lg:text-3xl xl:text-4xl font-bold text-charcoal leading-tight max-w-4xl xl:max-w-5xl mx-auto"
+              }
+            >
               {heading}
             </h2>
           )}
           {subheading && (
-            <p className="text-lg lg:text-xl text-charcoal/80 mt-4 max-w-4xl xl:max-w-5xl mx-auto">
+            <p
+              className={
+                embedded
+                  ? "text-base lg:text-lg text-charcoal/80 mt-3 font-body"
+                  : "text-lg lg:text-xl text-charcoal/80 mt-4 max-w-4xl xl:max-w-5xl mx-auto"
+              }
+            >
               {subheading}
             </p>
           )}
         </div>
 
         {/* FAQ Items */}
-        <div className="max-w-4xl mx-auto space-y-4">
+        <div className={embedded ? "space-y-4" : "max-w-4xl mx-auto space-y-4"}>
           {faqs.map((faq, index) => (
             <div
               key={index}
@@ -70,7 +100,7 @@ export default function FAQ({
               </button>
               {openIndex === index && (
                 <div className="px-6 lg:px-8 py-6 lg:pb-8">
-                  <p className="text-base lg:text-lg text-charcoal/80 font-body">
+                  <p className="text-base lg:text-lg text-charcoal/80 font-body whitespace-pre-line">
                     {faq.answer}
                   </p>
                 </div>
@@ -79,6 +109,6 @@ export default function FAQ({
           ))}
         </div>
       </div>
-    </section>
+    </Wrapper>
   );
 }

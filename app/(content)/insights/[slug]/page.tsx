@@ -20,7 +20,7 @@ interface BlogPostPageProps {
 // Helper function to extract meta data from blog post
 function getMetaData(post: BlogPost): MetaDataComponent | null {
   const metaData = post.content?.blocks?.find(
-    (item): item is MetaDataComponent => item.component === "meta_data"
+    (item): item is MetaDataComponent => item.component === "meta_data",
   );
   return metaData || null;
 }
@@ -28,7 +28,7 @@ function getMetaData(post: BlogPost): MetaDataComponent | null {
 // Helper function to extract CTA from blog post
 function getCTA(post: BlogPost): CTAComponent | null {
   const cta = post.content?.blocks?.find(
-    (item): item is CTAComponent => item.component === "cta"
+    (item): item is CTAComponent => item.component === "cta",
   );
   return cta || null;
 }
@@ -172,6 +172,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const cta = getCTA(blogPost);
   const title = blogPost.content?.title || blogPost.name;
   const description = blogPost.content?.description || "";
+  const bgImage = blogPost.content?.bg_image?.filename;
   const ogImage = metaData?.og_image?.filename;
   const publishedAt = blogPost.first_published_at || blogPost.published_at;
   const updatedAt = blogPost.published_at || blogPost.first_published_at;
@@ -202,8 +203,25 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       </div>
 
       {/* Hero Section */}
-      <section className="bg-charcoal py-16 xl:py-24 relative">
-        <div className="container mx-auto px-6 xl:px-12">
+      <section
+        className={`relative overflow-hidden py-16 xl:py-24 ${
+          bgImage ? "" : "bg-charcoal"
+        }`}
+      >
+        {bgImage && (
+          <>
+            <Image
+              src={bgImage}
+              alt=""
+              fill
+              className="object-cover"
+              priority
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-black/80" />
+          </>
+        )}
+        <div className="container relative z-10 mx-auto px-6 xl:px-12">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
               {title}
