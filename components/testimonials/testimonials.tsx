@@ -8,6 +8,7 @@ import type {
   TestimonialComponent,
   StoryblokComponent,
 } from "@/lib/storyblok-types";
+import GoogleReviewWidget from "./google-review-widget";
 
 interface TestimonialsProps {
   heading?: string;
@@ -80,13 +81,14 @@ export default async function Testimonials(props: TestimonialsProps = {}) {
             rel="noopener noreferrer"
             className="inline-block shrink-0"
           >
-            <Image
+            {/* <Image
               src="/google-review-widget-c.png"
               alt="BunkerDigital, rated 5.0 from 26 Google reviews. Web designer in Stockport, England"
               width={386}
               height={143}
               className="h-[110px] w-auto"
-            />
+            /> */}
+            <GoogleReviewWidget />
           </a>
 
           {/* Bark Rating */}

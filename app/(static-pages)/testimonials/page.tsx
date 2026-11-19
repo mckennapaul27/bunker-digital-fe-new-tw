@@ -7,6 +7,7 @@ import type {
 } from "@/lib/storyblok-types";
 import Image from "next/image";
 import type { Metadata } from "next";
+import GoogleReviewWidget from "@/components/testimonials/google-review-widget";
 
 export const metadata: Metadata = {
   title: "Client Testimonials | Bunker Digital",
@@ -104,13 +105,14 @@ export default async function TestimonialsPage() {
               rel="noopener noreferrer"
               className="inline-block shrink-0"
             >
-              <Image
+              {/* <Image
                 src="/google-review-widget-c.png"
                 alt="BunkerDigital, rated 5.0 from 26 Google reviews. Web designer in Stockport, England"
                 width={386}
                 height={143}
                 className="h-[104px] w-auto"
-              />
+              /> */}
+              <GoogleReviewWidget />
             </a>
 
             {/* Bark Rating */}
