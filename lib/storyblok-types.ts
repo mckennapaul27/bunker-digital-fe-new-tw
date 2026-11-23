@@ -320,6 +320,70 @@ export interface TestimonialContainerComponent extends StoryblokComponent {
   subheading?: string;
 }
 
+export interface HomeHeroComponent extends StoryblokComponent {
+  component: "home_hero";
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+  cta_text?: string;
+  cta_link?: string;
+  background_image?: StoryblokAsset;
+}
+
+export interface HowWeHelpItemComponent extends StoryblokComponent {
+  component: "how_we_help_item";
+  title?: string;
+  description?: string;
+  href?: string;
+}
+
+export interface HowWeHelpComponent extends StoryblokComponent {
+  component: "how_we_help";
+  eyebrow?: string;
+  heading?: string;
+  items?: HowWeHelpItemComponent[];
+}
+
+export interface HomeServiceBulletComponent extends StoryblokComponent {
+  component: "home_service_bullet";
+  text?: string;
+}
+
+export interface HomeServiceCardComponent extends StoryblokComponent {
+  component: "home_service_card";
+  title?: string;
+  icon_code?: string;
+  href?: string;
+  cta_text?: string;
+  bullets?: HomeServiceBulletComponent[];
+}
+
+export interface HomeServicesGridComponent extends StoryblokComponent {
+  component: "home_services_grid";
+  eyebrow?: string;
+  heading?: string;
+  items?: HomeServiceCardComponent[];
+}
+
+export interface FeaturedCaseStudiesBlockComponent extends StoryblokComponent {
+  component: "featured_case_studies";
+}
+
+export interface HomePageContent {
+  _uid: string;
+  component: "home_page_structure";
+  meta_data?: ServiceMetaDataComponent[];
+  blocks?: StoryblokComponent[];
+}
+
+export interface HomePage {
+  name: string;
+  slug: string;
+  uuid: string;
+  content: HomePageContent;
+  [key: string]: unknown;
+}
+
 export interface ServiceContent {
   _uid: string;
   component: string;

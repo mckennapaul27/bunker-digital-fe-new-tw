@@ -10,6 +10,7 @@ import type {
   PaymentSetupPage,
   BlogPost,
   LegalPage,
+  HomePage,
 } from "./storyblok-types";
 
 // Initialize Storyblok client
@@ -106,6 +107,20 @@ export async function getCaseStudyBySlug(
     return (data.story || null) as CaseStudy | null;
   } catch (error) {
     console.error(`Error fetching case study with slug ${slug}:`, error);
+    return null;
+  }
+}
+
+// Fetch the home page story
+export async function getHomePage(): Promise<HomePage | null> {
+  try {
+    const { data } = await storyblokClient.get("cdn/stories/home", {
+      ...(await storyblokVersionParams()),
+    });
+
+    return (data.story || null) as HomePage | null;
+  } catch (error) {
+    console.error("Error fetching home page:", error);
     return null;
   }
 }

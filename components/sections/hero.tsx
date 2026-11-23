@@ -1,15 +1,40 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import type { HomeHeroComponent } from "@/lib/storyblok-types";
+import { isValidHref, warnInvalidHref } from "@/lib/utils";
 
-export default function Hero() {
+interface HeroProps {
+  data: HomeHeroComponent;
+}
+
+function storyblokImageSrc(filename?: string) {
+  if (!filename) return "/home_hero.png";
+  if (filename.startsWith("//")) return `https:${filename}`;
+  return filename;
+}
+
+export default function Hero({ data }: HeroProps) {
+  const heading = data.heading || "";
+  const coloredPeriod = heading.endsWith(".");
+  const headingText = coloredPeriod ? heading.slice(0, -1) : heading;
+  const backgroundImage = storyblokImageSrc(data.background_image?.filename);
+
+  warnInvalidHref({
+    href: data.cta_link,
+    context: "components/sections/hero.tsx data.cta_link",
+    extra: { uid: data._uid, cta_text: data.cta_text },
+  });
+
+  const hasCta = Boolean(data.cta_text) && isValidHref(data.cta_link);
+
   return (
     <section className="relative flex items-center md:min-h-screen">
       {/* Background Image */}
       <div className="fixed inset-0 z-0">
         <Image
-          src="/home_hero.png"
-          alt="Hero background"
+          src={backgroundImage}
+          alt={data.background_image?.alt || "Hero background"}
           fill
           className="object-cover"
           priority
@@ -30,30 +55,34 @@ export default function Hero() {
       <div className="relative z-20 w-full py-20 lg:py-28 xl:py-32">
         <div className="container mx-auto px-6 xl:px-12">
           <div>
-            {/* Small Heading */}
-            <p className="text-gray-300 text-sm mb-4 font-heading font-semibold uppercase tracking-widest">
-              Transform Your Business
-            </p>
+            {data.eyebrow && (
+              <p className="text-gray-300 text-sm mb-4 font-heading font-semibold uppercase tracking-widest">
+                {data.eyebrow}
+              </p>
+            )}
 
-            {/* Main Heading */}
-            <h1 className="text-[33px] md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 leading-tight  max-w-3xl xl:max-w-5xl">
-              We build high quality custom websites that turn clicks into
-              customers<span className="text-[var(--color-primary)]">.</span>
-            </h1>
+            {heading && (
+              <h1 className="text-[33px] md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 leading-tight  max-w-3xl xl:max-w-5xl">
+                {headingText}
+                {coloredPeriod && (
+                  <span className="text-[var(--color-primary)]">.</span>
+                )}
+              </h1>
+            )}
 
-            {/* Paragraph */}
-            <p className="text-white text-lg lg:text-xl leading-relaxed xl:text-2xl mb-8 max-w-3xl xl:max-w-5xl ">
-              From website design to Google Ads and SEO, we help small and
-              service-based companies attract more customers and look more
-              professional online.
-            </p>
+            {data.body && (
+              <p className="text-white text-lg lg:text-xl leading-relaxed xl:text-2xl mb-8 max-w-3xl xl:max-w-5xl ">
+                {data.body}
+              </p>
+            )}
 
-            {/* CTA Button */}
-            <div className="mb-10 lg:mb-12">
-              <Button size="lg" className="" asChild>
-                <Link href="/contact">BOOK A STRATEGY CALL</Link>
-              </Button>
-            </div>
+            {hasCta && (
+              <div className="mb-10 lg:mb-12">
+                <Button size="lg" className="" asChild>
+                  <Link href={data.cta_link as string}>{data.cta_text}</Link>
+                </Button>
+              </div>
+            )}
 
             {/* Social Proof Section */}
             <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-12">
