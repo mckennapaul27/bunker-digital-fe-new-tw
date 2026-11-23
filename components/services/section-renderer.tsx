@@ -11,6 +11,7 @@ import type {
   ServicesListComponent,
   TextImageSectionComponent,
   TestimonialContainerComponent,
+  ProseSectionComponent,
 } from "@/lib/storyblok-types";
 import HeroService from "./hero-service";
 import FeatureGrid from "./feature-grid";
@@ -25,6 +26,7 @@ import TextImageSection from "./text-image-section";
 import WebsiteTransformations from "../website-transformations/website-transformations";
 import TestimonialContainer from "./testimonial-container";
 import TextImageSectionAlt from "./text-image-section-alt";
+import ProseSection from "./prose-section";
 
 interface SectionRendererProps {
   sections: StoryblokComponent[];
@@ -124,6 +126,13 @@ export default function SectionRenderer({
               <TestimonialContainer
                 key={section._uid}
                 data={section as TestimonialContainerComponent}
+              />
+            );
+          case "prose_section":
+            return (
+              <ProseSection
+                key={section._uid}
+                data={section as ProseSectionComponent}
               />
             );
           default:

@@ -271,6 +271,14 @@ export interface OverviewIntroComponent extends StoryblokComponent {
   icon_grid?: IconGridItemComponent[];
 }
 
+export interface ProseSectionComponent extends StoryblokComponent {
+  component: "prose_section";
+  overline?: string;
+  heading?: string;
+  content?: any; // Rich text field (Storyblok rich text object)
+  bg_color?: string;
+}
+
 export interface UseCaseItemComponent extends StoryblokComponent {
   component: "use_case_item";
   icon_code?: string;
